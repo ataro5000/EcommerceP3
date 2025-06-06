@@ -1,0 +1,34 @@
+[{
+    "id": "1",
+    "image": "images/products/IntelCPU.jpg",
+    "name": "Intel Processor 3.6 GHz",
+    "rating": {
+      "stars": 4.5,
+      "review": "Its Awesome"
+    },
+    "priceCents": 1090,
+    "type": "CPU"    
+  },
+  {
+    "id": "2",
+    "image": "images/products/AMDCPU.jpg",
+    "name": "AMD Ryzen 6, 4.0 GHz",
+    "rating": {
+      "stars": 4,
+      "review": "I love it!"
+    },
+    "priceCents": 2095,
+    "type": "CPU"
+  },
+  {
+    "id": "3",
+    "image": "images/products/CorsairRAM.jpg",
+    "name": "Corsair 5600MHz",
+    "rating": {
+      "stars": 4.5,
+      "review": "So Cool!"
+    },
+    "priceCents": 799,
+    "type": "RAM"
+  }
+]
