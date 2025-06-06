@@ -1,0 +1,57 @@
+[
+  {
+    "ID": 1,
+    "Name": "NVIDIA GeForce RTX 3080",
+    "Memory": "10GB",
+    "Price": 699.99,
+    "Specs": {
+      "CoreClock": "1440 MHz",
+      "BoostClock": "1710 MHz",
+      "CUDA Cores": 8704
+    }
+  },
+  {
+    "ID": 2,
+    "Name": "AMD Radeon RX 6800 XT",
+    "Memory": "16GB",
+    "Price": 649.99,
+    "Specs": {
+      "CoreClock": "2015 MHz",
+      "BoostClock": "2250 MHz",
+      "Stream Processors": 4608
+    }
+  },
+  {
+    "ID": 3,
+    "Name": "NVIDIA GeForce RTX 3070",
+    "Memory": "8GB",
+    "Price": 499.99,
+    "Specs": {
+      "CoreClock": "1500 MHz",
+      "BoostClock": "1725 MHz",
+      "CUDA Cores": 5888
+    }
+  },
+  {
+    "ID": 4,
+    "Name": "AMD Radeon RX 6700 XT",
+    "Memory": "12GB",
+    "Price": 479.99,
+    "Specs": {
+      "CoreClock": "2321 MHz",
+      "BoostClock": "2581 MHz",
+      "Stream Processors": 2560
+    }
+  },
+  {
+    "ID": 5,
+    "Name": "NVIDIA GeForce GTX 1660 Super",
+    "Memory": "6GB",
+    "Price": 249.99,
+    "Specs": {
+      "CoreClock": "1530 MHz",
+      "BoostClock": "1785 MHz",
+      "CUDA Cores": 1408
+    }
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "Name": "Intel Core i9-11900K",
+    "Cores": 8,
+    "Threads": 16,
+    "BaseClock": "3.5 GHz",
+    "BoostClock": "5.3 GHz",
+    "Price": 499.99
+  },
+  {
+    "Id": 2,
+    "Name": "AMD Ryzen 9 5900X",
+    "Cores": 12,
+    "Threads": 24,
+    "BaseClock": "3.7 GHz",
+    "BoostClock": "4.8 GHz",
+    "Price": 549.99
+  },
+  {
+    "Id": 3,
+    "Name": "Intel Core i7-11700K",
+    "Cores": 8,
+    "Threads": 16,
+    "BaseClock": "3.6 GHz",
+    "BoostClock": "5.0 GHz",
+    "Price": 399.99
+  },
+  {
+    "Id": 4,
+    "Name": "AMD Ryzen 7 5800X",
+    "Cores": 8,
+    "Threads": 16,
+    "BaseClock": "3.8 GHz",
+    "BoostClock": "4.7 GHz",
+    "Price": 449.99
+  },
+  {
+    "Id": 5,
+    "Name": "Intel Core i5-11600K",
+    "Cores": 6,
+    "Threads": 12,
+    "BaseClock": "3.9 GHz",
+    "BoostClock": "4.9 GHz",
+    "Price": 262.99
+  }
+]

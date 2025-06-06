@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<h1>Order Confirmation</h1>
+
+<p>Thank you for your order!</p>
+<p>Your order has been successfully processed.</p>
+
+<h2>Order Details</h2>
+<ul>
+    <li>Order Number: @Model.OrderNumber</li>
+    <li>Total Amount: @Model.TotalAmount.ToString("C")</li>
+    <li>Items Ordered:</li>
+    <ul>
+        @foreach (var item in Model.Items)
+        {
+            <li>@item.Name - @item.Quantity x @item.Price.ToString("C")</li>
+        }
+    </ul>
+</ul>
+
+<p>If you have any questions about your order, please contact us.</p>
+
+<a href="@Url.Action("Index", "Home")">Return to Home</a>

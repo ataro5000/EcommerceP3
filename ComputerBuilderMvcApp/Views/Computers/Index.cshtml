@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "Available Computers";
+}
+
+<h1>Available Computers</h1>
+
+<div class="computer-list">
+    @foreach (var computer in Model.Computers)
+    {
+        <div class="computer-item">
+            <h2>@computer.Name</h2>
+            <p>Price: @computer.TotalPrice.ToString("C")</p>
+            <a asp-controller="Computers" asp-action="Details" asp-route-id="@computer.ID">View Details</a>
+        </div>
+    }
+</div>

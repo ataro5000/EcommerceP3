@@ -1,0 +1,58 @@
+[
+  {
+    "ID": 1,
+    "Name": "Gamer Pro",
+    "TotalPrice": 999.99,
+    "StandardComponents": [
+      {
+        "Type": "RAM",
+        "Spec": "8GB DDR4",
+        "Price": 599.00
+      },
+      {
+        "Type": "HDD",
+        "Spec": "1TB HDD",
+        "Price": 400.99
+      }
+    ]
+  },
+  {
+    "ID": 2,
+    "Name": "Office Workstation",
+    "TotalPrice": 749.99,
+    "StandardComponents": [
+      {
+        "Type": "RAM",
+        "Spec": "16GB DDR4",
+        "Price": 699.00
+      },
+      {
+        "Type": "HDD",
+        "Spec": "512GB SSD",
+        "Price": 299.99
+      }
+    ]
+  },
+  {
+    "ID": 3,
+    "Name": "Gaming Beast",
+    "TotalPrice": 1499.99,
+    "StandardComponents": [
+      {
+        "Type": "RAM",
+        "Spec": "32GB DDR4",
+        "Price": 1299.00
+      },
+      {
+        "Type": "HDD",
+        "Spec": "2TB HDD",
+        "Price": 499.99
+      },
+      {
+        "Type": "GPU",
+        "Spec": "NVIDIA RTX 3080",
+        "Price": 699.00
+      }
+    ]
+  }
+]

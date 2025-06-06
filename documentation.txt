@@ -86,3 +86,7 @@ This design prioritizes a streamlined customization experience inspired by indus
 
 With a MVC approach i can continuously update my model to show the mmost recently update price. SOlved by recursion of functions. 
 
+Revisions - 
+
+Started with ASP.net MVC  - added in a couple hardcoded JSON componeents for testing when i get there. 
+- added in some stars for ratings. 

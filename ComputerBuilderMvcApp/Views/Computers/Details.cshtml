@@ -1,0 +1,25 @@
+@model ComputerBuilderMvcApp.ViewModels.ComputerViewModel
+
+<h1>@Model.Name</h1>
+
+<div>
+    <h2>Specifications</h2>
+    <ul>
+        @foreach (var component in Model.StandardComponents)
+        {
+            <li>@component.Type: @component.Spec - Price: @component.Price.ToString("C")</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h2>Total Price: @Model.TotalPrice.ToString("C")</h2>
+</div>
+
+<div>
+    <a href="@Url.Action("Customize", "Computers", new { id = Model.Id })">Customize this Computer</a>
+</div>
+
+<div>
+    <a href="@Url.Action("Index", "Computers")">Back to Computer List</a>
+</div>

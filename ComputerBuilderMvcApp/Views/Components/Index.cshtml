@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Available Components";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="component-list">
+    <h2>Components</h2>
+    <ul>
+        @foreach (var component in Model.Components)
+        {
+            <li>
+                <strong>@component.Type:</strong> @component.Spec - $@component.Price
+                <a href="@Url.Action("Details", "Components", new { id = component.ID })">View Details</a>
+            </li>
+        }
+    </ul>
+</div>
+
+<div>
+    <a href="@Url.Action("Index", "Home")">Back to Home</a>
+</div>
