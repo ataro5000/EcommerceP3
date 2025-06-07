@@ -17,7 +17,7 @@ namespace ComputerBuilderMvcApp.Controllers
             return View(components);
         }
 
-        private List<Component> LoadComponents(string category)
+        private static List<Component> LoadComponents(string category)
         {
             var allComponents = new List<Component>();
             var baseDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");

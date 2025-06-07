@@ -1,4 +1,3 @@
-// filepath: c:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\Models\Cart.cs
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,34 +5,35 @@ namespace ComputerBuilderMvcApp.Models
 {
     public class Cart
     {
-        public List<CartItem> Items { get; set; } = new List<CartItem>();
+        public List<CartItem> Items { get; set; } = [];
 
         public decimal TotalAmount => Items.Sum(item => item.Subtotal);
 
-        public void AddItem(Computer computer, int quantity = 1)
+        public void AddItem(Component component, int quantity = 1)
         {
-            if (computer == null) return;
+            if (component == null) return;
 
-            var existingItem = Items.FirstOrDefault(i => i.ComputerId == computer.ID);
+            var existingItem = Items.FirstOrDefault(i =>
+                i.CartId == component.Id);
             if (existingItem != null)
             {
-                existingItem.Quantity += quantity;
+                existingItem.CartQuantity += quantity;
             }
             else
             {
                 Items.Add(new CartItem
                 {
-                    ComputerId = computer.ID,
-                    ComputerName = computer.Name ?? "N/A", // Ensure Name is handled if null
-                    Price = computer.TotalPrice, // Or a calculated price if customized
-                    Quantity = quantity
+                    CartId = component.Id,
+                    CartName = component.Name, 
+                    CartPriceCents = component.PriceCents, 
+                    CartQuantity = quantity
                 });
             }
         }
 
-        public void RemoveItem(int computerId)
+        public void RemoveItem(int CartId)
         {
-            var itemToRemove = Items.FirstOrDefault(i => i.ComputerId == computerId);
+            var itemToRemove = Items.FirstOrDefault(i => i.CartId == CartId.ToString());
             if (itemToRemove != null)
             {
                 Items.Remove(itemToRemove);

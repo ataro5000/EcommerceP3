@@ -7,10 +7,10 @@ namespace ComputerBuilderMvcApp.Models
 {
     public class CartItem
     {
-        public int ComputerId { get; set; }
-        public string ComputerName { get; set; } = string.Empty;
-        public int Quantity { get; set; }
-        public decimal Price { get; set; } // Price per unit at the time of adding to cart
-        public decimal Subtotal => Quantity * Price;
+        public string? CartId { get; set; }
+        public string? CartName { get; set; }
+        public int CartQuantity { get; set; }
+        public decimal CartPriceCents { get; set; } // Price per unit at the time of adding to cart
+        public decimal Subtotal => CartQuantity * (CartPriceCents / 100);
     }
 }

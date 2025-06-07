@@ -16,7 +16,7 @@ namespace ComputerBuilderMvcApp.Controllers
         public CartController(Cart cart) // Cart service is injected here
         {
             _cart = cart;
-            _computersDataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "computers.json");
+            _computersDataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", ".json");
         }
 
         public IActionResult Index()
@@ -27,7 +27,7 @@ namespace ComputerBuilderMvcApp.Controllers
         [HttpPost]
         public IActionResult AddToCart(int computerId, int quantity = 1)
         {
-            var computer = GetComputerById(computerId);
+            var component = GetComponentById(computerId);
             if (computer != null)
             {
                 _cart.AddItem(computer, quantity);

@@ -1,0 +1,85 @@
+@model ComputerBuilderMvcApp.ViewModels.ComponentViewModel
+
+@{
+    ViewData["Title"] = Model.Name == "Custom Build" && Model.Id == 0 ? "Build Your PC" : $"Customize: {Model.Name}";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<form asp-controller="Computers" asp-action="BuildAndAddToCart" method="post">
+    @* If starting from a base model, you might want its ID, otherwise it's a new build *@
+    <input type="hidden" asp-for="Id" /> 
+    
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="Name" class="form-label">Build Name (Optional):</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="col-md-6 align-self-end text-end">
+            <h4>Total Price: <span id="totalPriceDisplay">@Model.TotalPriceCents.ToString("C")</span></h4>
+        </div>
+    </div>
+
+
+    @foreach (var category in Model.ComponentCategories)
+    {
+        <div class="form-group mb-3">
+            <label for="@($"select-{category}")" class="form-label"><strong>@category:</strong></label>
+            @if (Model.AvailableComponentsByType.TryGetValue(category, out var componentsForCategory) && componentsForCategory.Any())
+            {
+                <select asp-for="SelectedComponentIds[category]" id="@($"select-{category}")" class="form-select component-selector" data-category="@category">
+                    <option value="">-- None --</option>
+                    @foreach (var component in componentsForCategory)
+                    {
+                        // SelectedComponentIds[category] might throw if key doesn't exist, so check first
+                        var currentSelectionId = Model.SelectedComponentIds.ContainsKey(category) ? Model.SelectedComponentIds[category] : null;
+                        bool isSelected = currentSelectionId.HasValue && currentSelectionId.Value == component.Id;
+                        <option value="@component.Id" data-price="@component.PriceCents.ToString("F2")" selected="@isSelected">
+                            (@component.PriceCents.ToString("C"))
+                        </option>
+                    }
+                </select>
+            }
+            else
+            {
+                <p class="text-muted">No @category options available.</p>
+            }
+        </div>
+    }
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success btn-lg">Add Configuration to Cart</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel Build</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const componentSelectors = document.querySelectorAll('.component-selector');
+            const totalPriceDisplayElement = document.getElementById('totalPriceDisplay');
+
+            function updateTotalPrice() {
+                let currentTotal = 0;
+                componentSelectors.forEach(select => {
+                    const selectedOption = select.options[select.selectedIndex];
+                    if (selectedOption && selectedOption.value !== "") { // Ensure an option is selected and it's not "-- None --"
+                        const price = parseFloat(selectedOption.getAttribute('data-price'));
+                        if (!isNaN(price)) {
+                            currentTotal += price;
+                        }
+                    }
+                });
+                totalPriceDisplayElement.textContent = currentTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); // Adjust currency as needed
+            }
+
+            componentSelectors.forEach(select => {
+                select.addEventListener('change', updateTotalPrice);
+            });
+
+            // Initial calculation on page load
+            updateTotalPrice();
+        });
+    </script>
+}

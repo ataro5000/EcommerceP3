@@ -31,7 +31,7 @@ namespace ComputerBuilderMvcApp.Controllers
                     featuredComputers = allComputers.Take(3).Select(c => new ComputerViewModel {
                         Id = c.ID,
                         Name = c.Name ?? "N/A",
-                        TotalPrice = c.TotalPrice
+                        PriceCents = c.PriceCents / 100,
                         // Map other properties if your Home/Index.cshtml expects them
                     }).ToList();
                 }

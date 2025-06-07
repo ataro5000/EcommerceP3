@@ -1,0 +1,90 @@
+Analysis and Design Report 
+
+1. Findings - for amazon and bestbuy & walmart
+
+Both use persistant top-navigation menus with dropdown categories (ie... computers, components etc)
+Product listings employ grid views with images, prices, and key specs (eg CPU and RAM)
+Breadcrumb trails guide users (home > laptop > gaming laptop)
+
+memoryexpress.com  offers step by step customizatoin for prebuilt pcs like ram=> storage => gpu giving a running total with all the compenents. Also helps with compatibility (out of scope of this assignment but very cool)
+
+amazon has a comparison with similar items on the page for an easy lookover
+All of them have filters/ which help you look based on price, dropdowns for specs (16gb of ram... so on)
+wishlist/cart persistence (I believe this will be the next part)
+
+2. Application Requirements 
+
+- browse pre-configured computers, select base model and customize components. 
+- review/finalize config and checkout. 
+(i think having soomething like what memoryexpress has for their browse or build feature is achievable here)
+- product catalog - hardcoded data for 5+ computers and 6 components types (RAM, HDD, CPU, GPU, PSU, MB, Cooling (maybe))
+keeping this in mind I will probably just OOP this side for the components and inherit things 
+
+product - id        inherits       RAM   - speed 
+        - image                    HDD   - memorysize () - speed
+        - price                    CPU   - speed -cores(although this could be just the name)
+        - name
+        - rating (based on reviews) so stars and string. 
+
+I will just add a -type to this field and not worry about the inheritance. then again It is easily added, will think on this.
+
+I also need some preconfigs, which can change some components around. these can be items pages that give you 1 of each as well which can juust be its own type. -type (PC, Laptop) or just type prebuilt?
+
+- needs contacts page, feedback page, splash page, checkout page, list all pages for each type. 
+
+- I can build the site and have alot of features load with javascript. take care of the database side with C#, or actually i can just have this portion hard coded, just add a JSON file with all the items. 
+
+- can use localStorage, to save cart items for checkout. 
+
+A[Home] --> B[Component List] (the home will show a couple of items. )
+B --> C[Component Details]
+C --> D[Cart] this will just show on the right side. of the screen just showing the name and ongoing price. 
+D --> F[Checkout]
+F --> G[Order Confirmation]
+All --> H[Contact]
+All --> I[Feedback]
+
+
+// Sample In-Memory Data Store class structure. 
+public class Computer {
+  public int ID { get; set; }
+  public string Name { get; set; }
+  public decimal TotalPrice { get; set; } Sum of components. with a % discount if all slots filled. 
+  public List<Component> StandardComponents { get; set; } // RAM, HDD, CPU, etc.
+}
+
+public class Component {
+  public string Type { get; set; } // "RAM", "HDD", etc.
+  public string Spec { get; set; } // "16GB DDR4"
+  public decimal Price { get; set; } //rounded to 2 decimal places. 
+}
+
+// Example Data Initialization
+List<Computer> computers = new List<Computer>() {
+  new Computer {
+    ID = 1,
+    Name = "Gamer Pro",
+    TotalPrice = 999.99M,
+    StandardComponents = new List<Component> {
+      new Component { Type = "RAM", Spec = "8GB DDR4", Price = 599.00M },
+      new Component { Type = "HDD", Spec = "1TB HDD", Price = 400.99M }
+    }
+  }
+};
+
+List<Component> ramOptions = new List<Component> {
+  new Component { Type = "RAM", Spec = "8GB DDR4", Price = 599.00M },
+  new Component { Type = "RAM", Spec = "16GB DDR4", Price = 699.00M }
+};
+
+something to this effect. 
+
+
+I wont add compatibility comparisons we will assume that all components will go with all components into a PC. (if only).
+
+This design prioritizes a streamlined customization experience inspired by industry leaders while addressing gaps. The modular structure ensures maintainability, and hardcoded data allows rapid prototyping. 
+
+With a MVC approach i can continuously update my model to show the mmost recently update price. SOlved by recursion of functions. 
+- simplification
+  At first started having all different json for each different component decided against that and condense them all into 1 large file. 
+  changing addition categories to just "spec" this will act as a description or anyuthing really for the component
