@@ -35,9 +35,11 @@
                             {
                                 // Check if this component is currently selected for this category
                                 var currentSelectionId = Model.SelectedComponentIds.ContainsKey(category) ? Model.SelectedComponentIds[category] : null;
-                                bool isSelected = currentSelectionId.HasValue && currentSelectionId.Value == component.Id;
-                                <option value="@component.Id" data-price="@component.Price.ToString("F2")" selected="@isSelected">
-                                    @component.Spec (@component.Price.ToString("C"))
+                                // Corrected: Check string for null/empty and compare directly
+                                bool isSelected = !string.IsNullOrEmpty(currentSelectionId) && currentSelectionId == component.Id;
+                                // Use PriceCents and convert for display and data-price
+                                <option value="@component.Id" data-price="@((component.PriceCents / 100.0m).ToString("F2"))" selected="@isSelected">
+                                    @component.Spec (@((component.PriceCents / 100.0m).ToString("C")))
                                 </option>
                             }
                         </select>
@@ -45,7 +47,6 @@
                     else
                     {
                         <p class="text-muted">No @category options available.</p>
-                        @* Add a hidden input for categories with no options to ensure the key exists in SelectedComponentIds on postback if needed, though not strictly necessary if you handle nulls.*@
                         <input type="hidden" asp-for="SelectedComponentIds[category]" value="" />
                     }
                 </div>
@@ -56,15 +57,17 @@
                 <h4>Build Summary</h4>
                 <hr />
                 <dl class="row">
-                    @foreach (var category in Model.ComponentCategories)
+                    @foreach (var categoryKey in Model.ComponentCategories) // Renamed category to categoryKey
                     {
-                        <dt class="col-sm-4">@category:</dt>
-                        <dd class="col-sm-8" id="summary-@category">
+                        <dt class="col-sm-4">@categoryKey:</dt>
+                        <dd class="col-sm-8" id="summary-@categoryKey">
                             @{
-                                var selectedId = Model.SelectedComponentIds.ContainsKey(category) ? Model.SelectedComponentIds[category] : null;
-                                if (selectedId.HasValue && Model.AvailableComponentsByType.TryGetValue(category, out var components) && components != null)
+                                var selectedId = Model.SelectedComponentIds.ContainsKey(categoryKey) ? Model.SelectedComponentIds[categoryKey] : null;
+                                // Corrected: Check string for null/empty
+                                if (!string.IsNullOrEmpty(selectedId) && Model.AvailableComponentsByType.TryGetValue(categoryKey, out var componentsForSummary) && componentsForSummary != null)
                                 {
-                                    var selectedComponent = components.FirstOrDefault(c => c.Id == selectedId.Value);
+                                    // Corrected: Compare string ID directly
+                                    var selectedComponent = componentsForSummary.FirstOrDefault(c => c.Id == selectedId);
                                     if (selectedComponent != null)
                                     {
                                         @selectedComponent.Spec
@@ -99,7 +102,7 @@
             const componentSelectors = document.querySelectorAll('.component-selector');
             const totalPriceDisplayElement = document.getElementById('totalPriceDisplay');
             const componentCategories = @Html.Raw(Json.Serialize(Model.ComponentCategories));
-            const availableComponentsByType = @Html.Raw(Json.Serialize(Model.AvailableComponentsByType));
+            const availableComponentsByType = @Html.Raw(Json.Serialize(Model.AvailableComponentsByType)); // This passes all component data
 
             function updateTotalPriceAndSummary() {
                 let currentTotal = 0;
@@ -110,12 +113,12 @@
 
                     if (selectElement) {
                         const selectedOption = selectElement.options[selectElement.selectedIndex];
-                        if (selectedOption && selectedOption.value !== "") {
+                        if (selectedOption && selectedOption.value !== "") { // Check if a component is selected
                             const price = parseFloat(selectedOption.getAttribute('data-price'));
                             if (!isNaN(price)) {
                                 currentTotal += price;
                             }
-                            // Update summary - get spec from option text or find component
+                            // Update summary: Find the component spec from the availableComponentsByType data
                             if (availableComponentsByType[category]) {
                                 const selectedComp = availableComponentsByType[category].find(c => c.id == selectedOption.value);
                                 if (selectedComp) {

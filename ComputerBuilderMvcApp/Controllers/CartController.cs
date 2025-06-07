@@ -1,46 +1,62 @@
-// filepath: c:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\Controllers\CartController.cs
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
-using Newtonsoft.Json;
-
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
+using System.Linq; // Required for FirstOrDefault
+using System.Collections.Generic; // Required for List
+using System.IO; // Required for Path
+using Newtonsoft.Json; // Required for JsonConvert
+using System; // Required for Guid
 
 namespace ComputerBuilderMvcApp.Controllers
 {
-    public class CartController(Cart cart) : Controller
+    public class CartController : Controller
     {
-        private readonly Cart _cart = cart; // Injected Cart service
-        private readonly string _computersDataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "component.json");
+        private readonly Cart _cart;
+
+        public CartController(Cart cart)
+        {
+            _cart = cart;
+        }
 
         public IActionResult Index()
         {
-            return View(_cart); // Pass the current cart to the view
+            return View(_cart);
         }
 
         [HttpPost]
-        /*public IActionResult AddToCart(string? componentId, int quantity = 1)
+        public IActionResult AddSingleComponentToCart(string componentId, int quantity = 1)
         {
-            var component = GetComponentById(componentId);
-            if (computer != null)
+            if (string.IsNullOrEmpty(componentId))
             {
-                _cart.AddItem(computer, quantity);
-                TempData["SuccessMessage"] = $"{computer.Name} added to cart.";
+                TempData["ErrorMessage"] = "Component ID is missing.";
+                string refererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty; // Handle possible null value
+                return Redirect(refererUrl ?? Url.Action("Index", "Components") ?? "/"); // Fallback chain
+            }
+            if (quantity < 1) quantity = 1;
+
+            var component = GetSystemComponentById(componentId);
+
+            if (component != null)
+            {
+                _cart.AddItem(component, quantity);
+                TempData["SuccessMessage"] = $"{component.Name} (x{quantity}) added to cart.";
             }
             else
             {
-                TempData["ErrorMessage"] = "Computer not found.";
+                TempData["ErrorMessage"] = "Component not found.";
             }
-            // Redirect to the page the user was on, or to the cart, or to computers list
-            // For simplicity, redirecting to Computers index. Consider using Request.Headers["Referer"].ToString()
-            return RedirectToAction("Index", "Computers"); 
-        }*/
+            string currentRefererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty; // Use FirstOrDefault
+            return Redirect(currentRefererUrl ?? Url.Action("Index", "Cart") ?? "/"); // Fallback chain
+        }
 
         [HttpPost]
-        public IActionResult RemoveFromCart(string computerId)
+        public IActionResult RemoveFromCart(string cartItemId)
         {
-            _cart.RemoveItem(computerId);
+            if (string.IsNullOrEmpty(cartItemId))
+            {
+                 TempData["ErrorMessage"] = "Cart item ID is missing.";
+                 return RedirectToAction("Index");
+            }
+            _cart.RemoveItem(cartItemId);
             TempData["SuccessMessage"] = "Item removed from cart.";
             return RedirectToAction("Index");
         }
@@ -49,15 +65,15 @@ namespace ComputerBuilderMvcApp.Controllers
         {
             if (!_cart.Items.Any())
             {
-                TempData["ErrorMessage"] = "Your cart is empty. Please add items before checking out.";
+                TempData["ErrorMessage"] = "Your cart is empty.";
                 return RedirectToAction("Index");
             }
-            // In a real app, you'd pass an OrderViewModel or similar
-            return View(); 
+            // Potentially pass cart to checkout view if it needs to display items again
+            return View(_cart);
         }
 
         [HttpPost]
-        public IActionResult ProcessOrder(/* CheckoutViewModel checkoutModel */)
+        public IActionResult ProcessOrder() // Simplified
         {
             if (!_cart.Items.Any())
             {
@@ -65,18 +81,12 @@ namespace ComputerBuilderMvcApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            // TODO: Implement actual order processing logic:
-            // 1. Create an Order object from _cart.Items and checkoutModel details.
-            // 2. Save the order (e.g., to a database or another JSON file).
-            // 3. Potentially integrate with a payment gateway.
-            // 4. Send confirmation emails.
+            // Here you would typically save the order to a database, process payment, etc.
+            // For this example, we'll just generate an order ID and clear the cart.
+            var orderId = Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
 
-            var orderId = System.Guid.NewGuid().ToString().Substring(0, 8); // Placeholder
-            
-            _cart.Clear(); // Clear the cart after successful order
-            
+            _cart.Clear();
             TempData["SuccessMessage"] = $"Order {orderId} placed successfully!";
-            ViewBag.OrderId = orderId; // Pass to confirmation page
             return RedirectToAction("OrderConfirmation", new { id = orderId });
         }
 
@@ -86,6 +96,33 @@ namespace ComputerBuilderMvcApp.Controllers
             return View();
         }
 
+        // Helper to load a single component by ID.
+        // In a larger app, this would be part of a data service.
+        private Component? GetSystemComponentById(string componentId)
+        {
+            var baseDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");
+            var componentFileName = "component.json";
+            var filePath = Path.Combine(baseDir, componentFileName);
 
+            if (System.IO.File.Exists(filePath))
+            {
+                var json = System.IO.File.ReadAllText(filePath);
+                try
+                {
+                    var components = JsonConvert.DeserializeObject<List<Component>>(json);
+                    if (components != null)
+                    {
+                        // PriceCents should already be in cents from the JSON.
+                        // No division needed here.
+                        return components.FirstOrDefault(c => c.Id == componentId);
+                    }
+                }
+                catch (JsonSerializationException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error deserializing {componentFileName} in CartController: {ex.Message}");
+                }
+            }
+            return null;
+        }
     }
 }

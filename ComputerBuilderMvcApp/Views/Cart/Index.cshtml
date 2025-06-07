@@ -26,8 +26,8 @@
     <table class="table">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Item Name</th>
-                @* Removed "Details" column as each item is just a component *@
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Subtotal</th>
@@ -38,10 +38,11 @@
             @foreach (var item in Model.Items)
             {
                 <tr>
+                    <td>@item.CartItemId</td>
                     <td>@item.CartItemName</td>
                     <td>@item.CartItemQuantity</td>
-                    <td>@((item.CartItemPriceCents / 100.0m).ToString("C"))</td> @* Calculate unit price from cents *@
-                    <td>@item.Subtotal.ToString("C")</td>
+                    <td>@((item.CartItemPriceCents / 100.0m).ToString("C"))</td> @* Display unit price in currency *@
+                    <td>@item.SubtotalAsCurrency.ToString("C")</td> @* Display subtotal in currency *@
                     <td>
                         <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
                             <input type="hidden" name="cartItemId" value="@item.CartItemId" />
@@ -53,20 +54,20 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3" class="text-end"><strong>Total:</strong></td> @* Adjusted colspan *@
-                <td><strong>@Model.TotalAmount.ToString("C")</strong></td>
+                <td colspan="4" class="text-end"><strong>Total:</strong></td>
+                <td><strong>@Model.TotalAmountAsCurrency.ToString("C")</strong></td>
                 <td></td>
             </tr>
         </tfoot>
     </table>
     <div class="text-end mt-3">
         <a asp-controller="Cart" asp-action="Checkout" class="btn btn-success">Proceed to Checkout</a>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Continue Shopping</a> @* Or link to builder/components *@
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
     </div>
 }
 else
 {
     <p>Your cart is empty.</p>
-    <a asp-controller="Builder" asp-action="Details" class="btn btn-primary">Start Building a PC</a>
+    <a asp-controller="Builder" asp-action="Index" class="btn btn-primary">Start Building a PC</a>
     <a asp-controller="Components" asp-action="Index" class="btn btn-info ms-2">Browse Individual Components</a>
 }

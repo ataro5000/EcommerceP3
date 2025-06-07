@@ -9,69 +9,69 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ComputerBuilderMvcApp
 build_property.RootNamespace = ComputerBuilderMvcApp
-build_property.ProjectDir = C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\
+build_property.ProjectDir = C:\School\COMP466\TMA3A\EcommerceP3\computerBuilderMvcApp\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp
+build_property.MSBuildProjectDirectory = C:\School\COMP466\TMA3A\EcommerceP3\computerBuilderMvcApp
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Builder/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVpbGRlclxEZXRhaWxzLmNzaHRtbA==
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Builder/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVpbGRlclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Cart/Checkout.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Cart/Checkout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxDaGVja291dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Cart/Index.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Cart/OrderConfirmation.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Cart/OrderConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxPcmRlckNvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Components/Details.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Components/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcG9uZW50c1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Components/Index.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Components/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcG9uZW50c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Home/Contact.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Home/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Home/Feedback.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Home/Feedback.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxGZWVkYmFjay5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Home/Index.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Shared/Error.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Shared/_Layout.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/Shared/_ViewImports.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/Shared/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WaWV3SW1wb3J0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/School/COMP466/TMA3A/EcommerceP3/ComputerBuilderMvcApp/Views/_ViewStart.cshtml]
+[C:/School/COMP466/TMA3A/EcommerceP3/computerBuilderMvcApp/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

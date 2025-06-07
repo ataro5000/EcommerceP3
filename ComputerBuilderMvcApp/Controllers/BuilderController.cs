@@ -7,30 +7,50 @@ using System.Collections.Generic;
 using ComputerBuilderMvcApp.ViewModels;
 using System; // For StringComparison
 
+// ... (existing using statements) ...
+
 namespace ComputerBuilderMvcApp.Controllers
 {
-    public class BuilderController : Controller
+    public class BuilderController : Controller // Assuming standard constructor injection for Cart
     {
         private readonly Cart _cart;
 
-        public BuilderController(Cart cart)
+        public BuilderController(Cart cart) // Standard constructor
         {
             _cart = cart;
         }
 
-        // ... Details() action remains the same ...
-        // ... CalculateBuildPrice() remains the same ...
-        // ... LoadAllSystemComponents() remains the same ...
+        public IActionResult Index()
+        {
+            var viewModel = new ComputerViewModel();
+            viewModel.ComponentCategories = new List<string> { "CPU", "Motherboard", "RAM", "GPU", "Storage", "PSU", "Case" };
+            var allComponents = LoadAllSystemComponents();
+
+            foreach (var category in viewModel.ComponentCategories)
+            {
+                if (!viewModel.AvailableComponentsByType.ContainsKey(category))
+                {
+                    viewModel.AvailableComponentsByType[category] = [];
+                }
+                viewModel.AvailableComponentsByType[category] = allComponents
+                    .Where(c => c.Type != null && c.Type.Equals(category, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            // viewModel.TotalPrice will be in decimal currency (e.g., dollars)
+            viewModel.TotalPrice = CalculateBuildPrice(viewModel.SelectedComponentIds, allComponents);
+            return View(viewModel);
+        }
 
         [HttpPost]
         public IActionResult BuildAndAddToCart(ComputerViewModel submittedBuild)
         {
-            // ... (existing validation and repopulation logic for error cases) ...
-            if (submittedBuild.ComponentCategories == null || !submittedBuild.ComponentCategories.Any())
+            // Ensure ComponentCategories is initialized if not submitted or empty
+            if (submittedBuild.ComponentCategories == null || submittedBuild.ComponentCategories.Count == 0)
             {
                  submittedBuild.ComponentCategories = new List<string> { "CPU", "Motherboard", "RAM", "GPU", "Storage", "PSU", "Case" };
             }
-            if (submittedBuild.AvailableComponentsByType == null || !submittedBuild.AvailableComponentsByType.Any())
+             // Ensure AvailableComponentsByType is initialized for the view model if returning due to error
+            if (submittedBuild.AvailableComponentsByType == null) // Check for null, not just Any() if it might not be initialized
             {
                 submittedBuild.AvailableComponentsByType = new Dictionary<string, List<Component>>();
             }
@@ -38,7 +58,6 @@ namespace ComputerBuilderMvcApp.Controllers
             if (submittedBuild.SelectedComponentIds == null || !submittedBuild.SelectedComponentIds.Values.Any(id => !string.IsNullOrEmpty(id)))
             {
                 TempData["ErrorMessage"] = "Please select at least one component for your build.";
-                // ... (repopulate logic for view) ...
                 var allComponentsForViewOnError = LoadAllSystemComponents();
                 foreach (var category in submittedBuild.ComponentCategories)
                 {
@@ -50,12 +69,12 @@ namespace ComputerBuilderMvcApp.Controllers
                         .Where(c => c.Type != null && c.Type.Equals(category, StringComparison.OrdinalIgnoreCase))
                         .ToList();
                 }
-                submittedBuild.TotalPrice = CalculateBuildPrice(submittedBuild.SelectedComponentIds, allComponentsForViewOnError);
-                return View("Details", submittedBuild);
+                submittedBuild.TotalPrice = CalculateBuildPrice(submittedBuild.SelectedComponentIds ?? [], allComponentsForViewOnError);
+                return View("Index", submittedBuild);
             }
 
             var allSystemComponents = LoadAllSystemComponents();
-            List<Component> chosenComponents = new List<Component>();
+            List<Component> chosenComponents = [];
             foreach (var selection in submittedBuild.SelectedComponentIds)
             {
                 if (!string.IsNullOrEmpty(selection.Value))
@@ -73,11 +92,10 @@ namespace ComputerBuilderMvcApp.Controllers
             if (!chosenComponents.Any())
             {
                 TempData["ErrorMessage"] = "No valid components were selected or found for your build.";
-                // ... (repopulate logic for view) ...
-                var allComponentsForViewOnError = LoadAllSystemComponents();
+                var allComponentsForViewOnError = LoadAllSystemComponents(); // Renamed for clarity
                  foreach (var category in submittedBuild.ComponentCategories)
                 {
-                    if (!submittedBuild.AvailableComponentsByType.ContainsKey(category))
+                    if (!submittedBuild.AvailableComponentsByType.ContainsKey(category)) // Ensure key exists
                     {
                         submittedBuild.AvailableComponentsByType[category] = new List<Component>();
                     }
@@ -86,40 +104,34 @@ namespace ComputerBuilderMvcApp.Controllers
                         .ToList();
                 }
                 submittedBuild.TotalPrice = CalculateBuildPrice(submittedBuild.SelectedComponentIds, allComponentsForViewOnError);
-                return View("Details", submittedBuild);
+                return View("Index", submittedBuild);
             }
 
-            // MODIFIED PART: Add each chosen component to the cart individually
             _cart.AddBuiltComputerToCart(chosenComponents, submittedBuild.Name ?? "Custom PC Build Components");
-            // Alternatively, loop here:
-            // foreach (var component in chosenComponents)
-            // {
-            //     _cart.AddItem(component, 1);
-            // }
 
             TempData["SuccessMessage"] = $"Components for '{submittedBuild.Name ?? "Custom PC Build"}' have been added to your cart.";
             return RedirectToAction("Index", "Cart");
         }
-       private decimal CalculateBuildPrice(Dictionary<string, string?> selectedIds, List<Component> allComponents) // Value type changed to string?
+
+        private decimal CalculateBuildPrice(Dictionary<string, string?> selectedIds, List<Component> allComponents)
         {
-            decimal totalPrice = 0;
+            decimal totalPriceInCurrency = 0; // This will be in dollars/euros
             if (selectedIds == null) return 0;
 
             foreach (var selection in selectedIds)
             {
-                // selection.Value is now a string?
                 if (!string.IsNullOrEmpty(selection.Value))
                 {
-                    var component = allComponents.FirstOrDefault(c => c.Id == selection.Value && // Direct string comparison
+                    var component = allComponents.FirstOrDefault(c => c.Id == selection.Value &&
                                                                      c.Type != null &&
                                                                      c.Type.Equals(selection.Key, StringComparison.OrdinalIgnoreCase));
                     if (component != null)
                     {
-                        totalPrice += component.PriceCents; // Assuming component.Price is the decimal price
+                        totalPriceInCurrency += (component.PriceCents / 100.0m); // Convert cents to currency here
                     }
                 }
             }
-            return totalPrice;
+            return totalPriceInCurrency;
         }
 
         private List<Component> LoadAllSystemComponents()
@@ -137,8 +149,9 @@ namespace ComputerBuilderMvcApp.Controllers
                     var components = JsonConvert.DeserializeObject<List<Component>>(json);
                     if (components != null)
                     {
-                        // Add a calculated Price property to each component
-                        components.ForEach(c => c.PriceCents /= 100.0m);
+                        // DO NOT MODIFY PriceCents here. It should remain in cents.
+                        // If you had a 'Price' property, you would calculate it:
+                        // components.ForEach(c => c.Price = c.PriceCents / 100.0m);
                         allComponents.AddRange(components);
                     }
                 }
@@ -155,5 +168,3 @@ namespace ComputerBuilderMvcApp.Controllers
         }
     }
 }
-
-        
