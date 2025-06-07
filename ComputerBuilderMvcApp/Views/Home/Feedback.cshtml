@@ -1,22 +1,38 @@
+
+@model ComputerBuilderMvcApp.ViewModels.FeedbackViewModel
 @{
     ViewData["Title"] = "Feedback";
 }
+
 <h1>@ViewData["Title"]</h1>
+<p>We'd love to hear from you! Please fill out the form below.</p>
+<hr />
 
-<p>We value your feedback. Please let us know how we can improve.</p>
-
-<form method="post" asp-action="SubmitFeedback"> @* Assuming a SubmitFeedback action *@
-    <div class="mb-3">
-        <label for="name" class="form-label">Your Name (Optional)</label>
-        <input type="text" class="form-control" id="name" name="FeedbackName">
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="SubmitFeedback" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Subject" class="form-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Message" class="form-label"></label>
+                <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </form>
     </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Your Email (Optional)</label>
-        <input type="email" class="form-control" id="email" name="FeedbackEmail">
-    </div>
-    <div class="mb-3">
-        <label for="feedbackText" class="form-label">Your Feedback</label>
-        <textarea class="form-control" id="feedbackText" name="FeedbackText" rows="5" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit Feedback</button>
-</form>
+</div>

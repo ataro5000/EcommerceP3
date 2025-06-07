@@ -1,4 +1,6 @@
-namespace ComputerBuilderMvcApp.Models // Or ViewModels namespace
+using System;
+
+namespace ComputerBuilderMvcApp.ViewModels
 {
     public class ErrorViewModel
     {

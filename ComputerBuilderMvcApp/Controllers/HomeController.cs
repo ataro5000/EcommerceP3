@@ -1,42 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
-using ComputerBuilderMvcApp.Models; // If needed for featured items, etc.
-using ComputerBuilderMvcApp.ViewModels; // If using ViewModels for the home page
-using System.Diagnostics; // For ErrorViewModel
-using System.Linq; // If fetching data
-using Newtonsoft.Json; // If loading from JSON
-using System.IO; // For Path
+using ComputerBuilderMvcApp.Models;
+using ComputerBuilderMvcApp.ViewModels; // If you have a specific ViewModel for the home page
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace ComputerBuilderMvcApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly string _computersDataFilePath;
+        // If you create a dedicated service for loading components, inject it here.
+        // For now, we'll use a private helper method.
 
         public HomeController()
         {
-            _computersDataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "computers.json");
+            // Constructor
         }
 
         public IActionResult Index()
         {
-            // Optionally, load some featured computers to pass to the view
-            var featuredComputers = new List<ComputerViewModel>();
-            if (System.IO.File.Exists(_computersDataFilePath))
-            {
-                var json = System.IO.File.ReadAllText(_computersDataFilePath);
-                var allComputers = JsonConvert.DeserializeObject<List<Computer>>(json);
-                if (allComputers != null)
-                {
-                    // Example: Take the first 3 as featured
-                    featuredComputers = allComputers.Take(3).Select(c => new ComputerViewModel {
-                        Id = c.ID,
-                        Name = c.Name ?? "N/A",
-                        PriceCents = c.PriceCents / 100,
-                        // Map other properties if your Home/Index.cshtml expects them
-                    }).ToList();
-                }
-            }
-            return View(featuredComputers); // Pass data to your Home/Index.cshtml
+            var allComponents = LoadAllSystemComponents();
+            var random = new Random();
+            var featuredComponents = allComponents.OrderBy(c => random.Next()).Take(6).ToList();
+            
+            // You can pass List<Component> directly, or use a ViewModel if you need more data for the home page
+            return View(featuredComponents);
         }
 
         public IActionResult Privacy()
@@ -46,18 +37,66 @@ namespace ComputerBuilderMvcApp.Controllers
 
         public IActionResult Contact()
         {
+            // Logic for your contact page
             return View();
         }
 
         public IActionResult Feedback()
         {
+            // Logic for your feedback page
             return View();
         }
+        
+        [HttpPost]
+        public IActionResult SubmitFeedback(FeedbackViewModel model) // Assuming you create a FeedbackViewModel
+        {
+            if(ModelState.IsValid)
+            {
+                // Process feedback (e.g., save to a file, database, or send an email)
+                TempData["SuccessMessage"] = "Thank you for your feedback!";
+                return RedirectToAction("Index");
+            }
+            // If model state is invalid, return to the feedback form with errors
+            return View("Feedback", model);
+        }
+      
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+  
+
+        // Helper method to load all components from all JSON files
+        // This is similar to the logic you might have in ComputersController or a shared service
+         private List<Component> LoadAllSystemComponents()
         {
-            return View();//(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var allComponents = new List<Component>();
+            var baseDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");
+            var componentFileName = "component.json"; 
+            var filePath = Path.Combine(baseDir, componentFileName);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var json = System.IO.File.ReadAllText(filePath);
+                try
+                {
+                    var components = JsonConvert.DeserializeObject<List<Component>>(json);
+                    if (components != null)
+                    {
+                        // Type should be directly from the JSON. If c.Type is null/empty here,
+                        // it means the "type" field is missing for that component in component.json.
+                        allComponents.AddRange(components);
+                    }
+                }
+                catch (JsonSerializationException ex)
+                {
+                    // Log this error or handle it appropriately
+                    Debug.WriteLine($"Error deserializing {componentFileName}: {ex.Message}");
+                }
+            }
+            else
+            {
+                Debug.WriteLine($"Error: {componentFileName} not found in {baseDir}");
+            }
+            return allComponents;
         }
     }
 }

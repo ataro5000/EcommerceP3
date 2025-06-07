@@ -2,22 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
 using Newtonsoft.Json;
+
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
 namespace ComputerBuilderMvcApp.Controllers
 {
-    public class CartController : Controller
+    public class CartController(Cart cart) : Controller
     {
-        private readonly Cart _cart; // Injected Cart service
-        private readonly string _computersDataFilePath;
-
-        public CartController(Cart cart) // Cart service is injected here
-        {
-            _cart = cart;
-            _computersDataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", ".json");
-        }
+        private readonly Cart _cart = cart; // Injected Cart service
+        private readonly string _computersDataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "component.json");
 
         public IActionResult Index()
         {
@@ -25,9 +20,9 @@ namespace ComputerBuilderMvcApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart(int computerId, int quantity = 1)
+        /*public IActionResult AddToCart(string? componentId, int quantity = 1)
         {
-            var component = GetComponentById(computerId);
+            var component = GetComponentById(componentId);
             if (computer != null)
             {
                 _cart.AddItem(computer, quantity);
@@ -40,10 +35,10 @@ namespace ComputerBuilderMvcApp.Controllers
             // Redirect to the page the user was on, or to the cart, or to computers list
             // For simplicity, redirecting to Computers index. Consider using Request.Headers["Referer"].ToString()
             return RedirectToAction("Index", "Computers"); 
-        }
+        }*/
 
         [HttpPost]
-        public IActionResult RemoveFromCart(int computerId)
+        public IActionResult RemoveFromCart(string computerId)
         {
             _cart.RemoveItem(computerId);
             TempData["SuccessMessage"] = "Item removed from cart.";
@@ -91,15 +86,6 @@ namespace ComputerBuilderMvcApp.Controllers
             return View();
         }
 
-        private Computer? GetComputerById(int id)
-        {
-            if (!System.IO.File.Exists(_computersDataFilePath))
-            {
-                return null;
-            }
-            var json = System.IO.File.ReadAllText(_computersDataFilePath);
-            var computers = JsonConvert.DeserializeObject<List<Computer>>(json);
-            return computers?.FirstOrDefault(c => c.ID == id);
-        }
+
     }
 }

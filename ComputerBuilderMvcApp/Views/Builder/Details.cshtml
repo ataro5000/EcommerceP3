@@ -1,0 +1,142 @@
+@model ComputerBuilderMvcApp.ViewModels.ComputerViewModel
+
+@{
+    ViewData["Title"] = "Build Your PC";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Select components for your custom PC build.</p>
+<hr />
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<form asp-controller="Builder" asp-action="BuildAndAddToCart" method="post">
+    <div class="row">
+        <div class="col-md-8">
+            @* Input for the build name *@
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Build Name:</label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+
+            @* Loop through the defined component categories to create dropdowns *@
+            @foreach (var category in Model.ComponentCategories)
+            {
+                <div class="form-group mb-3">
+                    <label for="@($"select-{category}")" class="form-label"><strong>@category:</strong></label>
+                    @if (Model.AvailableComponentsByType.TryGetValue(category, out var componentsForCategory) && componentsForCategory.Any())
+                    {
+                        <select asp-for="SelectedComponentIds[category]" id="@($"select-{category}")" class="form-select component-selector" data-category="@category">
+                            <option value="">-- Select @category --</option>
+                            @foreach (var component in componentsForCategory)
+                            {
+                                // Check if this component is currently selected for this category
+                                var currentSelectionId = Model.SelectedComponentIds.ContainsKey(category) ? Model.SelectedComponentIds[category] : null;
+                                bool isSelected = currentSelectionId.HasValue && currentSelectionId.Value == component.Id;
+                                <option value="@component.Id" data-price="@component.Price.ToString("F2")" selected="@isSelected">
+                                    @component.Spec (@component.Price.ToString("C"))
+                                </option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No @category options available.</p>
+                        @* Add a hidden input for categories with no options to ensure the key exists in SelectedComponentIds on postback if needed, though not strictly necessary if you handle nulls.*@
+                        <input type="hidden" asp-for="SelectedComponentIds[category]" value="" />
+                    }
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="sticky-top" style="top: 20px;">
+                <h4>Build Summary</h4>
+                <hr />
+                <dl class="row">
+                    @foreach (var category in Model.ComponentCategories)
+                    {
+                        <dt class="col-sm-4">@category:</dt>
+                        <dd class="col-sm-8" id="summary-@category">
+                            @{
+                                var selectedId = Model.SelectedComponentIds.ContainsKey(category) ? Model.SelectedComponentIds[category] : null;
+                                if (selectedId.HasValue && Model.AvailableComponentsByType.TryGetValue(category, out var components) && components != null)
+                                {
+                                    var selectedComponent = components.FirstOrDefault(c => c.Id == selectedId.Value);
+                                    if (selectedComponent != null)
+                                    {
+                                        @selectedComponent.Spec
+                                    }
+                                    else
+                                    {
+                                        <text>None</text>
+                                    }
+                                }
+                                else
+                                {
+                                    <text>None</text>
+                                }
+                            }
+                        </dd>
+                    }
+                </dl>
+                <hr />
+                <h4>Total Price: <span id="totalPriceDisplay">@Model.TotalPrice.ToString("C")</span></h4>
+                <div class="d-grid gap-2 mt-3">
+                    <button type="submit" class="btn btn-success btn-lg">Add Configuration to Cart</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel Build</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const componentSelectors = document.querySelectorAll('.component-selector');
+            const totalPriceDisplayElement = document.getElementById('totalPriceDisplay');
+            const componentCategories = @Html.Raw(Json.Serialize(Model.ComponentCategories));
+            const availableComponentsByType = @Html.Raw(Json.Serialize(Model.AvailableComponentsByType));
+
+            function updateTotalPriceAndSummary() {
+                let currentTotal = 0;
+                componentCategories.forEach(category => {
+                    const selectElement = document.getElementById(`select-${category}`);
+                    const summaryElement = document.getElementById(`summary-${category}`);
+                    let selectedComponentSpec = "None";
+
+                    if (selectElement) {
+                        const selectedOption = selectElement.options[selectElement.selectedIndex];
+                        if (selectedOption && selectedOption.value !== "") {
+                            const price = parseFloat(selectedOption.getAttribute('data-price'));
+                            if (!isNaN(price)) {
+                                currentTotal += price;
+                            }
+                            // Update summary - get spec from option text or find component
+                            if (availableComponentsByType[category]) {
+                                const selectedComp = availableComponentsByType[category].find(c => c.id == selectedOption.value);
+                                if (selectedComp) {
+                                    selectedComponentSpec = selectedComp.spec;
+                                }
+                            }
+                        }
+                    }
+                    if (summaryElement) {
+                        summaryElement.textContent = selectedComponentSpec;
+                    }
+                });
+                totalPriceDisplayElement.textContent = currentTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); // Adjust currency as needed
+            }
+
+            componentSelectors.forEach(select => {
+                select.addEventListener('change', updateTotalPriceAndSummary);
+            });
+
+            // Initial calculation and summary update on page load
+            updateTotalPriceAndSummary();
+        });
+    </script>
+}

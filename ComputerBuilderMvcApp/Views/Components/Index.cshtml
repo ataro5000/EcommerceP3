@@ -22,7 +22,7 @@
                 <tr>
                     <td>@component.Type</td>
                     <td>@component.Spec</td>
-                    <td>@component.Price.ToString("C")</td>
+                    <td>@(component.PriceCents /100)</td>
                 </tr>
             }
         }
