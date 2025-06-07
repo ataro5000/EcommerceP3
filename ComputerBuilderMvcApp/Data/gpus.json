@@ -1,32 +1,37 @@
 [
   {
-    "Type": "GPU",
-    "Model": "NVIDIA GeForce RTX 3080",
-    "Memory": "10GB",
-    "Price": 699.99
+    "component": "GPU",
+    "id": 1,
+    "name": "NVIDIA GeForce RTX 3080",
+    "priceCents": 69999,
+    "memory": "10GB"
   },
   {
-    "Type": "GPU",
-    "Model": "AMD Radeon RX 6800 XT",
-    "Memory": "16GB",
-    "Price": 649.99
+    "component": "GPU",
+    "id": 2,
+    "name": "AMD Radeon RX 6800 XT",
+    "priceCents": 64999,
+    "memory": "16GB"
   },
   {
-    "Type": "GPU",
-    "Model": "NVIDIA GeForce RTX 3070",
-    "Memory": "8GB",
-    "Price": 499.99
+    "component": "GPU",
+    "id": 3,
+    "name": "NVIDIA GeForce RTX 3070",
+    "priceCents": 49999,
+    "memory": "8GB"
   },
   {
-    "Type": "GPU",
-    "Model": "AMD Radeon RX 6700 XT",
-    "Memory": "12GB",
-    "Price": 479.99
+    "component": "GPU",
+    "id": 4,
+    "name": "AMD Radeon RX 6700 XT",
+    "priceCents": 47999,
+    "memory": "12GB"
   },
   {
-    "Type": "GPU",
-    "Model": "NVIDIA GeForce GTX 1660 Super",
-    "Memory": "6GB",
-    "Price": 249.99
+    "component": "GPU",
+    "id": 5,
+    "name": "NVIDIA GeForce GTX 1660 Super",
+    "priceCents": 24999,
+    "memory": "6GB"
   }
 ]

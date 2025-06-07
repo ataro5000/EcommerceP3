@@ -1,5 +1,5 @@
-{
-  "PSUs": [
+
+  [
     {
       "ID": 1,
       "Name": "Corsair RM750x",
@@ -36,4 +36,3 @@
       "Efficiency": "80 Plus Gold"
     }
   ]
-}

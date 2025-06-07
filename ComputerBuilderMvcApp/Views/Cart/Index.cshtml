@@ -1,47 +1,64 @@
+@model ComputerBuilderMvcApp.Models.Cart
+
 @{
-    ViewData["Title"] = "Shopping Cart";
+    ViewData["Title"] = "Your Shopping Cart";
 }
 
-<h1>Your Shopping Cart</h1>
+<h1>@ViewData["Title"]</h1>
 
-@if (Model.Items.Count == 0)
+@if (TempData["SuccessMessage"] != null)
 {
-    <p>Your cart is empty. Please add some items.</p>
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
 }
-else
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+@if (Model != null && Model.Items.Any())
 {
     <table class="table">
         <thead>
             <tr>
                 <th>Item</th>
-                <th>Price</th>
                 <th>Quantity</th>
-                <th>Total</th>
-                <th>Actions</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Items)
             {
                 <tr>
-                    <td>@item.Computer.Name</td>
-                    <td>@item.Computer.TotalPrice.ToString("C")</td>
+                    <td>@item.ComputerName</td>
                     <td>@item.Quantity</td>
-                    <td>@(item.Computer.TotalPrice * item.Quantity).ToString("C")</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.Subtotal.ToString("C")</td>
                     <td>
-                        <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
-                            <input type="hidden" name="computerId" value="@item.Computer.ID" />
-                            <button type="submit" class="btn btn-danger">Remove</button>
+                        <form asp-action="RemoveFromCart" method="post">
+                            <input type="hidden" name="computerId" value="@item.ComputerId" />
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                         </form>
                     </td>
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                <td><strong>@Model.TotalAmount.ToString("C")</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
     </table>
-
-    <h3>Total: @Model.TotalPrice.ToString("C")</h3>
-
-    <form asp-action="Checkout" asp-controller="Cart" method="get">
-        <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
-    </form>
+    <div class="text-end mt-3">
+        <a asp-action="Checkout" class="btn btn-success">Proceed to Checkout</a>
+        <a asp-controller="Computers" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
+    </div>
+}
+else
+{
+    <p>Your cart is empty.</p>
+    <a asp-controller="Computers" asp-action="Index" class="btn btn-primary">Browse Computers</a>
 }

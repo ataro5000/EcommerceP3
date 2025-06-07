@@ -1,40 +1,29 @@
+@* For simplicity, this is a placeholder. A real checkout would have a form for address, payment, etc. *@
+
 @{
     ViewData["Title"] = "Checkout";
 }
 
-<h2>Checkout</h2>
+<h1>@ViewData["Title"]</h1>
+<p>Please review your order and provide your details.</p>
 
-<div>
-    <h3>Your Cart</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CartItems)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Price.ToString("C")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+@* Add form fields for customer name, address, payment info etc. *@
+<form asp-action="ProcessOrder" method="post"> @* Assuming ProcessOrder action handles the order *@
+    <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="name" name="CustomerName" required />
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="CustomerEmail" required />
+    </div>
+    <div class="mb-3">
+        <label for="address" class="form-label">Shipping Address</label>
+        <textarea class="form-control" id="address" name="ShippingAddress" rows="3" required></textarea>
+    </div>
+    
+    @* Display order summary here from the cart if needed *@
 
-    <h4>Total: @Model.TotalPrice.ToString("C")</h4>
-
-    <form asp-action="CompleteCheckout" method="post">
-        <div class="form-group">
-            <label for="CustomerName">Name</label>
-            <input type="text" class="form-control" id="CustomerName" name="CustomerName" required />
-        </div>
-        <div class="form-group">
-            <label for="CustomerEmail">Email</label>
-            <input type="email" class="form-control" id="CustomerEmail" name="CustomerEmail" required />
-        </div>
-        <button type="submit" class="btn btn-primary">Complete Checkout</button>
-    </form>
-</div>
+    <button type="submit" class="btn btn-primary">Place Order</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to Cart</a>
+</form>

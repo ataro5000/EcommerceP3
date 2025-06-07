@@ -1,22 +1,36 @@
+@model IEnumerable<ComputerBuilderMvcApp.Models.Component>
+
 @{
     ViewData["Title"] = "Available Components";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="component-list">
-    <h2>Components</h2>
-    <ul>
-        @foreach (var component in Model.Components)
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Specification</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
         {
-            <li>
-                <strong>@component.Type:</strong> @component.Spec - $@component.Price
-                <a href="@Url.Action("Details", "Components", new { id = component.ID })">View Details</a>
-            </li>
+            foreach (var component in Model)
+            {
+                <tr>
+                    <td>@component.Type</td>
+                    <td>@component.Spec</td>
+                    <td>@component.Price.ToString("C")</td>
+                </tr>
+            }
         }
-    </ul>
-</div>
-
-<div>
-    <a href="@Url.Action("Index", "Home")">Back to Home</a>
-</div>
+        else
+        {
+            <tr>
+                <td colspan="3">No components found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

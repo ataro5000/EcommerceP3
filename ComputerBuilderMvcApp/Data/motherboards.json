@@ -1,42 +1,32 @@
 [
   {
+    "component": "MotherBoard",
     "id": 1,
     "name": "ASUS ROG Strix B550-F Gaming",
-    "formFactor": "ATX",
-    "socket": "AM4",
-    "chipset": "B550",
-    "price": 199.99
+    "priceCents": 19999
   },
   {
+    "component": "MotherBoard",
     "id": 2,
     "name": "MSI MPG B550 Gaming Plus",
-    "formFactor": "ATX",
-    "socket": "AM4",
-    "chipset": "B550",
-    "price": 149.99
+    "priceCents": 14999
   },
   {
+    "component": "MotherBoard",
     "id": 3,
     "name": "Gigabyte B450 AORUS Elite",
-    "formFactor": "ATX",
-    "socket": "AM4",
-    "chipset": "B450",
-    "price": 109.99
+    "priceCents": 7999
   },
   {
+    "component": "MotherBoard",
     "id": 4,
     "name": "ASRock B450M Pro4",
-    "formFactor": "Micro ATX",
-    "socket": "AM4",
-    "chipset": "B450",
-    "price": 79.99
+    "priceCents": 7999
   },
   {
+    "component": "MotherBoard",
     "id": 5,
     "name": "ASUS TUF Gaming X570-Plus",
-    "formFactor": "ATX",
-    "socket": "AM4",
-    "chipset": "X570",
-    "price": 189.99
+    "priceCents": 18999
   }
 ]

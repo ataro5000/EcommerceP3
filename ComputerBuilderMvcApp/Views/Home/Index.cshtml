@@ -1,36 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Computer Builder</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <header>
-        <h1>Welcome to the Computer Builder Store</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/Computers">Computers</a></li>
-                <li><a href="/Components">Components</a></li>
-                <li><a href="/Cart">Cart</a></li>
-                <li><a href="/Home/Contact">Contact</a></li>
-                <li><a href="/Home/Feedback">Feedback</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <h2>Featured Computers</h2>
-            <div id="computer-list">
-                <!-- This section will be populated with a list of computers -->
+@model IEnumerable<ComputerBuilderMvcApp.ViewModels.ComputerViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Computer Builder</h1>
+    <p>Build your dream PC or choose from our pre-configured models!</p>
+</div>
+
+<hr />
+
+@if (Model != null && Model.Any())
+{
+    <h2>Featured Computers</h2>
+    <div class="row">
+        @foreach (var computer in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@computer.Name</h5>
+                        <p class="card-text">Price: @computer.TotalPrice.ToString("C")</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a asp-controller="Computers" asp-action="Details" asp-route-id="@computer.Id" class="btn btn-sm btn-outline-secondary">View Details</a>
+                                <!-- Add to cart button if desired -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 Computer Builder Store</p>
-    </footer>
-    <script src="~/js/site.js"></script>
-</body>
-</html>
+        }
+    </div>
+}
+else
+{
+    <p>Check out our <a asp-controller="Computers" asp-action="Index">full list of computers</a>!</p>
+}
