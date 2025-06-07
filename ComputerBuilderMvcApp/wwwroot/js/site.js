@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // Function to add item to cart
-    function addToCart(item) {
-        cart.push(item);
+    function addToCart(component) {
+        cart.push(component);
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartDisplay();
     }
@@ -26,12 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for adding components to cart
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function() {
-            const item = {
+            const component = {
                 id: this.dataset.id,
                 name: this.dataset.name,
                 price: parseFloat(this.dataset.price)
             };
-            addToCart(item);
+            addToCart(component);
         });
     });
 
@@ -51,13 +51,6 @@ function updateCartItemCountInLayout() {
         })
         .then(data => {
             console.log('Cart count data received:', data); // Log received data
-
-            // ---- DEBUGGING STEP ----
-            // When this line is hit, your browser's developer tools should pause (if open).
-            // At this point, inspect the DOM (Elements tab) to see if 'cartItemCountBadge' exists.
-            debugger; 
-            // ------------------------
-
             const cartBadge = document.getElementById('cartItemCountBadge');
             
             if (cartBadge) {

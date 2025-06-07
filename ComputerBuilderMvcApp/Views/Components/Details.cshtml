@@ -31,7 +31,7 @@
             @* <img src="~/images/placeholder.png" alt="@Model.Name" class="img-fluid rounded mb-3" /> *@
             
             <h4>Add to Cart</h4>
-            <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post">
+            <form asp-controller="/Cart/AddSingleComponentToCart" asp-action="AddSingleComponentToCart" method="post">
                 <input type="hidden" name="componentId" value="@Model.Id" />
                 <div class="input-group mb-3" style="max-width: 200px;">
                     <label class="input-group-text" for="quantity-@Model.Id">Quantity</label>

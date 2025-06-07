@@ -53,7 +53,7 @@ namespace ComputerBuilderMvcApp.Controllers
                     if (componentsFromFile != null)
                     {
                         componentsFromFile.ForEach(c => {
-                            c.PriceCents = c.PriceCents / 100.0m; // Calculate Price from PriceCents
+                            c.PriceCents = c.PriceCents; // Calculate Price from PriceCents
                             // Ensure Type is present in your component.json for each component
                         });
                         allLoadedComponents.AddRange(componentsFromFile);

@@ -1,4 +1,3 @@
-// filepath: c:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\Models\Cart.cs
 using System.Collections.Generic;
 using System.Linq;
 

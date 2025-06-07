@@ -43,7 +43,7 @@ namespace ComputerBuilderMvcApp.Controllers
             // Ensure ComponentCategories is initialized if not submitted or empty
             if (submittedBuild.ComponentCategories == null || submittedBuild.ComponentCategories.Count == 0)
             {
-                submittedBuild.ComponentCategories = new List<string> { "CPU", "Motherboard", "RAM", "GPU", "Storage", "PSU", "Case" };
+                submittedBuild.ComponentCategories = ["CPU", "Motherboard", "RAM", "GPU", "Storage", "PSU", "Case"];
             }
             // Ensure AvailableComponentsByType is initialized for the view model if returning due to error
             if (submittedBuild.AvailableComponentsByType == null) // Check for null, not just Any() if it might not be initialized

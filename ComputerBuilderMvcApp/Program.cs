@@ -3,7 +3,7 @@ using ComputerBuilderMvcApp.Models; // If Cart is a service
 using Microsoft.AspNetCore.Http; // For IHttpContextAccessor
 using Newtonsoft.Json; // For JsonConvert
 
-
+Debug.WriteLine(">>>> Program.cs execution started <<<<");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +58,7 @@ public static class SessionCart
         if (session == null)
         {
             Debug.WriteLine("[SessionCart.GetCart] ISession is NULL. Returning new Cart.");
-            return new Cart(); // Should not happen if session middleware is configured
+            return new Cart(); 
         }
 
         string? cartJson = session.GetString(CartSessionKey);
@@ -81,20 +81,32 @@ public static class SessionCart
             catch (JsonException ex)
             {
                 Debug.WriteLine($"[SessionCart.GetCart] JSON Deserialization Error: {ex.Message}. Returning new Cart.");
-                cart = new Cart(); // Return a new cart on deserialization error
+                cart = new Cart(); 
             }
         }
         
-        if (cart == null) // If not found in session, cartJson was empty/null, or deserialization failed/returned null
+        if (cart == null) 
         {
             Debug.WriteLine("[SessionCart.GetCart] Cart is null after attempting to load from session. Creating new Cart.");
             cart = new Cart();
-            // Optionally, save the new empty cart to session immediately, though GetCart is usually for retrieval.
-            // session.SetString(CartSessionKey, JsonConvert.SerializeObject(cart)); 
-            // Debug.WriteLine("[SessionCart.GetCart] Saved new empty cart to session.");
+            // MODIFICATION: Immediately save the new (empty) cart to session
+            if (session != null) 
+            {
+                 try
+                 {
+                    string newCartJson = JsonConvert.SerializeObject(cart);
+                    session.SetString(CartSessionKey, newCartJson); 
+                    Debug.WriteLine($"[SessionCart.GetCart] Saved newly created empty cart to session. JSON: '{newCartJson}'");
+                 }
+                 catch (JsonException ex)
+                 {
+                    Debug.WriteLine($"[SessionCart.GetCart] JSON Serialization Error when saving new cart: {ex.Message}.");
+                 }
+            }
         }
         return cart;
     }
+
 
     public static void SaveCart(ISession session, Cart cart)
     {

@@ -6,6 +6,7 @@ using System.IO; // Required for Path
 using Newtonsoft.Json; // Required for JsonConvert
 using Microsoft.AspNetCore.Http; // For ISession
 using System; // Required for Guid
+using System.Diagnostics; // Required for Debug
 
 namespace ComputerBuilderMvcApp.Controllers
 {
@@ -18,31 +19,43 @@ namespace ComputerBuilderMvcApp.Controllers
             return View(_cart);
         }
 
-        [HttpPost]
+       [HttpPost]
         public IActionResult AddSingleComponentToCart(string componentId, int quantity = 1)
         {
+            Debug.WriteLine($"[CartController.AddSingleComponentToCart] ACTION ENTERED. ComponentId: {componentId}, Quantity: {quantity}"); // <-- ADD THIS
+
             if (string.IsNullOrEmpty(componentId))
             {
+                Debug.WriteLine("[CartController.AddSingleComponentToCart] ComponentId is NULL or EMPTY."); // <-- ADD THIS
                 TempData["ErrorMessage"] = "Component ID is missing.";
-                string refererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty; // Handle possible null value
-                return Redirect(refererUrl ?? Url.Action("Index", "Components") ?? "/"); // Fallback chain
+                string refererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty; 
+                return Redirect(refererUrl ?? Url.Action("Index", "Components") ?? "/"); 
             }
             if (quantity < 1) quantity = 1;
 
-            var component = GetSystemComponentById(componentId);
+            Debug.WriteLine("[CartController.AddSingleComponentToCart] Attempting to get component..."); // <-- ADD THIS
+            var component = GetSystemComponentById(componentId); // Make sure this method exists and works
 
             if (component != null)
             {
-                _cart.AddItem(component, quantity);
-                SessionCart.SaveCart(HttpContext.Session, _cart);
+                Debug.WriteLine($"[CartController.AddSingleComponentToCart] Component FOUND: {component.Name}. Attempting to add to cart object."); // <-- ADD THIS
+                _cart.AddItem(component, quantity); // This is where the cart object is modified
+                Debug.WriteLine($"[CartController.AddSingleComponentToCart] Item added to _cart object. _cart.Items.Count now: {_cart.Items.Count}"); // <-- ADD THIS
+                
+                Debug.WriteLine("[CartController.AddSingleComponentToCart] Attempting to SAVE CART to session..."); // <-- ADD THIS
+                SessionCart.SaveCart(HttpContext.Session, _cart); // <<<< THIS IS THE CRITICAL CALL
+                Debug.WriteLine("[CartController.AddSingleComponentToCart] SessionCart.SaveCart CALLED."); // <-- ADD THIS
+
                 TempData["SuccessMessage"] = $"{component.Name} (x{quantity}) added to cart.";
             }
             else
             {
+                Debug.WriteLine("[CartController.AddSingleComponentToCart] Component NOT FOUND."); // <-- ADD THIS
                 TempData["ErrorMessage"] = "Component not found.";
             }
-            string currentRefererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty; // Use FirstOrDefault
-            return Redirect(currentRefererUrl ?? Url.Action("Index", "Cart") ?? "/"); // Fallback chain
+            string currentRefererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty; 
+            Debug.WriteLine($"[CartController.AddSingleComponentToCart] Redirecting to: {currentRefererUrl}"); // <-- ADD THIS
+            return Redirect(currentRefererUrl ?? Url.Action("Index", "Cart") ?? "/"); 
         }
 
         [HttpGet]
@@ -95,6 +108,7 @@ namespace ComputerBuilderMvcApp.Controllers
             var orderId = Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
 
             _cart.Clear();
+            SessionCart.SaveCart(HttpContext.Session, _cart); // <-- ADD THIS LINE
             TempData["SuccessMessage"] = $"Order {orderId} placed successfully!";
             return RedirectToAction("OrderConfirmation", new { id = orderId });
         }
