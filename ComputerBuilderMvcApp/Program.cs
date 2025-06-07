@@ -1,33 +1,26 @@
+using System.Diagnostics;
 using ComputerBuilderMvcApp.Models; // If Cart is a service
-using Microsoft.Extensions.DependencyInjection; // For AddSingleton, AddScoped, AddTransient
+using Microsoft.AspNetCore.Http; // For IHttpContextAccessor
+using Newtonsoft.Json; // For JsonConvert
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Register the Cart service. You need to decide on its lifetime.
-// If the cart should be per user session, you might need session state or other mechanisms.
-// For a simple in-memory cart shared across all users (not recommended for production):
-// builder.Services.AddSingleton<Cart>(); 
-// For a cart that is created per request (might not be what you want for a shopping cart):
-// builder.Services.AddScoped<Cart>(); 
-// For a cart that is new every time it's requested:
-// builder.Services.AddTransient<Cart>();
-
-// If Cart needs to be session-specific, you'll need to configure session state:
-builder.Services.AddDistributedMemoryCache(); // Required for session state
+builder.Services.AddDistributedMemoryCache(); // For session state
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-// Then register Cart as scoped or transient and manage its state via session.
-// A common approach is to have a service that retrieves/stores the cart from/to the session.
-// For now, let's assume a simple singleton for demonstration, replace with proper session management.
-builder.Services.AddSingleton<Cart>();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+// This line registers your Cart to be created/retrieved by SessionCart.GetCart for each request.
+builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
 
 var app = builder.Build();
 
@@ -35,7 +28,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -44,13 +36,91 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseSession(); // IMPORTANT: This must be called before UseEndpoints or MapControllerRoute
 
-// If you added session state:
-app.UseSession();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+public static class SessionCart
+{
+    private const string CartSessionKey = "Cart";
+
+    public static Cart GetCart(IServiceProvider services)
+    {
+        ISession? session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext?.Session;
+        Cart? cart = null;
+
+        if (session == null)
+        {
+            Debug.WriteLine("[SessionCart.GetCart] ISession is NULL. Returning new Cart.");
+            return new Cart(); // Should not happen if session middleware is configured
+        }
+
+        string? cartJson = session.GetString(CartSessionKey);
+        Debug.WriteLine($"[SessionCart.GetCart] Retrieved cartJson from session: '{cartJson ?? "NULL or EMPTY"}'");
+
+        if (!string.IsNullOrEmpty(cartJson))
+        {
+            try
+            {
+                cart = JsonConvert.DeserializeObject<Cart>(cartJson);
+                if (cart == null)
+                {
+                    Debug.WriteLine("[SessionCart.GetCart] Deserialized cart is NULL. cartJson might be invalid or represent null.");
+                }
+                else
+                {
+                    Debug.WriteLine($"[SessionCart.GetCart] Successfully deserialized cart. Item count: {cart.Items.Count}");
+                }
+            }
+            catch (JsonException ex)
+            {
+                Debug.WriteLine($"[SessionCart.GetCart] JSON Deserialization Error: {ex.Message}. Returning new Cart.");
+                cart = new Cart(); // Return a new cart on deserialization error
+            }
+        }
+        
+        if (cart == null) // If not found in session, cartJson was empty/null, or deserialization failed/returned null
+        {
+            Debug.WriteLine("[SessionCart.GetCart] Cart is null after attempting to load from session. Creating new Cart.");
+            cart = new Cart();
+            // Optionally, save the new empty cart to session immediately, though GetCart is usually for retrieval.
+            // session.SetString(CartSessionKey, JsonConvert.SerializeObject(cart)); 
+            // Debug.WriteLine("[SessionCart.GetCart] Saved new empty cart to session.");
+        }
+        return cart;
+    }
+
+    public static void SaveCart(ISession session, Cart cart)
+    {
+        if (session == null)
+        {
+            Debug.WriteLine("[SessionCart.SaveCart] ISession is NULL. Cannot save cart.");
+            return;
+        }
+
+        if (cart == null)
+        {
+            Debug.WriteLine("[SessionCart.SaveCart] Cart object is NULL. Cannot serialize and save.");
+            // Optionally, remove the key if the cart is null
+            // session.Remove(CartSessionKey);
+            return;
+        }
+
+        try
+        {
+            string cartJsonToSave = JsonConvert.SerializeObject(cart);
+            session.SetString(CartSessionKey, cartJsonToSave);
+            Debug.WriteLine($"[SessionCart.SaveCart] Saved cart to session. Item count: {cart.Items.Count}, JSON: '{cartJsonToSave}'");
+        }
+        catch (JsonException ex)
+        {
+            Debug.WriteLine($"[SessionCart.SaveCart] JSON Serialization Error: {ex.Message}. Cart NOT saved.");
+        }
+    }
+}

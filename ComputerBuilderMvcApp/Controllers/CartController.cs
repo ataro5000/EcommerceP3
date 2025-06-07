@@ -4,18 +4,14 @@ using System.Linq; // Required for FirstOrDefault
 using System.Collections.Generic; // Required for List
 using System.IO; // Required for Path
 using Newtonsoft.Json; // Required for JsonConvert
+using Microsoft.AspNetCore.Http; // For ISession
 using System; // Required for Guid
 
 namespace ComputerBuilderMvcApp.Controllers
 {
-    public class CartController : Controller
+    public class CartController(Cart cart) : Controller
     {
-        private readonly Cart _cart;
-
-        public CartController(Cart cart)
-        {
-            _cart = cart;
-        }
+        private readonly Cart _cart = cart;
 
         public IActionResult Index()
         {
@@ -38,6 +34,7 @@ namespace ComputerBuilderMvcApp.Controllers
             if (component != null)
             {
                 _cart.AddItem(component, quantity);
+                SessionCart.SaveCart(HttpContext.Session, _cart);
                 TempData["SuccessMessage"] = $"{component.Name} (x{quantity}) added to cart.";
             }
             else
@@ -48,15 +45,25 @@ namespace ComputerBuilderMvcApp.Controllers
             return Redirect(currentRefererUrl ?? Url.Action("Index", "Cart") ?? "/"); // Fallback chain
         }
 
+        [HttpGet]
+        public IActionResult GetCartItemCount()
+        {
+            int itemCount = _cart.Items.Sum(item => item.CartItemQuantity);
+            System.Diagnostics.Debug.WriteLine($"[CartController] GetCartItemCount called. Items in cart object: {_cart.Items.Count}, Total quantity: {itemCount}"); // DEBUG LINE
+            return Json(new { itemCount = itemCount });
+        }
+
         [HttpPost]
         public IActionResult RemoveFromCart(string cartItemId)
         {
             if (string.IsNullOrEmpty(cartItemId))
             {
-                 TempData["ErrorMessage"] = "Cart item ID is missing.";
-                 return RedirectToAction("Index");
+                TempData["ErrorMessage"] = "Cart item ID is missing.";
+                return RedirectToAction("Index");
             }
             _cart.RemoveItem(cartItemId);
+            SessionCart.SaveCart(HttpContext.Session, _cart);
+
             TempData["SuccessMessage"] = "Item removed from cart.";
             return RedirectToAction("Index");
         }
@@ -65,7 +72,9 @@ namespace ComputerBuilderMvcApp.Controllers
         {
             if (!_cart.Items.Any())
             {
+                SessionCart.SaveCart(HttpContext.Session, _cart);
                 TempData["ErrorMessage"] = "Your cart is empty.";
+
                 return RedirectToAction("Index");
             }
             // Potentially pass cart to checkout view if it needs to display items again
