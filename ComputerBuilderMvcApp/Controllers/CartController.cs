@@ -54,6 +54,7 @@ namespace ComputerBuilderMvcApp.Controllers
                 TempData["ErrorMessage"] = "Component not found.";
             }
             string currentRefererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty; 
+            SessionCart.SaveCart(HttpContext.Session, _cart); // <<<< THIS IS THE CRITICAL CALL
             Debug.WriteLine($"[CartController.AddSingleComponentToCart] Redirecting to: {currentRefererUrl}"); // <-- ADD THIS
             return Redirect(currentRefererUrl ?? Url.Action("Index", "Cart") ?? "/"); 
         }

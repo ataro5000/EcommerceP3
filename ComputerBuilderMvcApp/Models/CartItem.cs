@@ -7,6 +7,7 @@ namespace ComputerBuilderMvcApp.Models
 {
     public class CartItem
     {
+        public CartItem () {}
         public string? CartItemId { get; set; } // Component.Id
         public string? CartItemName { get; set; }
         public int CartItemQuantity { get; set; }

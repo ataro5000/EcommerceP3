@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMvcApp\\ComputerBuilderMvcApp.csproj": {}
+    "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMVCApp\\ComputerBuilderMvcApp.csproj": {}
   },
   "projects": {
-    "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMvcApp\\ComputerBuilderMvcApp.csproj": {
+    "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMVCApp\\ComputerBuilderMvcApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMvcApp\\ComputerBuilderMvcApp.csproj",
+        "projectUniqueName": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMVCApp\\ComputerBuilderMvcApp.csproj",
         "projectName": "ComputerBuilderMvcApp",
-        "projectPath": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMvcApp\\ComputerBuilderMvcApp.csproj",
+        "projectPath": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMVCApp\\ComputerBuilderMvcApp.csproj",
         "packagesPath": "C:\\Users\\Shane Edwards\\.nuget\\packages\\",
-        "outputPath": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMvcApp\\obj\\",
+        "outputPath": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMVCApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

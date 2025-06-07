@@ -10,21 +10,6 @@
 <p>Explore our wide range of PC components. Select a category to filter or view all.</p>
 <hr />
 
-@* Optional: Category filter links if you want them *@
-<div class="mb-3">
-    <strong>Filter by Category:</strong>
-    <a asp-action="Index" asp-route-category="all" class="btn btn-sm @(filterCategory == "all" ? "btn-primary" : "btn-outline-primary")">All</a>
-    @if (Model != null)
-    {
-        var categories = Model.Select(c => c.Type).Where(t => !string.IsNullOrEmpty(t)).Distinct().OrderBy(t => t);
-        foreach (var cat in categories)
-        {
-            <a asp-action="Index" asp-route-category="@cat" class="btn btn-sm @(filterCategory == cat ? "btn-primary" : "btn-outline-primary")">@cat</a>
-        }
-    }
-</div>
-
-
 @if (Model != null && Model.Any())
 {
     var groupedComponents = Model.GroupBy(c => c.Type)
@@ -44,12 +29,12 @@
                                 <h5 class="card-title">@(component.Name ?? "N/A")</h5>
                                 <p class="card-text">@component.Spec</p>
                                 <p class="card-text"><strong>Price: $</strong> @(component.PriceCents / 100)</p>
-                                <div class="mt-auto">
+                             <div class="mt-auto">
                                     <a asp-controller="Components" asp-action="Details" asp-route-id="@component.Id" class="btn btn-outline-primary btn-sm">View Details</a>
                                     <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post" style="display:inline;" class="ms-1">
                                         <input type="hidden" name="componentId" value="@component.Id" />
                                         <input type="hidden" name="quantity" value="1" />
-                                        <button type="submit" class="btn btn-outline-success btn-sm">Add to Cart</button>
+                                        <button type="submit" class="btn btn-outline-success btn-sm ">Add to Cart</button>
                                     </form>
                                 </div>
                             </div>

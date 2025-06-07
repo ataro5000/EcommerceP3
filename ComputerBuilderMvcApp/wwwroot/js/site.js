@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cart.push(component);
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartDisplay();
+        console.log(component);
     }
 
     // Event listener for adding components to cart
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: parseFloat(this.dataset.price)
             };
             addToCart(component);
+            console.log(component);
         });
     });
 

@@ -8,11 +8,11 @@ using ComputerBuilderMvcApp.ViewModels;
 using Microsoft.AspNetCore.Http; // For ISession
 using System; // For StringComparison
 
-// ... (existing using statements) ...
+
 
 namespace ComputerBuilderMvcApp.Controllers
 {
-    public class BuilderController(Cart cart) : Controller // Assuming standard constructor injection for Cart
+    public class BuilderController(Cart cart) : Controller
     {
         private readonly Cart _cart = cart;
 
@@ -122,7 +122,7 @@ namespace ComputerBuilderMvcApp.Controllers
                                                                      c.Type.Equals(selection.Key, StringComparison.OrdinalIgnoreCase));
                     if (component != null)
                     {
-                        totalPriceInCurrency += (component.PriceCents / 100.0m); // Convert cents to currency here
+                        totalPriceInCurrency += component.PriceCents / 100.0m; // Convert cents to currency here
                     }
                 }
             }
@@ -144,9 +144,6 @@ namespace ComputerBuilderMvcApp.Controllers
                     var components = JsonConvert.DeserializeObject<List<Component>>(json);
                     if (components != null)
                     {
-                        // DO NOT MODIFY PriceCents here. It should remain in cents.
-                        // If you had a 'Price' property, you would calculate it:
-                        // components.ForEach(c => c.Price = c.PriceCents / 100.0m);
                         allComponents.AddRange(components);
                     }
                 }

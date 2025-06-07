@@ -5,7 +5,11 @@ namespace ComputerBuilderMvcApp.Models
 {
     public class Cart
     {
-        public List<CartItem> Items { get; set; } = new List<CartItem>();
+        public Cart()
+        {
+
+        }   
+        public List<CartItem> Items { get; set; } = [];
 
         // TotalAmount should be in the main currency unit (e.g., dollars)
         public decimal TotalAmountAsCurrency => Items.Sum(item => item.SubtotalAsCurrency);

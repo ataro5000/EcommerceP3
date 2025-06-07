@@ -7,10 +7,10 @@ namespace ComputerBuilderMvcApp.ViewModels
     {
         public string Name { get; set; } = "Custom PC Build";
 
-        public Dictionary<string, List<Component>> AvailableComponentsByType { get; set; } = new();
+        public Dictionary<string, List<Component>> AvailableComponentsByType { get; set; } = [];
 
         // Changed Value type from int? to string
-        public Dictionary<string, string?> SelectedComponentIds { get; set; } = new();
+        public Dictionary<string, string?> SelectedComponentIds { get; set; } = [];
 
         public decimal TotalPrice { get; set; }
 

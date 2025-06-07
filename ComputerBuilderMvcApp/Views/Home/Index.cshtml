@@ -19,21 +19,14 @@
             <div class="col-md-4 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
+                        <img class="image">@component.Image
                         <h5 class="card-title">@component.Spec</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Type: @component.Type</h6>
                         <p class="card-text">Price: $@(component.PriceCents /100)</p>
-                        @* You could add an "Add to Cart" button here if components can be bought individually,
-                           or a link to the builder page. For now, just displaying. *@
-                    </div>
-                    <div class="card-footer">
-                         <small class="text-muted">ID: @component.Id</small>
+
                     </div>
                 </div>
             </div>
         }
     </div>
-}
-else
-{
-    <p>No featured components available at the moment. Check out our <a asp-controller="Computers" asp-action="Details">PC Builder</a>!</p>
 }
