@@ -1,85 +1,57 @@
-@model ComputerBuilderMvcApp.ViewModels.ComponentViewModel
+@model ComputerBuilderMvcApp.Models.Component
 
 @{
-    ViewData["Title"] = Model.Name == "Custom Build" && Model.Id == 0 ? "Build Your PC" : $"Customize: {Model.Name}";
+    ViewData["Title"] = Model?.Name ?? "Component Details";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
+@if (Model != null)
+{
+    <h1>@Model.Name</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-7">
+            <dl class="row">
+                <dt class="col-sm-4">Component ID:</dt>
+                <dd class="col-sm-8">@Model.Id</dd>
 
-<form asp-controller="Computers" asp-action="BuildAndAddToCart" method="post">
-    @* If starting from a base model, you might want its ID, otherwise it's a new build *@
-    <input type="hidden" asp-for="Id" /> 
-    
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <label asp-for="Name" class="form-label">Build Name (Optional):</label>
-            <input asp-for="Name" class="form-control" />
+                <dt class="col-sm-4">Type:</dt>
+                <dd class="col-sm-8">@Model.Type</dd>
+
+                <dt class="col-sm-4">Specification:</dt>
+                <dd class="col-sm-8">@Model.Spec</dd>
+
+                <dt class="col-sm-4">Price: $</dt>
+                <dd class="col-sm-8"><strong>@(Model.PriceCents / 100)</strong></dd>
+
+                @* You can add more properties from your Component model here if needed *@
+            </dl>
         </div>
-        <div class="col-md-6 align-self-end text-end">
-            <h4>Total Price: <span id="totalPriceDisplay">@Model.TotalPriceCents.ToString("C")</span></h4>
+        <div class="col-md-5">
+            @* Placeholder for component image if you add them later *@
+            @* <img src="~/images/placeholder.png" alt="@Model.Name" class="img-fluid rounded mb-3" /> *@
+            
+            <h4>Add to Cart</h4>
+            <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post">
+                <input type="hidden" name="componentId" value="@Model.Id" />
+                <div class="input-group mb-3" style="max-width: 200px;">
+                    <label class="input-group-text" for="quantity-@Model.Id">Quantity</label>
+                    <input type="number" name="quantity" id="quantity-@Model.Id" value="1" min="1" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+            </form>
         </div>
     </div>
-
-
-    @foreach (var category in Model.ComponentCategories)
-    {
-        <div class="form-group mb-3">
-            <label for="@($"select-{category}")" class="form-label"><strong>@category:</strong></label>
-            @if (Model.AvailableComponentsByType.TryGetValue(category, out var componentsForCategory) && componentsForCategory.Any())
-            {
-                <select asp-for="SelectedComponentIds[category]" id="@($"select-{category}")" class="form-select component-selector" data-category="@category">
-                    <option value="">-- None --</option>
-                    @foreach (var component in componentsForCategory)
-                    {
-                        // SelectedComponentIds[category] might throw if key doesn't exist, so check first
-                        var currentSelectionId = Model.SelectedComponentIds.ContainsKey(category) ? Model.SelectedComponentIds[category] : null;
-                        bool isSelected = currentSelectionId.HasValue && currentSelectionId.Value == component.Id;
-                        <option value="@component.Id" data-price="@component.PriceCents.ToString("F2")" selected="@isSelected">
-                            (@component.PriceCents.ToString("C"))
-                        </option>
-                    }
-                </select>
-            }
-            else
-            {
-                <p class="text-muted">No @category options available.</p>
-            }
-        </div>
-    }
 
     <div class="mt-4">
-        <button type="submit" class="btn btn-success btn-lg">Add Configuration to Cart</button>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel Build</a>
+        <a asp-action="Index" asp-route-category="@Model.Type" class="btn btn-outline-secondary">Back to @Model.Type List</a>
+        <a asp-action="Index" asp-route-category="all" class="btn btn-outline-secondary ms-2">Back to All Components</a>
     </div>
-</form>
-
-@section Scripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const componentSelectors = document.querySelectorAll('.component-selector');
-            const totalPriceDisplayElement = document.getElementById('totalPriceDisplay');
-
-            function updateTotalPrice() {
-                let currentTotal = 0;
-                componentSelectors.forEach(select => {
-                    const selectedOption = select.options[select.selectedIndex];
-                    if (selectedOption && selectedOption.value !== "") { // Ensure an option is selected and it's not "-- None --"
-                        const price = parseFloat(selectedOption.getAttribute('data-price'));
-                        if (!isNaN(price)) {
-                            currentTotal += price;
-                        }
-                    }
-                });
-                totalPriceDisplayElement.textContent = currentTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); // Adjust currency as needed
-            }
-
-            componentSelectors.forEach(select => {
-                select.addEventListener('change', updateTotalPrice);
-            });
-
-            // Initial calculation on page load
-            updateTotalPrice();
-        });
-    </script>
+}
+else
+{
+    <h1>Component Not Found</h1>
+    <p>The component you are looking for could not be found.</p>
+    <a asp-action="Index" class="btn btn-primary">Back to Components List</a>
 }

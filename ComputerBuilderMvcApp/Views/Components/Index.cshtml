@@ -1,36 +1,65 @@
-@model IEnumerable<ComputerBuilderMvcApp.Models.Component>
+@model List<ComputerBuilderMvcApp.Models.Component>
 
 @{
-    ViewData["Title"] = "Available Components";
+    ViewData["Title"] = "Browse Components";
+    var filterCategory = ViewContext.RouteData.Values["category"]?.ToString() ?? "all";
 }
 
 <h1>@ViewData["Title"]</h1>
+<p>Explore our wide range of PC components. Select a category to filter or view all.</p>
+<hr />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Type</th>
-            <th>Specification</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
+@* Optional: Category filter links if you want them *@
+<div class="mb-3">
+    <strong>Filter by Category:</strong>
+    <a asp-action="Index" asp-route-category="all" class="btn btn-sm @(filterCategory == "all" ? "btn-primary" : "btn-outline-primary")">All</a>
+    @if (Model != null)
+    {
+        var categories = Model.Select(c => c.Type).Where(t => !string.IsNullOrEmpty(t)).Distinct().OrderBy(t => t);
+        foreach (var cat in categories)
         {
-            foreach (var component in Model)
-            {
-                <tr>
-                    <td>@component.Type</td>
-                    <td>@component.Spec</td>
-                    <td>@(component.PriceCents /100)</td>
-                </tr>
-            }
+            <a asp-action="Index" asp-route-category="@cat" class="btn btn-sm @(filterCategory == cat ? "btn-primary" : "btn-outline-primary")">@cat</a>
         }
-        else
+    }
+</div>
+
+
+@if (Model != null && Model.Any())
+{
+    var groupedComponents = Model.GroupBy(c => c.Type)
+                                 .OrderBy(g => g.Key); // Order categories alphabetically
+
+    foreach (var group in groupedComponents)
+    {
+        if (!string.IsNullOrEmpty(group.Key)) // Ensure category key is not null or empty
         {
-            <tr>
-                <td colspan="3">No components found.</td>
-            </tr>
+            <h3>@group.Key</h3> // Category heading (e.g., RAM, CPU)
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+                @foreach (var component in group.OrderBy(c => c.Name)) // Order components by name within category
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@(component.Name ?? "N/A")</h5>
+                                <p class="card-text">@component.Spec</p>
+                                <p class="card-text"><strong>Price: $</strong> @(component.PriceCents / 100)</p>
+                                <div class="mt-auto">
+                                    <a asp-controller="Components" asp-action="Details" asp-route-id="@component.Id" class="btn btn-outline-primary btn-sm">View Details</a>
+                                    <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post" style="display:inline;" class="ms-1">
+                                        <input type="hidden" name="componentId" value="@component.Id" />
+                                        <input type="hidden" name="quantity" value="1" />
+                                        <button type="submit" class="btn btn-outline-success btn-sm">Add to Cart</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         }
-    </tbody>
-</table>
+    }
+}
+else
+{
+    <p>No components found for the selected criteria.</p>
+}

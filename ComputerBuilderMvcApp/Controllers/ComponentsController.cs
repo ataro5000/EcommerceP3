@@ -1,59 +1,82 @@
-// filepath: c:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\Controllers\ComponentsController.cs
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System; // Required for StringComparison
 
 namespace ComputerBuilderMvcApp.Controllers
 {
     public class ComponentsController : Controller
     {
-        public IActionResult Index(string category = "all") // Allow filtering by category
+        public IActionResult Index(string category = "all")
         {
             var components = LoadComponents(category);
-            // You might want a ViewModel if you need to pass more than just the list
             return View(components);
         }
 
-        private static List<Component> LoadComponents(string category)
+        // New Details action for a single component
+        public IActionResult Details(string id)
         {
-            var allComponents = new List<Component>();
-            var baseDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");
-            var fileNames = new List<string>();
-
-            if (string.IsNullOrEmpty(category) || category.Equals("all", System.StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(id))
             {
-                fileNames.AddRange(new[] { "cpus.json", "gpus.json", "motherboards.json", "psus.json", "ram_modules.json" });
+                return NotFound("Component ID cannot be null or empty.");
+            }
+
+            // Load all components to find the one by ID.
+            // In a real app with a database, you'd query the DB for a single item.
+            var allComponents = LoadComponents("all"); // Get all components
+            var component = allComponents.FirstOrDefault(c => c.Id == id);
+
+            if (component == null)
+            {
+                return NotFound($"Component with ID '{id}' not found.");
+            }
+
+            return View(component); // Pass the single Component to the new Details view
+        }
+
+        private static List<Component> LoadComponents(string categoryToFilter)
+        {
+            var allLoadedComponents = new List<Component>();
+            var baseDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");
+            var componentFileName = "component.json"; // Single source file
+            var filePath = Path.Combine(baseDir, componentFileName);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var json = System.IO.File.ReadAllText(filePath);
+                try
+                {
+                    var componentsFromFile = JsonConvert.DeserializeObject<List<Component>>(json);
+                    if (componentsFromFile != null)
+                    {
+                        componentsFromFile.ForEach(c => {
+                            c.PriceCents = c.PriceCents / 100.0m; // Calculate Price from PriceCents
+                            // Ensure Type is present in your component.json for each component
+                        });
+                        allLoadedComponents.AddRange(componentsFromFile);
+                    }
+                }
+                catch (JsonSerializationException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error deserializing {componentFileName}: {ex.Message}");
+                    // Handle error appropriately
+                }
             }
             else
             {
-                // Ensure the category maps to a valid file name to prevent directory traversal issues
-                var safeCategory = category.ToLowerInvariant();
-                if (new[] { "cpus", "gpus", "motherboards", "psus", "ram_modules" }.Contains(safeCategory))
-                {
-                     fileNames.Add($"{safeCategory}.json");
-                }
+                System.Diagnostics.Debug.WriteLine($"Error: {componentFileName} not found in {baseDir}");
             }
 
-            foreach (var fileName in fileNames)
+            // If a specific category was requested (and it's not "all"), filter the results.
+            if (!string.IsNullOrEmpty(categoryToFilter) && !categoryToFilter.Equals("all", StringComparison.OrdinalIgnoreCase))
             {
-                var filePath = Path.Combine(baseDir, fileName);
-                if (System.IO.File.Exists(filePath))
-                {
-                    var json = System.IO.File.ReadAllText(filePath);
-                    var components = JsonConvert.DeserializeObject<List<Component>>(json);
-                    if (components != null)
-                    {
-                        // Optionally set the Type if not in JSON, though it's better if JSON includes it
-                        // string typeFromFile = Path.GetFileNameWithoutExtension(fileName).Replace("_modules", "");
-                        // components.ForEach(c => c.Type = string.IsNullOrEmpty(c.Type) ? typeFromFile : c.Type);
-                        allComponents.AddRange(components);
-                    }
-                }
+                return allLoadedComponents.Where(c => c.Type != null && c.Type.Equals(categoryToFilter, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            return allComponents;
+
+            return allLoadedComponents; // Return all if category is "all" or not specified
         }
     }
 }
