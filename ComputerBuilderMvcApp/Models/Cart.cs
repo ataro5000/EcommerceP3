@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace ComputerBuilderMvcApp.Models
 {
     public class Cart
@@ -13,9 +10,7 @@ namespace ComputerBuilderMvcApp.Models
 
         // TotalAmount should be in the main currency unit (e.g., dollars)
         public decimal TotalAmountAsCurrency => Items.Sum(item => item.SubtotalAsCurrency);
-        public decimal TotalAmountInCents => Items.Sum(item => item.SubtotalInCents);
-
-
+        
         public void AddItem(Component component, int quantity = 1)
         {
             if (component == null || string.IsNullOrEmpty(component.Id)) return;

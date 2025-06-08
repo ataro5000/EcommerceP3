@@ -13,17 +13,16 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                @* LOGO *@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/logo.png" alt="ComputerBuilder Logo" style="height: 30px; margin-right: 10px;" /> @* Replace with your logo *@
-                    ComputerBuilder
+                    <img src="~/images/logo.png" alt="ComputerBuilder Logo" style="height: 30px; margin-right: 10px;" />
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    @* Links - Centered or to the left of cart *@
                     <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -69,7 +68,6 @@
             &copy; @DateTime.Now.Year - ComputerBuilder 
             &nbsp;|&nbsp; <a asp-area="" asp-controller="Home" asp-action="Feedback">Feedback</a>
             &nbsp;|&nbsp; <a asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
-            &nbsp;|&nbsp; <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
         </div>
     </footer>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -4,11 +4,12 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnablePrecompressedStaticWebAssets>false</EnablePrecompressedStaticWebAssets>
   </PropertyGroup>
 
-  <ItemGroup>
 
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-</Project>
+</Project> 

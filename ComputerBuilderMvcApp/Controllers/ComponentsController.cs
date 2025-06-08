@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System; // Required for StringComparison
 
 namespace ComputerBuilderMvcApp.Controllers
 {

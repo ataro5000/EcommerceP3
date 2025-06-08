@@ -1,11 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
-using System.Linq; // Required for FirstOrDefault
-using System.Collections.Generic; // Required for List
-using System.IO; // Required for Path
 using Newtonsoft.Json; // Required for JsonConvert
-using Microsoft.AspNetCore.Http; // For ISession
-using System; // Required for Guid
 using System.Diagnostics; // Required for Debug
 
 namespace ComputerBuilderMvcApp.Controllers

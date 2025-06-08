@@ -16,6 +16,22 @@
     "image": "images/products/case2.jpg"
   },
   {
+    "type": "Storage",
+    "id": "d37a651a-e601-483b-aae6-a9659b0757a0",
+    "name": "1TB SSD",
+    "priceCents": 4999,
+    "spec": "",
+    "image": "images/products/SSD.jpg"
+  },
+  {
+    "type": "Storage",
+    "id": "d37a651a-x001-483b-aae6-a9659b0757a0",
+    "name": "2TB SSD",
+    "priceCents": 5999,
+    "spec": "",
+    "image": "images/products/SSD.jpg"
+  },
+  {
     "type": "Case",
     "id": "d339adf3-e004-4c20-a120-40e8874c66cb",
     "name": "Gaming Beast",

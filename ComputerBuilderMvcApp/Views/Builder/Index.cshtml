@@ -34,7 +34,7 @@
                                 bool isSelected = !string.IsNullOrEmpty(currentSelectionId) && currentSelectionId == component.Id;
                                 // Use PriceCents and convert for display and data-price
                                 <option value="@component.Id" data-price="@((component.PriceCents / 100.0m).ToString("F2"))" selected="@isSelected">
-                                    @component.Spec (@((component.PriceCents / 100.0m).ToString("C")))
+                                    @component.Name (@((component.PriceCents / 100.0m).ToString("C")))
                                 </option>
                             }
                         </select>
@@ -52,7 +52,7 @@
                 <h4>Build Summary</h4>
                 <hr />
                 <dl class="row">
-                    @foreach (var categoryKey in Model.ComponentCategories) // Renamed category to categoryKey
+                    @foreach (var categoryKey in Model.ComponentCategories) 
                     {
                         <dt class="col-sm-4">@categoryKey:</dt>
                         <dd class="col-sm-8" id="summary-@categoryKey">
@@ -65,7 +65,7 @@
                                     var selectedComponent = componentsForSummary.FirstOrDefault(c => c.Id == selectedId);
                                     if (selectedComponent != null)
                                     {
-                                        @selectedComponent.Spec
+                                        @selectedComponent.Name
                                     }
                                     else
                                     {
@@ -97,7 +97,7 @@
             const componentSelectors = document.querySelectorAll('.component-selector');
             const totalPriceDisplayElement = document.getElementById('totalPriceDisplay');
             const componentCategories = @Html.Raw(Json.Serialize(Model.ComponentCategories));
-            const availableComponentsByType = @Html.Raw(Json.Serialize(Model.AvailableComponentsByType)); // This passes all component data
+            const availableComponentsByType = @Html.Raw(Json.Serialize(Model.AvailableComponentsByType)); 
 
             function updateTotalPriceAndSummary() {
                 let currentTotal = 0;
@@ -117,7 +117,7 @@
                             if (availableComponentsByType[category]) {
                                 const selectedComp = availableComponentsByType[category].find(c => c.id == selectedOption.value);
                                 if (selectedComp) {
-                                    selectedComponentSpec = selectedComp.spec;
+                                    selectedComponentSpec = selectedComp.name;
                                 }
                             }
                         }

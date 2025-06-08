@@ -2,31 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
 using ComputerBuilderMvcApp.ViewModels; // If you have a specific ViewModel for the home page
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 
 namespace ComputerBuilderMvcApp.Controllers
 {
     public class HomeController : Controller
     {
-        // If you create a dedicated service for loading components, inject it here.
-        // For now, we'll use a private helper method.
-
         public HomeController()
         {
-            // Constructor
-        }
 
+        }
         public IActionResult Index()
         {
             var allComponents = LoadAllSystemComponents();
             var random = new Random();
             var featuredComponents = allComponents.OrderBy(c => random.Next()).Take(6).ToList();
             
-            // You can pass List<Component> directly, or use a ViewModel if you need more data for the home page
             return View(featuredComponents);
         }
 
