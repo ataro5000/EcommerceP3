@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
 using Newtonsoft.Json;
-using ComputerBuilderMvcApp.ViewModels;
 using System.Diagnostics;
 
 namespace ComputerBuilderMvcApp.Controllers
@@ -14,7 +13,7 @@ namespace ComputerBuilderMvcApp.Controllers
         {
             Debug.WriteLine("[ComputerBuilderController.Index] Action Started.");
             var allComponents = LoadAllSystemComponents();
-            var viewModel = new ComputerViewModel
+            var viewModel = new ComputerBuilder
             {
                 ComponentCategories = ["CPU", "Motherboard", "RAM", "GPU", "Storage", "PSU", "Case"]
             };
@@ -46,14 +45,14 @@ namespace ComputerBuilderMvcApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult BuildAndAddToCart(ComputerViewModel submittedBuild)
+        public IActionResult BuildAndAddToCart(ComputerBuilder submittedBuild)
         {
-            // Ensure ComponentCategories is initialized if not submitted or empty
+   
             if (submittedBuild.ComponentCategories == null || submittedBuild.ComponentCategories.Count == 0)
             {
                 submittedBuild.ComponentCategories = ["CPU", "Motherboard", "RAM", "GPU", "Storage", "PSU", "Case"];
             }
-            // Ensure AvailableComponentsByType is initialized for the view model if returning due to error
+     
             submittedBuild.AvailableComponentsByType ??= [];
 
             if (submittedBuild.SelectedComponentIds == null || !submittedBuild.SelectedComponentIds.Values.Any(id => !string.IsNullOrEmpty(id)))
@@ -91,10 +90,10 @@ namespace ComputerBuilderMvcApp.Controllers
             if (chosenComponents.Count == 0)
             {
                 TempData["ErrorMessage"] = "No valid components were selected or found for your build.";
-                var allComponentsForViewOnError = LoadAllSystemComponents(); // Renamed for clarity
+                var allComponentsForViewOnError = LoadAllSystemComponents(); 
                 foreach (var category in submittedBuild.ComponentCategories)
                 {
-                    if (!submittedBuild.AvailableComponentsByType.ContainsKey(category)) // Ensure key exists
+                    if (!submittedBuild.AvailableComponentsByType.ContainsKey(category)) 
                     {
                         submittedBuild.AvailableComponentsByType[category] = [];
                     }

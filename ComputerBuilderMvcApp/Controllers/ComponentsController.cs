@@ -6,34 +6,31 @@ namespace ComputerBuilderMvcApp.Controllers
 {
     public class ComponentsController : Controller
     {
-        public IActionResult Index(string category = "all")
+        public IActionResult Index(List<string> categories)
         {
-            var components = LoadComponents(category);
+            var components = LoadComponents(categories);
+            ViewData["SelectedCategories"] = categories ?? [];
             return View(components);
         }
 
-        // New Details action for a single component
-        public IActionResult Details(string id)
+        public IActionResult Details(List<string> categories, string id)
         {
             if (string.IsNullOrEmpty(id))
             {
-                return NotFound("Component ID cannot be null or empty.");
+                return BadRequest("Component ID cannot be null or empty.");
             }
 
-            // Load all components to find the one by ID.
-            // In a real app with a database, you'd query the DB for a single item.
-            var allComponents = LoadComponents("all"); // Get all components
+            var allComponents = LoadComponents(categories);
             var component = allComponents.FirstOrDefault(c => c.Id == id);
 
             if (component == null)
             {
                 return NotFound($"Component with ID '{id}' not found.");
             }
+            return View(component);
+        }   
 
-            return View(component); // Pass the single Component to the new Details view
-        }
-
-        private static List<Component> LoadComponents(string categoryToFilter)
+        public static List<Component> LoadComponents(List<string> categoriesToFilter)
         {
             var allLoadedComponents = new List<Component>();
             var baseDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");
@@ -48,31 +45,24 @@ namespace ComputerBuilderMvcApp.Controllers
                     var componentsFromFile = JsonConvert.DeserializeObject<List<Component>>(json);
                     if (componentsFromFile != null)
                     {
-                        componentsFromFile.ForEach(c => {
-                            c.PriceCents = c.PriceCents; // Calculate Price from PriceCents
-                            // Ensure Type is present in your component.json for each component
-                        });
                         allLoadedComponents.AddRange(componentsFromFile);
                     }
                 }
                 catch (JsonSerializationException ex)
                 {
                     System.Diagnostics.Debug.WriteLine($"Error deserializing {componentFileName}: {ex.Message}");
-                    // Handle error appropriately
                 }
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine($"Error: {componentFileName} not found in {baseDir}");
             }
-
-            // If a specific category was requested (and it's not "all"), filter the results.
-            if (!string.IsNullOrEmpty(categoryToFilter) && !categoryToFilter.Equals("all", StringComparison.OrdinalIgnoreCase))
-            {
-                return allLoadedComponents.Where(c => c.Type != null && c.Type.Equals(categoryToFilter, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
-            return allLoadedComponents; // Return all if category is "all" or not specified
+            if (categoriesToFilter != null && categoriesToFilter.Any())
+                {
+                    var lowerCategoriesToFilter = categoriesToFilter.Select(c => c.ToLowerInvariant()).ToList();
+                    return [.. allLoadedComponents.Where(c => c.Type != null && lowerCategoriesToFilter.Contains(c.Type.ToLowerInvariant()))];
+                }
+            return allLoadedComponents; 
         }
     }
 }

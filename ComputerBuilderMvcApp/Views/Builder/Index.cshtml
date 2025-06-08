@@ -1,4 +1,4 @@
-@model ComputerBuilderMvcApp.ViewModels.ComputerViewModel
+@model ComputerBuilderMvcApp.Models.ComputerBuilder
 
 @{
     ViewData["Title"] = "Build Your PC";
@@ -13,11 +13,9 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-<form asp-controller="ComputerBuilder" asp-action="BuildAndAddToCart" method="post">
+<form asp-controller="Builder" asp-action="BuildAndAddToCart" method="post">
     <div class="row">
         <div class="col-md-8">
-
-            @* Loop through the defined component categories to create dropdowns *@
             @foreach (var category in Model.ComponentCategories)
             {
                 <div class="form-group mb-3">
@@ -28,11 +26,9 @@
                             <option value="">-- Select @category --</option>
                             @foreach (var component in componentsForCategory)
                             {
-                                // Check if this component is currently selected for this category
                                 var currentSelectionId = Model.SelectedComponentIds.ContainsKey(category) ? Model.SelectedComponentIds[category] : null;
-                                // Corrected: Check string for null/empty and compare directly
                                 bool isSelected = !string.IsNullOrEmpty(currentSelectionId) && currentSelectionId == component.Id;
-                                // Use PriceCents and convert for display and data-price
+
                                 <option value="@component.Id" data-price="@((component.PriceCents / 100.0m).ToString("F2"))" selected="@isSelected">
                                     @component.Name (@((component.PriceCents / 100.0m).ToString("C")))
                                 </option>
@@ -108,7 +104,7 @@
 
                     if (selectElement) {
                         const selectedOption = selectElement.options[selectElement.selectedIndex];
-                        if (selectedOption && selectedOption.value !== "") { // Check if a component is selected
+                        if (selectedOption && selectedOption.value !== "") { 
                             const price = parseFloat(selectedOption.getAttribute('data-price'));
                             if (!isNaN(price)) {
                                 currentTotal += price;
@@ -133,7 +129,6 @@
                 select.addEventListener('change', updateTotalPriceAndSummary);
             });
 
-            // Initial calculation and summary update on page load
             updateTotalPriceAndSummary();
         });
     </script>

@@ -19,11 +19,20 @@
             <div class="col-md-4 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
-                        <img class="card-img-top" src="@component.Image"  alt="@component.Name" style="max-width: 60px;">
+                        <img class="card-img-top" src="@component.Image" alt="@component.Name" style="max-width: 60px;">
                         <h5 class="card-name">@component.Name</h5>
                         <h5 class="card-title">@component.Spec</h5>
-                        <p class="card-text">Price: $@(component.PriceCents /100)</p>
-
+                        <p class="card-text">Price: $@(component.PriceCents / 100)</p>
+                        <div class="mt-auto">
+                            <a asp-controller="Components" asp-action="Details" asp-route-id="@component.Id"
+                                class="btn btn-outline-primary btn-sm">View Details</a>
+                            <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post"
+                                style="display:inline;" class="ms-1">
+                                <input type="hidden" name="componentId" value="@component.Id" />
+                                <input type="hidden" name="quantity" value="1" />
+                                <button type="submit" class="btn btn-outline-success btn-sm ">Add to Cart</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

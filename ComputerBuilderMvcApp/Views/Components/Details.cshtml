@@ -11,11 +11,8 @@
     <div class="row">
         <div class="col-md-7">
             <dl class="row">
-                <dt class="col-sm-4">Component ID:</dt>
-                <dd class="col-sm-8">@Model.Id</dd>
 
-                <dt class="col-sm-4">Type:</dt>
-                <dd class="col-sm-8">@Model.Type</dd>
+                <img class="card-img-top" src="~/@Model.Image" alt="@Model.Name" style="max-width: 100px;">
 
                 <dt class="col-sm-4">Specification:</dt>
                 <dd class="col-sm-8">@Model.Spec</dd>
@@ -23,14 +20,11 @@
                 <dt class="col-sm-4">Price: $</dt>
                 <dd class="col-sm-8"><strong>@(Model.PriceCents / 100)</strong></dd>
 
-                @* You can add more properties from your Component model here if needed *@
             </dl>
         </div>
         <div class="col-md-5">
             @* Placeholder for component image if you add them later *@
             @* <img src="~/images/placeholder.png" alt="@Model.Name" class="img-fluid rounded mb-3" /> *@
-
-            <h4>Add to Cart</h4>
             <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post">
                 <input type="hidden" name="componentId" value="@Model.Id" />
                 <div class="input-group mb-3" style="max-width: 200px;">
