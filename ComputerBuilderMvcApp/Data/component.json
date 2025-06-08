@@ -4,7 +4,7 @@
     "id": "0d7f9afa-2efe-4fd9-b0fd-ba5663e0a524",
     "name": "Regular Joe",
     "priceCents": 499,
-    "spec": "",
+    "spec": "Who needs cable management?",
     "image": "images/products/case1.jpg"
   },
   {
@@ -12,7 +12,7 @@
     "id": "d37a651a-d501-483b-aae6-a9659b0757a0",
     "name": "Office Workstation",
     "priceCents": 4999,
-    "spec": "",
+    "spec": "Room to play with and make everything look nice!",
     "image": "images/products/case2.jpg"
   },
   {
@@ -20,7 +20,7 @@
     "id": "d37a651a-e601-483b-aae6-a9659b0757a0",
     "name": "1TB SSD",
     "priceCents": 4999,
-    "spec": "",
+    "spec": "Read: 6000MB/s; Write:4000MB/s M.2",
     "image": "images/products/SSD.jpg"
   },
   {
@@ -28,7 +28,7 @@
     "id": "d37a651a-x001-483b-aae6-a9659b0757a0",
     "name": "2TB SSD",
     "priceCents": 5999,
-    "spec": "",
+    "spec": "Read: 6000MB/s; Write:4000MB/s M.2",
     "image": "images/products/SSD.jpg"
   },
   {
@@ -36,7 +36,7 @@
     "id": "d339adf3-e004-4c20-a120-40e8874c66cb",
     "name": "Gaming Beast",
     "priceCents": 49999,
-    "spec": "",
+    "spec": "The monster truck of Cases, More RGB than Vegas!",
     "image": "images/products/case3.jpg"
   },
   {
@@ -124,7 +124,7 @@
     "id": "4f4fbcc2-4e72-45cc-935c-9e13d79cc57f",
     "name": "ASUS ROG Strix B550-F Gaming",
     "priceCents": 19999,
-    "spec": "",
+    "spec": "AM5 ATX",
     "image": "images/products/MB.jpg"
   },
   {
@@ -132,7 +132,7 @@
     "id": "a93a101d-79ef-4cf3-a6cf-6dbe532a1b4a",
     "name": "MSI MPG B550 Gaming Plus",
     "priceCents": 14999,
-    "spec": "",
+    "spec": " AM4 ATX",
     "image": "images/products/MB.jpg"
   },
   {
@@ -140,7 +140,7 @@
     "id": "e4f64a65-1377-42bc-89a5-e572d19252e2",
     "name": "Gigabyte B450 AORUS Elite",
     "priceCents": 7999,
-    "spec": "",
+    "spec": " AM4 ATX",
     "image": "images/products/MB.jpg"
   },
   {
@@ -148,7 +148,7 @@
     "id": "b0f17cc5-8b40-4ca5-9142-b61fe3d98c85",
     "name": "ASRock B450M Pro4",
     "priceCents": 7999,
-    "spec": "",
+    "spec": "AM4",
     "image": "images/products/MB.jpg"
   },
   {
@@ -156,7 +156,7 @@
     "id": "a82c6bac-3067-4e68-a5ba-d827ac0be010",
     "name": "ASUS TUF Gaming X570-Plus",
     "priceCents": 18999,
-    "spec": "",
+    "spec": "AM6",
     "image": "images/products/MB.jpg"
   },
   {
@@ -164,7 +164,7 @@
     "id": "aad29d11-ea98-41ee-9285-b916638cac4a",
     "name": "8GB DDR4",
     "priceCents": 5999,
-    "spec": "",
+    "spec": "3200MHz",
     "image": "images/products/RAM.jpg"
   },
   {
@@ -172,7 +172,7 @@
     "id": "5968897c-4d27-4872-89f6-5bcb052746d7",
     "name": "16GB DDR4",
     "priceCents": 8999,
-    "spec": "",
+    "spec": "3600MHz",
     "image":"images/products/RAM.jpg"
   },
   {
@@ -180,7 +180,7 @@
     "id": "3fdfe8d6-9a15-4979-b459-585b0d0545b9",
     "name": "32GB DDR4",
     "priceCents": 15999,
-    "spec": "",
+    "spec": "3600MHz",
     "image": "images/products/RAM.jpg"
   },
   {
@@ -188,7 +188,7 @@
     "id": "58b4fc92-e98c-42aa-8c55-b6b79996769a",
     "name": "64GB DDR4",
     "priceCents": 29999,
-    "spec": "",
+    "spec": "3600MHz",
     "image": "images/products/RAM.jpg"
   },
   {
@@ -196,7 +196,7 @@
     "id": "77919bbe-0e56-475b-adde-4f24dfed3a04",
     "name": "16GB DDR5",
     "priceCents": 11999,
-    "spec": "",
+    "spec": "6000MHz",
     "image": "images/products/RAM.jpg"
   },
   {
@@ -204,7 +204,7 @@
     "id": "dd82ca78-a18b-4e2a-9250-31e67412f98d",
     "name": "32GB DDR5",
     "priceCents": 23999,
-    "spec": "",
+    "spec": "6000MHz",
     "image": "images/products/RAM.jpg"
   },
   {
