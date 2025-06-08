@@ -2,23 +2,17 @@
 
 @{
     ViewData["Title"] = "Browse Components";
-    // Get the currently selected categories from the query string.
-    // The controller will bind multiple 'categories' query params to a List<string>.
-    var currentSelectedCategories = Context.Request.Query["categories"].ToList()
-                                     .Select(c => c.ToLowerInvariant()).ToList();
-    if (!currentSelectedCategories.Any()) {
-        // If no categories are in the query, default to "all" conceptually,
-        // meaning no specific filter is active via checkboxes yet.
-        // Or, if you want "all" to be a distinct state, handle accordingly.
-    }
 
-    var uniqueCategories = Model?.Select(c => c.Type).Where(t => !string.IsNullOrEmpty(t)).Distinct().OrderBy(t => t).ToList() ?? new List<string?>();
+    var currentSelectedCategories = Context.Request.Query["categories"].ToList()
+                                     .Select(c => c).ToList();
+    var uniqueCategories = Model?.Select(c => c.Type)
+                                 .Where(t => !string.IsNullOrEmpty(t))
+                                 .Distinct().OrderBy(t => t).ToList() ?? new List<string?>();
 }
 
 <h1>@ViewData["Title"]</h1>
 <p>Explore our wide range of PC components. Select categories to filter.</p>
 
-@* Filter Form with Checkboxes *@
 <form asp-controller="Components" asp-action="Index" method="get" class="mb-4">
     <div class="mb-2">
         <strong>Filter by Category:</strong>
@@ -39,7 +33,7 @@
     }
     <div class="mt-2">
         <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
-        <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary">Clear Filters</a> @* Clears by navigating without query params *@
+        <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary">Clear Filters</a> 
     </div>
 </form>
 
@@ -47,10 +41,7 @@
 
 @if (Model != null && Model.Any())
 {
-    var componentsToDisplay = Model; // The model is already filtered by the controller based on 'categories' query params
-
-    // Grouping is still useful if you want to display by category headings,
-    // even if multiple categories are shown.
+    var componentsToDisplay = Model; 
     var groupedComponents = componentsToDisplay.GroupBy(c => c.Type)
                                              .OrderBy(g => g.Key); 
 

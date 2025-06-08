@@ -3,9 +3,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize cart from localStorage
     updateCartItemCountInLayout();
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Function to update cart display
+       // Function to update cart display
     function updateCartDisplay(itemCount) {
         const cartBadge = document.getElementById('cartItemCountBadge'); // Or some other ID
         if (cartBadge) { // Check if the element exists!
@@ -14,29 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn("Cart badge element not found."); // Good for debugging
         }
     }
-    // Function to add item to cart
-    function addToCart(component) {
-        cart.push(component);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartDisplay();
-        console.log(component);
-    }
-
-    // Event listener for adding components to cart
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function() {
-            const component = {
-                id: this.dataset.id,
-                name: this.dataset.name,
-                price: parseFloat(this.dataset.price)
-            };
-            addToCart(component);
-            console.log(component);
-        });
-    });
-
     updateCartDisplay();
-
 });
 
 function updateCartItemCountInLayout() {

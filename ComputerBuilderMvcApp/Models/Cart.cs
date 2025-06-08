@@ -26,19 +26,19 @@ namespace ComputerBuilderMvcApp.Models
                 {
                     CartItemId = component.Id,
                     CartItemName = component.Name,
-                    CartItemPriceCents = component.PriceCents, // Store PriceCents directly
+                    CartItemPriceCents = component.PriceCents, 
                     CartItemQuantity = quantity
                 });
             }
         }
 
-        public void AddBuiltComputerToCart(List<Component> componentsInBuild, string buildNameForReferenceOnly = "")
+        public void AddBuiltComputerToCart(List<Component> componentsInBuild)
         {
-            if (componentsInBuild == null || !componentsInBuild.Any()) return;
+            if (componentsInBuild == null || componentsInBuild.Count == 0) return;
 
             foreach (var component in componentsInBuild)
             {
-                AddItem(component, 1); // Assumes quantity 1 for each part of a build
+                AddItem(component, 1) ; 
             }
         }
 

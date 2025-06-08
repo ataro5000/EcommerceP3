@@ -24,12 +24,12 @@ namespace ComputerBuilderMvcApp.Controllers
                 return Redirect(refererUrl ?? Url.Action("Index", "Components") ?? "/");
             }
 
-            var component = GetSystemComponentById(componentId); // Make sure this method exists and works
+            var component = GetSystemComponentById(componentId); 
 
             if (component != null)
             {
-                _cart.AddItem(component, quantity); // This is where the cart object is modified
-                SessionCart.SaveCart(HttpContext.Session, _cart); // <<<< THIS IS THE CRITICAL CALL
+                _cart.AddItem(component, quantity); 
+                SessionCart.SaveCart(HttpContext.Session, _cart); 
                 TempData["SuccessMessage"] = $"{component.Name} (x{quantity}) added to cart.";
             }
             else
@@ -37,7 +37,7 @@ namespace ComputerBuilderMvcApp.Controllers
                 TempData["ErrorMessage"] = "Component not found.";
             }
             string currentRefererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty;
-            SessionCart.SaveCart(HttpContext.Session, _cart); // <<<< THIS IS THE CRITICAL CALL
+            SessionCart.SaveCart(HttpContext.Session, _cart); 
 
             return Redirect(currentRefererUrl ?? Url.Action("Index", "Cart") ?? "/");
         }
@@ -46,8 +46,7 @@ namespace ComputerBuilderMvcApp.Controllers
         public IActionResult GetCartItemCount()
         {
             int itemCount = _cart.Items.Sum(item => item.CartItemQuantity);
-            System.Diagnostics.Debug.WriteLine($"[CartController] GetCartItemCount called. Items in cart object: {_cart.Items.Count}, Total quantity: {itemCount}"); // DEBUG LINE
-            return Json(new { itemCount = itemCount });
+            return Json(new { itemCount });
         }
 
         [HttpPost]
@@ -86,11 +85,7 @@ namespace ComputerBuilderMvcApp.Controllers
                 TempData["ErrorMessage"] = "Cannot process order for an empty cart.";
                 return RedirectToAction("Index");
             }
-
-            // Here you would typically save the order to a database, process payment, etc.
-            // For this example, we'll just generate an order ID and clear the cart.
             var orderId = Guid.NewGuid().ToString()[..8].ToUpper();
-
             _cart.Clear();
             SessionCart.SaveCart(HttpContext.Session, _cart); 
             TempData["SuccessMessage"] = $"Order {orderId} placed successfully!";
@@ -127,5 +122,7 @@ namespace ComputerBuilderMvcApp.Controllers
             }
             return null;
         }
+
+
     }
 }

@@ -18,7 +18,6 @@ C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\Compu
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\ComputerBuilderMvcApp.RazorAssemblyInfo.cs
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\scopedcss\bundle\ComputerBuilderMvcApp.styles.css
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\y8cznt7jat-60nuvsx1ld.gz
-C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\i9v8bx85ou-x04b41yy5y.gz
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\staticwebassets.build.json
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\staticwebassets.development.json
@@ -29,3 +28,4 @@ C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\refin
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\ComputerBuilderMvcApp.pdb
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\ComputerBuilderMvcApp.genruntimeconfig.cache
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\ref\ComputerBuilderMvcApp.dll
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\i9v8bx85ou-8uq4n9ijem.gz
