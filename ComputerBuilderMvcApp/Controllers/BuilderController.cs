@@ -99,9 +99,8 @@ namespace ComputerBuilderMvcApp.Controllers
                 return View("Index", submittedBuild);
             }
 
-            _cart.AddBuiltComputerToCart(chosenComponents, submittedBuild.Name ?? "Custom PC Build Components");
             SessionCart.SaveCart(HttpContext.Session, _cart);
-            TempData["SuccessMessage"] = $"Components for '{submittedBuild.Name ?? "Custom PC Build"}' have been added to your cart.";
+            
             return RedirectToAction("Index", "Cart");
         }
 

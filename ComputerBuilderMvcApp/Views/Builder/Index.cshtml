@@ -13,14 +13,9 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-<form asp-controller="Builder" asp-action="BuildAndAddToCart" method="post">
+<form asp-controller="ComputerBuilder" asp-action="BuildAndAddToCart" method="post">
     <div class="row">
         <div class="col-md-8">
-            @* Input for the build name *@
-            <div class="mb-3">
-                <label asp-for="Name" class="form-label">Build Name:</label>
-                <input asp-for="Name" class="form-control" />
-            </div>
 
             @* Loop through the defined component categories to create dropdowns *@
             @foreach (var category in Model.ComponentCategories)

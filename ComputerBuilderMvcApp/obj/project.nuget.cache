@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UCZPdDuNjTE=",
+  "dgSpecHash": "UG5tkvjbCME=",
   "success": true,
-  "projectFilePath": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMVCApp\\ComputerBuilderMvcApp.csproj",
+  "projectFilePath": "C:\\School\\COMP466\\TMA3A\\EcommerceP3\\ComputerBuilderMvcApp\\ComputerBuilderMvcApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Shane Edwards\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
