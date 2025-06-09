@@ -3,6 +3,10 @@ body {
     color: rgb(33, 33, 33);
     margin: 0;
   }
+  .main {
+    margin-top: 60px;
+    margin-bottom: 120px;
+  }
   
   p {
     margin: 0;

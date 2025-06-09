@@ -1,5 +1,14 @@
-.main {
-    margin-top: 60px;
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+p {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 20px;
 }
 .component-list {
     margin-left: 40px;
@@ -40,7 +49,7 @@
     justify-content: center;
     align-items: center;
     height: 200px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 }
 
 .product-image {
@@ -93,9 +102,11 @@
     position: fixed;
     display: inline-block;
     top: 0px; 
-    left: 300px; 
+    left: 200px; 
     z-index: 1000; 
 }
+
+
 
 .filter-button {
     background-color: inherit;

@@ -10,47 +10,48 @@
     .Distinct().OrderBy(t => t).ToList() ?? new List<string?>();
 }
 
-<div class="filter-dropdown-container ">
-    <button type="button" class="filter-button dropdown-toggle" id="filterDropdownButton">
-        <img src="~/images/icons/hamburger-menu.png" class="filter-icon" />
-    </button>
-    <div class="filter-dropdown-menu" id="filterDropdownMenu">
+    <div class="filter-dropdown-container ">
+        <button type="button" class="filter-button dropdown-toggle" id="filterDropdownButton">
+            <img src="~/images/icons/hamburger-menu.png" class="filter-icon" />
+        </button>
+        <div class="filter-dropdown-menu" id="filterDropdownMenu">
 
-        <form asp-controller="Components" asp-action="Index" method="get" class="dropdown-content">
-            @if (uniqueCategories.Any())
-            {
-                foreach (var categoryName in uniqueCategories)
+            <form asp-controller="Components" asp-action="Index" method="get" class="dropdown-content">
+                @if (uniqueCategories.Any())
                 {
-                    if (categoryName != null)
+                    foreach (var categoryName in uniqueCategories)
                     {
-                        var categoryLower = categoryName.ToLowerInvariant();
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="categories" value="@categoryName"
-                                   id="category-@categoryLower" @(currentSelectedCategories.Contains(categoryLower) ? "checked" : "") />
-                            <label class="form-check-label" for="category-@categoryLower">
-                                @categoryName
-                            </label>
-                        </div>
+                        if (categoryName != null)
+                        {
+                            var categoryLower = categoryName.ToLowerInvariant();
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="categories" value="@categoryName"
+                                    id="category-@categoryLower" @(currentSelectedCategories.Contains(categoryLower) ? "checked" : "") />
+                                <label class="form-check-label" for="category-@categoryLower">
+                                    @categoryName
+                                </label>
+                            </div>
+                        }
                     }
                 }
-            }
-            else
-            {
-                <p class="text-muted">No categories available to filter.</p>
-            }
-            <hr />
-            <div class="mt-2 d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
-                <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
-            </div>
-        </form>
+                else
+                {
+                    <p class="text-muted">No categories available to filter.</p>
+                }
+                <hr />
+                <div class="mt-2 d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
+                    <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-
-<h1>@ViewData["Title"]</h1>
-<p>Explore our wide range of PC components. Select categories to filter.</p>
 <section class="component-list">
+    <h1>@ViewData["Title"]</h1>
+    <p>Explore our wide range of PC components. Select categories to filter.</p>
+    <hr />
+
 
     @if (Model != null && Model.Any())
     {
@@ -61,7 +62,7 @@
         {
             if (!string.IsNullOrEmpty(group.Key))
             {
-                <h3>@group.Key</h3>
+                <h2>@group.Key</h2>
                 <div role="main" class="products-grid">
                     @foreach (var component in group.OrderBy(c => c.Name))
                     {

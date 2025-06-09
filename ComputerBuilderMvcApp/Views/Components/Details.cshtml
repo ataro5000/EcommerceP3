@@ -1,51 +1,43 @@
 @model ComputerBuilderMvcApp.Models.Component
+<section class="single-item-view">
 
-@{
-    ViewData["Title"] = Model?.Name ?? "Component Details";
-}
+    @{
+        ViewData["Title"] = Model?.Name ?? "Component Details";
+    }
 
-@if (Model != null)
-{
-    <h1>@Model.Name</h1>
-    <hr />
-    <div class="row">
-        <div class="col-md-7">
-            <dl class="row">
-
-                <img class="card-img-top" src="~/@Model.Image" alt="@Model.Name" style="max-width: 100px;">
-
-                <dt class="col-sm-4">Specification:</dt>
-                <dd class="col-sm-8">@Model.Spec</dd>
-
-                <dt class="col-sm-4">Price: $</dt>
-                <dd class="col-sm-8"><strong>@(Model.PriceCents / 100)</strong></dd>
-
-            </dl>
-        </div>
-        <div class="col-md-5">
-
-            <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post">
-                <input type="hidden" name="componentId" value="@Model.Id" />
-                <div class="input-group mb-3" style="max-width: 200px;">
-                    <label class="input-group-text" for="quantity-@Model.Id">Quantity</label>
-                    <input type="number" name="quantity" id="quantity-@Model.Id" value="1" min="1" class="form-control" />
+    @if (Model != null)
+    {
+        <h1 class="single-item-title">@Model.Name</h1>
+        <hr />
+        
+        <div class="single-item-container">
+            <div class="single-item-image-container">
+                <img class="single-item-image" src="~/@Model.Image" alt="@Model.Name">
+            </div>
+            <div class="single-item-details">
+                <div class="single-item-name">@Model.Name</div>
+                <div class="single-item-price">
+                    Price: $@(Model.PriceCents / 100m)
                 </div>
-                <button type="submit" class="btn btn-success">
-                    <i class="fas fa-cart-plus"></i> Add to Cart
-                </button>
-            </form>
+                <p class="single-item-spec">@Model.Spec</p>
+            </div>  
+           <div class="single-item-actions">
+                <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post">
+                    <input type="hidden" name="componentId" value="@Model.Id" />
+                    <div class="input-group">
+                        <label class="input-group-text" for="quantity-@Model.Id">Quantity</label>
+                        <input type="number" name="quantity" id="quantity-@Model.Id" value="1" min="1" class="form-control" />
+                    </div>
+                    <button type="submit" class="single-item-add-to-cart-button">Add to Cart</button>
+                </form>
+                <a asp-action="Index" asp-route-category="all" class="single-item-back-button">Back to Components</a>
+            </div>
         </div>
-    </div>
-
-    <div class="mt-4">
-        <a asp-action="Index" asp-route-category="@Model.Type" class="btn btn-outline-secondary">Back to @Model.Type
-            List</a>
-        <a asp-action="Index" asp-route-category="all" class="btn btn-outline-secondary ms-2">Back to All Components</a>
-    </div>
-}
-else
-{
-    <h1>Component Not Found</h1>
-    <p>The component you are looking for could not be found.</p>
-    <a asp-action="Index" class="btn btn-primary">Back to Components List</a>
-}
+    }
+    else
+    {
+        <h1 class="single-item-not-found-title">Component Not Found</h1>
+        <p class="single-item-not-found-message">The component you are looking for could not be found.</p>
+        <a asp-action="Index" class="btn btn-primary single-item-back-list-button">Back to Components List</a>
+    }
+</section>

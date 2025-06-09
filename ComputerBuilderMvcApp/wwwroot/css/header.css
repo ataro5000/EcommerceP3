@@ -54,7 +54,7 @@
   display: none;
 }
 
-@media (max-width: 575px) {
+@media (max-width: 700px) {
   .head-logo {
     display: none;
   }
@@ -69,7 +69,7 @@
   flex: 1;
   max-width: 850px;
   height: 60px;
-  margin-left: 10px;
+  margin-left: 60px;
   margin-right: 10px;
   display: flex;
 }
@@ -126,4 +126,154 @@
   
   width: 26px;
   text-align: center;
+}
+
+.filter-dropdown-container {
+  position: fixed;
+  display: inline-block;
+  top: 0px; 
+  left: 200px; 
+  z-index: 1000; 
+}
+
+@media (max-width: 700px) {
+  .filter-dropdown-container {
+    left: 1000px; 
+
+  }
+}
+
+.filter-button {
+  background-color: inherit;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+.filter-icon {
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+}
+
+.filter-dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 15px;
+  z-index: 1000;
+  width: 250px;
+}
+
+.filter-dropdown-container:hover .filter-dropdown-menu {
+  display: block;
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-check {
+  margin-bottom: 10px;
+}
+
+.form-check-input {
+  margin-right: 10px;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: #333;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 15px 0;
+}
+
+.btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+.btn-outline-secondary {
+  border: 1px solid #6c757d;
+  color: #6c757d;
+  background-color: transparent;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.mt-2.d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Footer styling */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+  border-top: 2px solid #444;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+footer .foot a {
+  color: #00bcd4;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+footer .foot a:hover {
+  color: #ff9800;
+}
+
+footer .foot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  footer .foot {
+      flex-direction: column;
+      gap: 5px;
+  }
 }

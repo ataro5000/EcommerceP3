@@ -16,7 +16,7 @@ namespace ComputerBuilderMvcApp.Controllers
         {
             var allComponents = ComponentsController.LoadComponents(categories);
             var random = new Random();
-            var featuredComponents = allComponents.OrderBy(c => random.Next()).Take(6).ToList();
+            var featuredComponents = allComponents.OrderBy(c => random.Next()).Take(4).ToList();
             
             return View(featuredComponents);
         }
