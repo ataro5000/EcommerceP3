@@ -30,8 +30,3 @@ This project is an ASP.NET Core MVC application that allows users to browse and 
 - Select a computer to view its details and customize components.
 - Add items to the cart and proceed to checkout for order confirmation.
 
-## Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
-
-## License
-This project is licensed under the MIT License.

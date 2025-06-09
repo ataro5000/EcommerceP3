@@ -23,8 +23,7 @@
             </dl>
         </div>
         <div class="col-md-5">
-            @* Placeholder for component image if you add them later *@
-            @* <img src="~/images/placeholder.png" alt="@Model.Name" class="img-fluid rounded mb-3" /> *@
+
             <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post">
                 <input type="hidden" name="componentId" value="@Model.Id" />
                 <div class="input-group mb-3" style="max-width: 200px;">

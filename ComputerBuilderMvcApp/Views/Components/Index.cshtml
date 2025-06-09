@@ -4,81 +4,97 @@
     ViewData["Title"] = "Browse Components";
 
     var currentSelectedCategories = Context.Request.Query["categories"].ToList()
-                                     .Select(c => c).ToList();
+    .Select(c => c).ToList();
     var uniqueCategories = Model?.Select(c => c.Type)
-                                 .Where(t => !string.IsNullOrEmpty(t))
-                                 .Distinct().OrderBy(t => t).ToList() ?? new List<string?>();
+    .Where(t => !string.IsNullOrEmpty(t))
+    .Distinct().OrderBy(t => t).ToList() ?? new List<string?>();
 }
+
+<div class="filter-dropdown-container ">
+    <button type="button" class="filter-button dropdown-toggle" id="filterDropdownButton">
+        <img src="~/images/icons/hamburger-menu.png" class="filter-icon" />
+    </button>
+    <div class="filter-dropdown-menu" id="filterDropdownMenu">
+
+        <form asp-controller="Components" asp-action="Index" method="get" class="dropdown-content">
+            @if (uniqueCategories.Any())
+            {
+                foreach (var categoryName in uniqueCategories)
+                {
+                    if (categoryName != null)
+                    {
+                        var categoryLower = categoryName.ToLowerInvariant();
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="categories" value="@categoryName"
+                                   id="category-@categoryLower" @(currentSelectedCategories.Contains(categoryLower) ? "checked" : "") />
+                            <label class="form-check-label" for="category-@categoryLower">
+                                @categoryName
+                            </label>
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <p class="text-muted">No categories available to filter.</p>
+            }
+            <hr />
+            <div class="mt-2 d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
+                <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <h1>@ViewData["Title"]</h1>
 <p>Explore our wide range of PC components. Select categories to filter.</p>
+<section class="component-list">
 
-<form asp-controller="Components" asp-action="Index" method="get" class="mb-4">
-    <div class="mb-2">
-        <strong>Filter by Category:</strong>
-    </div>
-    @foreach (var categoryName in uniqueCategories)
+    @if (Model != null && Model.Any())
     {
-        if (categoryName != null)
+        var groupedComponents = Model.GroupBy(c => c.Type)
+        .OrderBy(g => g.Key);
+
+        foreach (var group in groupedComponents)
         {
-            var categoryLower = categoryName.ToLowerInvariant();
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="categories" value="@categoryName" id="category-@categoryLower"
-                       @(currentSelectedCategories.Contains(categoryLower) ? "checked" : "") />
-                <label class="form-check-label" for="category-@categoryLower">
-                    @categoryName
-                </label>
-            </div>
-        }
-    }
-    <div class="mt-2">
-        <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
-        <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary">Clear Filters</a> 
-    </div>
-</form>
-
-<hr />
-
-@if (Model != null && Model.Any())
-{
-    var componentsToDisplay = Model; 
-    var groupedComponents = componentsToDisplay.GroupBy(c => c.Type)
-                                             .OrderBy(g => g.Key); 
-
-    foreach (var group in groupedComponents)
-    {
-        if (!string.IsNullOrEmpty(group.Key))
-        {
-            <h3>@group.Key</h3>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
-                @foreach (var component in group.OrderBy(c => c.Name)) 
-                {
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="card-body d-flex flex-column">
-                                <img class="card-img-top" src="@component.Image" alt="@component.Name" style="max-width: 100px;"> @* Adjusted image path *@
-                                <h5 class="card-name">@component.Name</h5>
-                                <h5 class="card-title">@component.Spec</h5>
-                                <p class="card-text">Price: $@(component.PriceCents / 100m)</p>
-                                <div class="mt-auto">
-                                    <a asp-controller="Components" asp-action="Details" asp-route-id="@component.Id"
-                                        class="btn btn-outline-primary btn-sm">View Details</a>
-                                    <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post"
-                                        style="display:inline;" class="ms-1">
-                                        <input type="hidden" name="componentId" value="@component.Id" />
-                                        <input type="hidden" name="quantity" value="1" />
-                                        <button type="submit" class="btn btn-outline-success btn-sm ">Add to Cart</button>
-                                    </form>
+            if (!string.IsNullOrEmpty(group.Key))
+            {
+                <h3>@group.Key</h3>
+                <div role="main" class="products-grid">
+                    @foreach (var component in group.OrderBy(c => c.Name))
+                    {
+                        <div class="product-container">
+                            <a asp-controller="Components" asp-action="Details" asp-route-id="@component.Id" class="product-link">
+                                <div class="product-image-container">
+                                    <img class="product-image" src="@component.Image" alt="@component.Name">
                                 </div>
+                                <div class="product-details">
+                                    <div class="product-name limit-text-to-2-lines product-link">
+                                        @component.Name
+                                    </div>
+                                    <div class="product-price">
+                                        Price: $@(component.PriceCents / 100m)
+                                    </div>
+                                    <p class="product-spec">@component.Spec</p>
+                                </div>
+                            </a>
+                            <div class="product-actions">
+                                <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post" style="display:inline;">
+                                    <input type="hidden" name="componentId" value="@component.Id" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                                </form>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
         }
     }
-}
-else
-{
-    <p>No components found for the selected criteria, or no categories selected.</p>
-}
+    else
+    {
+        <p>No components found for the selected criteria, or no categories selected.</p>
+    }
+</section>

@@ -2,67 +2,59 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ComputerBuilder</title>
+    <link rel="stylesheet" href="~/css/component.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/logo.png" alt="ComputerBuilder Logo" style="height: 30px; margin-right: 10px;" />
-                </a>
+    <div class="head">
+        <div class="head-left-section">
+            <a class="head-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <img class="head-logo" src="~/images/icons/logo.png">
+                <img class="mobile-logo" src="~/images/icons/mobile-logo-white.png">
+            </a>
+        </div>
+        <div class="head-middle-section"></div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <a class="head-link orders-link" asp-area="" asp-controller="Components" asp-action="Index">Components</a>
+        <a class="head-link orders-link" asp-area="" asp-controller="Builder" asp-action="Index">PC Builder</a>
+        <div class="head-right-section">
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Components" asp-action="Index">Components</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Builder" asp-action="Index">PC Builder</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
-                                    Cart <span class="badge bg-secondary" id="cartItemCountBadge">0</span>
-                                </a>
-                            </li>
-                        </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @TempData["SuccessMessage"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @TempData["ErrorMessage"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-            @RenderBody()
-        </main>
+            <a class="head-link cart-link" asp-area="" asp-controller="Cart" asp-action="Index">
+                <img class="cart-icon" src="~/images/icons/cart-icon.png">
+                <div class="cart-quantity" id="cartItemCountBadge">0</div>
+                <div class="cart-text">Cart</div>
+            </a>
+        </div>
     </div>
-
-    <footer class="border-top footer text-muted mt-auto py-3 bg-light">
-        <div class="container">
-            &copy; @DateTime.Now.Year - ComputerBuilder 
+    <div class="main">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @RenderBody()
+    </div>
+    <footer>
+        <div class="foot">
+            &copy; @DateTime.Now.Year - ComputerBuilder
             &nbsp;|&nbsp; <a asp-area="" asp-controller="Home" asp-action="Feedback">Feedback</a>
             &nbsp;|&nbsp; <a asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
         </div>
@@ -70,4 +62,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
