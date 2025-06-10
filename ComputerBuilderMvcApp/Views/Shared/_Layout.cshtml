@@ -6,7 +6,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <title>@ViewData["Title"] - ComputerBuilder</title>
+    <link rel="stylesheet" href="/css/builder.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/component.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -38,18 +40,6 @@
         </div>
     </div>
     <div class="main">
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["SuccessMessage"]
-            </div>
-        }
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                @TempData["ErrorMessage"]
-            </div>
-        }
         @RenderBody()
     </div>
     <footer>
@@ -57,6 +47,7 @@
             &copy; @DateTime.Now.Year - ComputerBuilder
             &nbsp;|&nbsp; <a asp-area="" asp-controller="Home" asp-action="Feedback">Feedback</a>
             &nbsp;|&nbsp; <a asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
+            &nbsp;|&nbsp; <a href="#top">Back to Top</a>
         </div>
     </footer>
     <script src="~/js/site.js" asp-append-version="true"></script>

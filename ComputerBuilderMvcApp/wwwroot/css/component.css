@@ -87,15 +87,21 @@ p {
     background-color: #007bff;
     color: white;
     border: none;
+    font-size: x-large;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    width: 160px;
+    height: 40px;
     transition: background-color 0.2s;
 }
+
+
 
 .add-to-cart-button:hover {
     background-color: #0056b3;
 }
+
 
 .filter-dropdown-container {
     position: fixed;
@@ -201,3 +207,13 @@ hr {
     justify-content: space-between;
     align-items: center;
 }
+
+.added-to-cart {
+    color: rgb(6, 125, 98);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    opacity: 0;
+  }

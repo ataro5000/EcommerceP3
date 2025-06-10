@@ -25,6 +25,7 @@ namespace ComputerBuilderMvcApp.Models
                 Items.Add(new CartItem
                 {
                     CartItemId = component.Id,
+                    CartItemImage = component.Image,
                     CartItemName = component.Name,
                     CartItemPriceCents = component.PriceCents, 
                     CartItemQuantity = quantity

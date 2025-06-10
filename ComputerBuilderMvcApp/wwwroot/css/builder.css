@@ -1,0 +1,120 @@
+/* General styling for the builder form */
+.builder-form {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Styling for form groups */
+.builder-form .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 220px;
+}
+
+/* Labels for dropdowns */
+.builder-form .form-group label {
+    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 15px;
+    text-align: right;
+}
+
+/* Dropdown styling */
+.builder-form .form-group select {
+    flex: 2;
+    height: 40px;
+    font-size: 16px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Build summary section */
+.builder-summary {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.builder-summary h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.builder-summary dl {
+    margin: 0;
+}
+
+.builder-summary dt {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.builder-summary dd {
+    margin: 0 0 10px 0;
+}
+
+/* Total price display */
+.builder-total-price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Buttons */
+.builder-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.builder-buttons .btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.builder-buttons .btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.builder-buttons .btn-success:hover {
+    background-color: #218838;
+}
+
+.builder-buttons .btn-secondary {
+    background-color: #96443e;
+    color: white;
+    border: none;
+    text-decoration: none;
+}
+
+.builder-buttons .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .builder-form .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .builder-form .form-group label {
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    .builder-buttons {
+        flex-direction: column;
+    }
+}

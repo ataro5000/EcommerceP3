@@ -31,6 +31,10 @@
                         <p class="product-spec">@component.Spec</p>
                     </div>
                 </a>
+                <div class="added-to-cart">
+                    <img src="images/icons/checkmark.png">
+                    Added
+                </div>
                 <div class="product-actions">
                     <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post" style="display:inline;">
                         <input type="hidden" name="componentId" value="@component.Id" />

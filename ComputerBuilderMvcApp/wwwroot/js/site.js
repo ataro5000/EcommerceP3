@@ -1,32 +1,53 @@
-
 document.addEventListener('DOMContentLoaded', function () {
-    const filterButton = document.getElementById('filterDropdownButton');
-    const filterMenu = document.getElementById('filterDropdownMenu');
+    const addedToCartElements = document.querySelectorAll(".added-to-cart");
 
-    if (filterButton && filterMenu) {
-        filterButton.addEventListener('click', function (event) {
-            event.stopPropagation(); // Prevent click from immediately closing if bubbling to document
-            filterMenu.classList.toggle('show');
-        });
+    addedToCartElements.forEach(element => {
+        element.style.opacity = "0"; 
+        element.style.transition = "opacity 0.5s ease-in-out"; 
+    });
 
-        // Close the dropdown if the user clicks outside of it
-        document.addEventListener('click', function (event) {
-            if (filterMenu.classList.contains('show') && 
-                !filterButton.contains(event.target) && 
-                !filterMenu.contains(event.target)) {
-                filterMenu.classList.remove('show');
+    document.querySelectorAll(".add-to-cart-button").forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); 
+
+            const productContainer = this.closest(".product-container");
+            const addedToCartElement = productContainer.querySelector(".added-to-cart");
+            const form = this.closest("form");
+
+            if (addedToCartElement) {
+                addedToCartElement.style.opacity = "1"; 
+                setTimeout(() => {
+                    addedToCartElement.style.opacity = "0"; 
+                }, 2000);
             }
+
+
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateCartItemCountInLayout(); 
+
+                    } else {
+                        console.error('Error adding item to cart:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during AJAX request:', error);
+                });
         });
-    }
+    });
 
     updateCartItemCountInLayout();
 });
 
 function updateCartItemCountInLayout() {
     fetch('/Cart/GetCartItemCount')
-        .then(response => {
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             const cartBadge = document.getElementById('cartItemCountBadge');
             if (cartBadge) {
@@ -35,7 +56,5 @@ function updateCartItemCountInLayout() {
         })
         .catch(error => {
             console.error('Error fetching or processing cart item count:', error);
-            const cartBadge = document.getElementById('cartItemCountBadge');
-
         });
 }

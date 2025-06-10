@@ -15,31 +15,25 @@ namespace ComputerBuilderMvcApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddSingleComponentToCart(string componentId, int quantity = 1)
+        public JsonResult AddSingleComponentToCart(string componentId, int quantity = 1)
         {
             if (string.IsNullOrEmpty(componentId))
             {
-                TempData["ErrorMessage"] = "Component ID is missing.";
-                string refererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty;
-                return Redirect(refererUrl ?? Url.Action("Index", "Components") ?? "/");
+                return Json(new { success = false, message = "Component ID is missing." });
             }
 
-            var component = GetSystemComponentById(componentId); 
+            var component = GetSystemComponentById(componentId);
 
             if (component != null)
             {
-                _cart.AddItem(component, quantity); 
-                SessionCart.SaveCart(HttpContext.Session, _cart); 
-                TempData["SuccessMessage"] = $"{component.Name} (x{quantity}) added to cart.";
+                _cart.AddItem(component, quantity);
+                SessionCart.SaveCart(HttpContext.Session, _cart);
+                return Json(new { success = true, message = $"{component.Name} (x{quantity}) added to cart." });
             }
             else
             {
-                TempData["ErrorMessage"] = "Component not found.";
+                return Json(new { success = false, message = "Component not found." });
             }
-            string currentRefererUrl = Request.Headers.Referer.FirstOrDefault() ?? string.Empty;
-            SessionCart.SaveCart(HttpContext.Session, _cart); 
-
-            return Redirect(currentRefererUrl ?? Url.Action("Index", "Cart") ?? "/");
         }
 
         [HttpGet]
@@ -78,7 +72,7 @@ namespace ComputerBuilderMvcApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProcessOrder() 
+        public IActionResult ProcessOrder()
         {
             if (!_cart.Items.Any())
             {
@@ -87,7 +81,7 @@ namespace ComputerBuilderMvcApp.Controllers
             }
             var orderId = Guid.NewGuid().ToString()[..8].ToUpper();
             _cart.Clear();
-            SessionCart.SaveCart(HttpContext.Session, _cart); 
+            SessionCart.SaveCart(HttpContext.Session, _cart);
             TempData["SuccessMessage"] = $"Order {orderId} placed successfully!";
             return RedirectToAction("OrderConfirmation", new { id = orderId });
         }
