@@ -11,8 +11,7 @@ p {
     margin-bottom: 20px;
 }
 .component-list {
-    margin-left: 40px;
-    margin-right: 40px;
+    margin: auto;
 }
 
 .products-grid {

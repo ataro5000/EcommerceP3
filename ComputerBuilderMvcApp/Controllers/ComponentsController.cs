@@ -57,7 +57,7 @@ namespace ComputerBuilderMvcApp.Controllers
             {
                 System.Diagnostics.Debug.WriteLine($"Error: {componentFileName} not found in {baseDir}");
             }
-            if (categoriesToFilter != null && categoriesToFilter.Any())
+            if (categoriesToFilter != null && categoriesToFilter.Count != 0)
                 {
                     var lowerCategoriesToFilter = categoriesToFilter.Select(c => c.ToLowerInvariant()).ToList();
                     return [.. allLoadedComponents.Where(c => c.Type != null && lowerCategoriesToFilter.Contains(c.Type.ToLowerInvariant()))];
