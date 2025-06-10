@@ -32,6 +32,11 @@ namespace ComputerBuilderMvcApp.Controllers
 
             return View();
         }
+        public IActionResult FeedbackThanks()
+        {
+
+            return View();
+        }
         
         [HttpPost]
         public IActionResult SubmitFeedback(FeedbackViewModel model)
@@ -39,7 +44,7 @@ namespace ComputerBuilderMvcApp.Controllers
             if(ModelState.IsValid)
             {
                 TempData["SuccessMessage"] = "Thank you for your feedback!";
-                return RedirectToAction("Index");
+                return RedirectToAction("FeedbackThanks");
             }
             return View("Feedback", model);
         }

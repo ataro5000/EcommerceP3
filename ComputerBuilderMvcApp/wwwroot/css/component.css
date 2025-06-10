@@ -1,15 +1,16 @@
-
 h1 {
     text-align: center;
     font-size: 3rem;
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 p {
     text-align: center;
     font-size: 1rem;
     margin-bottom: 20px;
 }
+
 .component-list {
     margin: auto;
 }
@@ -106,9 +107,9 @@ p {
 .filter-dropdown-container {
     position: fixed;
     display: inline-block;
-    top: 0px; 
-    left: 200px; 
-    z-index: 1000; 
+    top: 0px;
+    left: 200px;
+    z-index: 1000;
 }
 
 
@@ -216,4 +217,56 @@ hr {
     justify-content: center;
     margin-bottom: 8px;
     opacity: 0;
-  }
+}
+
+
+.checkout-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-container h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.checkout-container p {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #333;
+    flex: 1;
+}
+
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    flex: 3;
+    min-width: 500px;
+    text-align: left;
+}
+
+.form-actions {
+    text-align: left;
+    margin-top: 30px;
+}
+

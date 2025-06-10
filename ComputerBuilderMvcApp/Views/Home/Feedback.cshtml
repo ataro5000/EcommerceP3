@@ -8,26 +8,26 @@
 <p>We'd love to hear from you! Please fill out the form below.</p>
 <hr />
 
-<div class="row">
-    <div class="col-md-6">
+
+    <div class="checkout-container">
         <form asp-action="SubmitFeedback" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
-            <div class="mb-3">
+            <div class="form-group">
                 <label asp-for="Name" class="form-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" required/>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" required/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label asp-for="Subject" class="form-label"></label>
-                <input asp-for="Subject" class="form-control" />
+                <input asp-for="Subject" class="form-control" required/>
                 <span asp-validation-for="Subject" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label asp-for="Message" class="form-label"></label>
                 <textarea asp-for="Message" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Message" class="text-danger"></span>
@@ -35,4 +35,3 @@
             <button type="submit" class="btn btn-primary">Submit Feedback</button>
         </form>
     </div>
-</div>

@@ -96,6 +96,8 @@
     color: white;
     border: none;
     text-decoration: none;
+    text-align: center;
+    justify-content: center;
 }
 
 .builder-buttons .btn-secondary:hover {
