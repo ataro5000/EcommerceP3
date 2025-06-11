@@ -1,6 +1,8 @@
+// This file defines the CartController class, which manages the shopping cart functionality.
+// It handles adding, removing, and viewing items in the cart, as well as processing orders and displaying order confirmations.
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
-using Newtonsoft.Json; // Required for JsonConvert
+using Newtonsoft.Json; 
 
 
 namespace ComputerBuilderMvcApp.Controllers
@@ -9,11 +11,15 @@ namespace ComputerBuilderMvcApp.Controllers
     {
         private readonly Cart _cart = cart;
 
+        // Displays the shopping cart page.
         public IActionResult Index()
         {
             return View(_cart);
         }
 
+        // Adds a single component to the shopping cart.
+        // Expects a componentId and an optional quantity.
+        // Returns a JSON response indicating success or failure.
         [HttpPost]
         public JsonResult AddSingleComponentToCart(string componentId, int quantity = 1)
         {
@@ -36,6 +42,8 @@ namespace ComputerBuilderMvcApp.Controllers
             }
         }
 
+        // Retrieves the current number of items in the cart and the total price.
+        // Returns a JSON response with the item count and total cart price.
         [HttpGet]
         public IActionResult GetCartItemCount()
         {
@@ -44,6 +52,8 @@ namespace ComputerBuilderMvcApp.Controllers
             return Json(new { itemCount, totalCartPrice });
         }
 
+        // Removes an item from the shopping cart based on its cartItemId.
+        // Redirects to the cart index page with a success or error message.
         [HttpPost]
         public IActionResult RemoveFromCart(string cartItemId)
         {
@@ -59,6 +69,8 @@ namespace ComputerBuilderMvcApp.Controllers
             return RedirectToAction("Index");
         }
 
+        // Displays the checkout page.
+        // If the cart is empty, it redirects to the cart index page with an error message.
         public IActionResult Checkout()
         {
             if (!_cart.Items.Any())
@@ -72,6 +84,9 @@ namespace ComputerBuilderMvcApp.Controllers
             return View(_cart);
         }
 
+        // Processes the order.
+        // If the cart is empty, it redirects to the cart index page with an error message.
+        // Otherwise, it clears the cart, generates an order ID, and redirects to the order confirmation page.
         [HttpPost]
         public IActionResult ProcessOrder()
         {
@@ -87,12 +102,16 @@ namespace ComputerBuilderMvcApp.Controllers
             return RedirectToAction("OrderConfirmation", new { id = orderId });
         }
 
+        // Displays the order confirmation page.
+        // Takes an order ID as a parameter.
         public IActionResult OrderConfirmation(string id)
         {
             ViewBag.OrderId = id;
             return View();
         }
 
+        // Retrieves a system component by its ID from the component.json data file.
+        // Returns the Component object if found, otherwise null.
         private static Component? GetSystemComponentById(string componentId)
         {
             var baseDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");

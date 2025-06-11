@@ -1,13 +1,24 @@
+// This file defines the BuilderController class, which is responsible for handling computer building functionalities.
+// It allows users to select components for a custom computer build, calculates the total price, and adds the build to the shopping cart.
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
 
 
 namespace ComputerBuilderMvcApp.Controllers
 {
+
+    /// Controller responsible for the computer building process.
+
     public class BuilderController(Cart cart) : Controller
     {
         private readonly Cart _cart = cart;
 
+
+        /// Displays the computer builder page.
+        /// It loads available components for predefined categories and initializes the view model.
+
+        /// A list of component categories to display. If null or empty, default categories are used.
+        /// The view for the computer builder page, populated with component data.
         public IActionResult Index(List<string> categories)
         {
             var allComponents = ComponentsController.LoadComponents(categories);
@@ -39,6 +50,14 @@ namespace ComputerBuilderMvcApp.Controllers
             return View(viewModel);
         }
 
+
+        /// Handles the submission of a computer build.
+        /// It validates the submitted build, adds the selected components to the cart, and redirects the user.
+
+        /// The ComputerBuilder model containing the user's selected components.
+
+        /// Redirects to the cart index page if the build is successfully added.
+        /// Redirects back to the builder index page with an error message if no components are selected or if no valid components are found.
 
         [HttpPost]
         public IActionResult BuildAndAddToCart(ComputerBuilder submittedBuild)
@@ -82,6 +101,12 @@ namespace ComputerBuilderMvcApp.Controllers
             return RedirectToAction("Index", "Cart", new { message = "Build added to cart successfully!" });
         }
 
+
+        /// Calculates the total price of the selected components in a build.
+
+        /// A dictionary mapping component categories to the IDs of selected components.
+        /// A list of all available components.
+        /// The total price of the selected components in currency (e.g., dollars).
         private static decimal CalculateBuildPrice(Dictionary<string, string?> selectedIds, List<Component> allComponents)
         {
             decimal totalPriceInCurrency = 0; 

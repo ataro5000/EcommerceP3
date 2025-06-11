@@ -1,18 +1,24 @@
+// This file defines the Cart class, which represents a shopping cart.
+// It manages a list of cart items, calculates the total price, and provides methods for adding, removing, and clearing items.
 namespace ComputerBuilderMvcApp.Models
 {
     public class Cart
     {
+        // Constructor for the Cart class.
         public Cart()
         {
 
         }   
+        // Gets or sets the list of items in the cart.
         public List<CartItem> Items { get; set; } = [];
 
-        // TotalAmount should be in the main currency unit (e.g., dollars)
+        // Calculates the total amount of the cart in the main currency unit (e.g., dollars).
         public decimal TotalAmountAsCurrency => Items.Sum(item => item.SubtotalAsCurrency);
         
+        // Calculates the total amount of the cart before taxes, converting from cents to the main currency unit.
         public decimal TotalAmountBeforeTaxe => Items.Sum(item => item.SubtotalInCents / 100.0m);
         
+        // Adds a component to the cart or updates its quantity if it already exists.
         public void AddItem(Component component, int quantity = 1)
         {
             if (component == null || string.IsNullOrEmpty(component.Id)) return;
@@ -35,6 +41,8 @@ namespace ComputerBuilderMvcApp.Models
             }
         }
 
+        // Adds a list of components (representing a built computer) to the cart.
+        // Each component is added as a separate item with a quantity of 1.
         public void AddBuiltComputerToCart(List<Component> componentsInBuild)
         {
             if (componentsInBuild == null || componentsInBuild.Count == 0) return;
@@ -45,6 +53,7 @@ namespace ComputerBuilderMvcApp.Models
             }
         }
 
+        // Removes an item from the cart based on its cart item ID.
         public void RemoveItem(string cartItemId)
         {
             var itemToRemove = Items.FirstOrDefault(i => i.CartItemId == cartItemId);
@@ -54,6 +63,7 @@ namespace ComputerBuilderMvcApp.Models
             }
         }
 
+        // Clears all items from the cart.
         public void Clear()
         {
             Items.Clear();

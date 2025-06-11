@@ -1,7 +1,9 @@
+// This file is the main entry point for the ASP.NET Core application.
+// It configures services, defines the HTTP request pipeline, and sets up routing.
+// It also includes a static helper class `SessionCart` for managing the shopping cart in the session.
 using System.Diagnostics;
-using ComputerBuilderMvcApp.Models; // If Cart is a service
-using Microsoft.AspNetCore.Http; // For IHttpContextAccessor
-using Newtonsoft.Json; // For JsonConvert
+using ComputerBuilderMvcApp.Models; 
+using Newtonsoft.Json; 
 
 Debug.WriteLine(">>>> Program.cs execution started <<<<");
 
@@ -10,129 +12,42 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDistributedMemoryCache(); // For session state
+// Configure session services.
+builder.Services.AddDistributedMemoryCache(); 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Sets session timeout.
+    options.Cookie.HttpOnly = true; // Makes the session cookie inaccessible to client-side scripts.
+    options.Cookie.IsEssential = true; // Marks the session cookie as essential for GDPR compliance.
 });
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-// This line registers your Cart to be created/retrieved by SessionCart.GetCart for each request.
-builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+// Register the Cart service with a scoped lifetime, using SessionCart.GetCart to create/retrieve instances.
+builder.Services.AddScoped<Cart>(SessionCart.GetCart);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    app.UseExceptionHandler("/Home/Error"); // Uses a generic error handler page in production.
+
+    app.UseHsts(); // Adds HTTP Strict Transport Security Protocol (HSTS) headers.
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseHttpsRedirection(); // Redirects HTTP requests to HTTPS.
+app.UseStaticFiles(); // Enables serving static files (e.g., CSS, JavaScript, images).
 
-app.UseRouting();
+app.UseRouting(); // Adds routing middleware to the pipeline.
 
-app.UseSession(); // IMPORTANT: This must be called before UseEndpoints or MapControllerRoute
+app.UseSession(); // Enables session state. This must be called before UseAuthorization and MapControllerRoute.
 
-app.UseAuthorization();
+app.UseAuthorization(); // Adds authorization middleware.
 
+// Configures the default controller route.
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
-
-public static class SessionCart
-{
-    private const string CartSessionKey = "Cart";
-
-    public static Cart GetCart(IServiceProvider services)
-    {
-        ISession? session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext?.Session;
-        Cart? cart = null;
-
-        if (session == null)
-        {
-            Debug.WriteLine("[SessionCart.GetCart] ISession is NULL. Returning new Cart.");
-            return new Cart(); 
-        }
-
-        string? cartJson = session.GetString(CartSessionKey);
-        Debug.WriteLine($"[SessionCart.GetCart] Retrieved cartJson from session: '{cartJson ?? "NULL or EMPTY"}'");
-
-        if (!string.IsNullOrEmpty(cartJson))
-        {
-            try
-            {
-                cart = JsonConvert.DeserializeObject<Cart>(cartJson);
-                if (cart == null)
-                {
-                    Debug.WriteLine("[SessionCart.GetCart] Deserialized cart is NULL. cartJson might be invalid or represent null.");
-                }
-                else
-                {
-                    Debug.WriteLine($"[SessionCart.GetCart] Successfully deserialized cart. Item count: {cart.Items.Count}");
-                }
-            }
-            catch (JsonException ex)
-            {
-                Debug.WriteLine($"[SessionCart.GetCart] JSON Deserialization Error: {ex.Message}. Returning new Cart.");
-                cart = new Cart(); 
-            }
-        }
-        
-        if (cart == null) 
-        {
-            Debug.WriteLine("[SessionCart.GetCart] Cart is null after attempting to load from session. Creating new Cart.");
-            cart = new Cart();
-            // MODIFICATION: Immediately save the new (empty) cart to session
-            if (session != null) 
-            {
-                 try
-                 {
-                    string newCartJson = JsonConvert.SerializeObject(cart);
-                    session.SetString(CartSessionKey, newCartJson); 
-                    Debug.WriteLine($"[SessionCart.GetCart] Saved newly created empty cart to session. JSON: '{newCartJson}'");
-                 }
-                 catch (JsonException ex)
-                 {
-                    Debug.WriteLine($"[SessionCart.GetCart] JSON Serialization Error when saving new cart: {ex.Message}.");
-                 }
-            }
-        }
-        return cart;
-    }
+app.Run(); // Starts the application.
 
 
-    public static void SaveCart(ISession session, Cart cart)
-    {
-        if (session == null)
-        {
-            Debug.WriteLine("[SessionCart.SaveCart] ISession is NULL. Cannot save cart.");
-            return;
-        }
-
-        if (cart == null)
-        {
-            Debug.WriteLine("[SessionCart.SaveCart] Cart object is NULL. Cannot serialize and save.");
-            // Optionally, remove the key if the cart is null
-            // session.Remove(CartSessionKey);
-            return;
-        }
-
-        try
-        {
-            string cartJsonToSave = JsonConvert.SerializeObject(cart);
-            session.SetString(CartSessionKey, cartJsonToSave);
-            Debug.WriteLine($"[SessionCart.SaveCart] Saved cart to session. Item count: {cart.Items.Count}, JSON: '{cartJsonToSave}'");
-        }
-        catch (JsonException ex)
-        {
-            Debug.WriteLine($"[SessionCart.SaveCart] JSON Serialization Error: {ex.Message}. Cart NOT saved.");
-        }
-    }
-}

@@ -1,4 +1,11 @@
-
+@*
+    This view presents a form for users to submit feedback.
+    It includes fields for the user's name, email, subject, and message.
+    The form uses ASP.NET Core tag helpers for model binding and validation.
+    Validation messages are displayed for individual fields if errors occur.
+    A summary of model-only validation errors can also be displayed.
+    Upon submission, the form posts data to the "SubmitFeedback" action in the HomeController.
+*@
 @model ComputerBuilderMvcApp.ViewModels.FeedbackViewModel
 @{
     ViewData["Title"] = "Feedback";
@@ -8,30 +15,30 @@
 <p>We'd love to hear from you! Please fill out the form below.</p>
 <hr />
 
-
-    <div class="checkout-container">
-        <form asp-action="SubmitFeedback" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            <div class="form-group">
-                <label asp-for="Name" class="form-label"></label>
-                <input asp-for="Name" class="form-control" required/>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" required/>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Subject" class="form-label"></label>
-                <input asp-for="Subject" class="form-control" required/>
-                <span asp-validation-for="Subject" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Message" class="form-label"></label>
-                <textarea asp-for="Message" class="form-control" rows="5"></textarea>
-                <span asp-validation-for="Message" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Feedback</button>
-        </form>
-    </div>
+<div class="checkout-container">
+    <form asp-action="SubmitFeedback" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+        <div class="form-group">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" required/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" required/>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Subject" class="form-label"></label>
+            <input asp-for="Subject" class="form-control" required/>
+            <span asp-validation-for="Subject" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Message" class="form-label"></label>
+            <textarea asp-for="Message" class="form-control" rows="5" required></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+    </form>
+</div>

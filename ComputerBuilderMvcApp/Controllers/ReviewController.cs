@@ -1,8 +1,7 @@
+// This file defines the ReviewController class, which is responsible for handling component reviews.
+// It allows users to add new reviews for components and saves them to a JSON file.
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 
@@ -13,6 +12,9 @@ namespace ComputerBuilderMvcApp.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _reviewsFilePath;
 
+        // Constructor for the ReviewController.
+        // Initializes the web host environment and sets the path for the reviews JSON file.
+        // Ensures the Data directory exists.
         public ReviewController(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
@@ -25,6 +27,8 @@ namespace ComputerBuilderMvcApp.Controllers
             _reviewsFilePath = Path.Combine(dataDirPath, "reviews.json");
         }
 
+        // Loads reviews from the reviews.json file.
+        // Returns a list of Review objects. If the file doesn't exist or is empty, an empty list is returned.
         private List<Review> LoadReviewsFromFile()
         {
             if (!System.IO.File.Exists(_reviewsFilePath))
@@ -40,6 +44,8 @@ namespace ComputerBuilderMvcApp.Controllers
             return JsonSerializer.Deserialize<List<Review>>(json) ?? new List<Review>();
         }
 
+        // Saves a list of reviews to the reviews.json file.
+        // Serializes the list of Review objects to JSON and writes it to the file.
         private void SaveReviewsToFile(List<Review> reviews)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
@@ -47,6 +53,11 @@ namespace ComputerBuilderMvcApp.Controllers
             System.IO.File.WriteAllText(_reviewsFilePath, json);
         }
 
+        // Handles the submission of a new component review.
+        // Validates the review data. If valid, it adds the new review to the list, saves it,
+        // and redirects to the component's detail page.
+        // If invalid, it stores error messages and submitted data in TempData and redirects
+        // back to the component's detail page to display errors.
         [HttpPost]
         public IActionResult AddComponentReview(Review reviewViewModel)
         {

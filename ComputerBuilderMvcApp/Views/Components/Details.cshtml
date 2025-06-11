@@ -1,3 +1,14 @@
+@*
+    This view displays the detailed information for a specific computer component.
+    It shows the component's name, image, price, and specifications.
+    It also displays the average rating and the total number of reviews for the component,
+    represented by star images.
+    Users can add the component to their cart directly from this page.
+    A section is dedicated to showing existing customer reviews, including their rating, comments, author, and date.
+    Another section provides a form for users to submit their own review for the component,
+    including a star rating input and a text area for comments.
+    Error messages related to review submission are displayed if any occur.
+*@
 @model ComputerBuilderMvcApp.Models.Component
 <section class="details-item-view">
 
@@ -136,54 +147,3 @@
         <p class="alert alert-warning">Component details not found.</p>
     }
 </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const starContainer = document.getElementById('starRatingContainer');
-            const ratingInput = document.getElementById('Rating'); // This input's value will be 0, 10, 20, 30, 40, or 50
-            const stars = Array.from(starContainer.getElementsByClassName('rating-star-input'));
-            const emptyStarSrc = '@Url.Content("~/images/ratings/rating-0star.png")';
-            const filledStarSrc = '@Url.Content("~/images/ratings/rating-1star.png")'; 
-
-            let initialSubmittedRating = parseInt(ratingInput.value);
-            // Sanitize initialSubmittedRating to be 0 or a multiple of 10 up to 50
-            if (isNaN(initialSubmittedRating) || initialSubmittedRating < 0 || initialSubmittedRating > 50 || initialSubmittedRating % 10 !== 0) {
-                initialSubmittedRating = 0;
-                ratingInput.value = "0"; // Correct the hidden input's value if it was invalid
-            }
-            // displayRating is the 0-5 star count for UI logic
-            let displayRating = initialSubmittedRating / 10;
-
-            function updateStarsDisplay(ratingToDisplay) { // ratingToDisplay is 0-5 (number of stars)
-                stars.forEach(star => {
-                    const starNumericValue = parseInt(star.dataset.value); // 1-5 (value of the star element)
-                    if (starNumericValue <= ratingToDisplay) {
-                        star.src = filledStarSrc;
-                    } else {
-                        star.src = emptyStarSrc;
-                    }
-                });
-            }
-
-            updateStarsDisplay(displayRating); // Set initial star display
-
-            starContainer.addEventListener('mouseover', function (e) {
-                if (e.target.classList.contains('rating-star-input')) {
-                    const hoverValue = parseInt(e.target.dataset.value); // 1-5
-                    updateStarsDisplay(hoverValue); 
-                }
-            });
-
-            starContainer.addEventListener('mouseout', function () {
-                // Revert to the currently selected displayRating
-                updateStarsDisplay(displayRating);
-            });
-
-            starContainer.addEventListener('click', function (e) {
-                if (e.target.classList.contains('rating-star-input')) {
-                    displayRating = parseInt(e.target.dataset.value); // Update displayRating (1-5 stars)
-                    ratingInput.value = displayRating * 10; // Set hidden input to 10-50 for submission
-                    updateStarsDisplay(displayRating); // Update visual stars
-                }
-            });
-        });
-    </script>
