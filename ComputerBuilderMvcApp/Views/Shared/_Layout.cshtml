@@ -32,11 +32,18 @@
         </div>
         <div class="head-right-section">
 
-            <a class="head-link cart-link" asp-area="" asp-controller="Cart" asp-action="Index">
+             <a class="head-link cart-link" asp-area="" asp-controller="Cart" asp-action="Index">
                 <img class="cart-icon" src="~/images/icons/cart-icon.png">
                 <div class="cart-quantity" id="cartItemCountBadge">0</div>
                 <div class="cart-text">Cart</div>
             </a>
+            <button id="toggleMiniCartBtn" class="mini-cart-toggle-btn">Cart Preview</button>
+            <div id="miniCartPreview" class="mini-cart-preview" style="display: none;">
+                <h4>Cart Preview</h4>
+                <p>Last Added: <span id="miniCartLastItem">N/A</span></p>
+                <p>Total: <span id="miniCartTotalPrice">$0.00</span></p>
+                <button id="closeMiniCartBtn" class="btn btn-sm btn-secondary">Close</button>
+            </div>
         </div>
     </div>
     <div class="main">

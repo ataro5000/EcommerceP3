@@ -39,9 +39,9 @@
                     <p class="text-muted">No categories available to filter.</p>
                 }
                 <hr />
-                <div class="mt-2 d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
-                    <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
+                <div class="">
+                    <button type="submit" class="btn-primary">Apply Filters</button>
+                    <a asp-controller="Components" asp-action="Index" class="btn-outline-secondary">Clear Filters</a>
                 </div>
             </form>
         </div>
@@ -79,6 +79,19 @@
                                         Price: $@(component.PriceCents / 100m)
                                     </div>
                                     <p class="product-spec">@component.Spec</p>
+                                    <div class="product-rating">
+                                        @if (component.ReviewCount > 0)
+                                        {
+                                            <img src="~/images/ratings/@component.RatingImageName" alt="Rating @component.AverageRating.ToString("0") out of 5" class="rating-image" />
+                                            <span class="review-count ms-1">(@component.ReviewCount)</span>
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/ratings/rating-0.png" alt="No reviews" class="rating-image" />
+                                             <span class="review-count no-reviews ms-1">No reviews</span>
+                                        }
+                                    </div>
+                                        
                                 </div>
                             </a>
                             <div class="added-to-cart">
@@ -86,7 +99,7 @@
                                 Added
                             </div>
                             <div class="product-actions">
-                                <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post" style="display:inline;">
+                                <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post"">
                                     <input type="hidden" name="componentId" value="@component.Id" />
                                     <input type="hidden" name="quantity" value="1" />
                                     <button type="submit" class="add-to-cart-button">Add to Cart</button>

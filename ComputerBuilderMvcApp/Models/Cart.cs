@@ -11,6 +11,8 @@ namespace ComputerBuilderMvcApp.Models
         // TotalAmount should be in the main currency unit (e.g., dollars)
         public decimal TotalAmountAsCurrency => Items.Sum(item => item.SubtotalAsCurrency);
         
+        public decimal TotalAmountBeforeTaxe => Items.Sum(item => item.SubtotalInCents / 100.0m);
+        
         public void AddItem(Component component, int quantity = 1)
         {
             if (component == null || string.IsNullOrEmpty(component.Id)) return;
@@ -27,7 +29,7 @@ namespace ComputerBuilderMvcApp.Models
                     CartItemId = component.Id,
                     CartItemImage = component.Image,
                     CartItemName = component.Name,
-                    CartItemPriceCents = component.PriceCents, 
+                    CartItemPriceCents = component.PriceCents,
                     CartItemQuantity = quantity
                 });
             }

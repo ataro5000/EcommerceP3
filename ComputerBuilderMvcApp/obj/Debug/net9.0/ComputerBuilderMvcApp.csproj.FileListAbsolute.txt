@@ -29,8 +29,9 @@ C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\Compu
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\ref\ComputerBuilderMvcApp.dll
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\fyij35g44p-fi6dnsx0jy.gz
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\y8cznt7jat-b10614ckak.gz
-C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\i9v8bx85ou-szfnrm3bfx.gz
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\mkcm9l4qb6-thqkomqee8.gz
-C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\vwp9ygjd5i-ektwgrqpew.gz
-C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\s6yvi3shgk-5uog9vxzm6.gz
-C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\hb17sx9lfm-23mn6oyjep.gz
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\hb17sx9lfm-1glx1olh0p.gz
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\bin\Debug\net9.0\Data\reviews.json
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\vwp9ygjd5i-0iwd5vzfnx.gz
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\i9v8bx85ou-ihrt4vn1c1.gz
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\s6yvi3shgk-9x5kglysqf.gz

@@ -40,7 +40,8 @@ namespace ComputerBuilderMvcApp.Controllers
         public IActionResult GetCartItemCount()
         {
             int itemCount = _cart.Items.Sum(item => item.CartItemQuantity);
-            return Json(new { itemCount });
+            string totalCartPrice = _cart.TotalAmountBeforeTaxe.ToString("C");
+            return Json(new { itemCount, totalCartPrice });
         }
 
         [HttpPost]

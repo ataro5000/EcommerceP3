@@ -8,7 +8,7 @@ namespace ComputerBuilderMvcApp.Models
         public string? CartItemImage { get; set; }
         public int CartItemQuantity { get; set; }
         public decimal CartItemPriceCents { get; set; } 
-        public decimal SubtotalInCents => CartItemQuantity * (CartItemPriceCents * 1.15m);
-        public decimal SubtotalAsCurrency => SubtotalInCents / 100.0m;
+        public decimal SubtotalInCents => CartItemQuantity * CartItemPriceCents;
+        public decimal SubtotalAsCurrency => SubtotalInCents * 1.15m / 100.0m;
     }
 }

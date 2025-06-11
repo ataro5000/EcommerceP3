@@ -235,7 +235,6 @@ hr {
   color: white;
   border: none;
   margin-top: 15px;
-
 }
 
 .btn-primary:hover {
@@ -244,7 +243,6 @@ hr {
 }
 
 .btn-secondary {
-  color: #6c757d;
   background-color: rgb(17, 206, 17);
   color: white;
 }
@@ -252,6 +250,18 @@ hr {
 .btn-secondary:hover {
   background-color: #6c757d;
 
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  background-color: transparent;
+  border: 1px solid #6c757d;
+  margin-bottom: 10px;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color : white;
 }
 
 .btn-danger {
@@ -304,4 +314,82 @@ footer .foot {
     flex-direction: column;
     gap: 5px;
   }
+}
+
+.cart-quantity {
+  color: rgb(240, 136, 4);
+  font-size: 16px;
+  font-weight: 700;
+
+  position: absolute;
+  top: 8px;
+  left: 30px;
+
+  width: 26px;
+  text-align: center;
+}
+
+.mini-cart-toggle-btn {
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    padding: 6px 12px; 
+    border-radius: 4px; 
+    cursor: pointer;
+    font-size: 13px; 
+    margin-left: 8px;
+    vertical-align: middle; 
+}
+
+.mini-cart-toggle-btn:hover {
+    background-color: #45a049;
+}
+
+.mini-cart-preview {
+    position: absolute;
+    top: 55px; 
+    right: 10px; 
+    width: 280px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 15px;
+    z-index: 1050; 
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.mini-cart-preview h4 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #333;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.mini-cart-preview p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.mini-cart-preview p span {
+    font-weight: 500; 
+    color: #222;
+}
+
+.mini-cart-preview .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+.mini-cart-preview .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
 }

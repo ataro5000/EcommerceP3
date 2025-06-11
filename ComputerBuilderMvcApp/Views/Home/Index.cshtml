@@ -29,6 +29,18 @@
                             Price: $@(component.PriceCents / 100m)
                         </div>
                         <p class="product-spec">@component.Spec</p>
+                        <div class="product-rating">
+                            @if (component.ReviewCount > 0)
+                            {
+                                <img src="~/images/ratings/@component.RatingImageName" alt="Rating @component.AverageRating.ToString("0") out of 5" class="rating-image" />
+                                <span class="review-count ms-1">(@component.ReviewCount)</span>
+                            }
+                            else
+                            {
+                                <img src="~/images/ratings/rating-0.png" alt="No reviews" class="rating-image" />
+                                    <span class="review-count no-reviews ms-1">No reviews</span>
+                            }
+                        </div>
                     </div>
                 </a>
                 <div class="added-to-cart">

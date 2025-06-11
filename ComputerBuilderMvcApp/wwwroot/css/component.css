@@ -88,7 +88,7 @@ p {
     background-color: #007bff;
     color: white;
     border: none;
-    font-size: x-large;
+    font-size: large;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
@@ -270,3 +270,73 @@ hr {
     margin-top: 30px;
 }
 
+.product-rating .rating-star {
+    width: 18px; 
+    height: 18px;
+    vertical-align: middle;
+}
+
+.product-rating .rating-star-small {
+    width: 14px; 
+    height: 14px;
+    vertical-align: middle;
+}
+
+.review-count {
+    font-size: 0.9em;
+    color: #555;
+    vertical-align: middle;
+}
+
+.review-count.no-reviews {
+    font-style: italic;
+    color: #777;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-comment {
+    font-style: italic;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.review-author-date {
+    font-size: 0.85em;
+    color: #777;
+}
+
+.add-review-section .form-label {
+    font-weight: bold;
+}
+.product-rating .rating-image { 
+    width: 100px; 
+    height: 20px; 
+    vertical-align: middle;
+    object-fit: contain; 
+}
+
+.product-rating .rating-image-small { 
+    width: 80px; 
+    height: 16px; 
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.star-rating-input-container {
+    display: flex;
+    cursor: pointer;
+}
+
+.rating-star-input {
+    width: 30px; /* Adjust size as needed */
+    height: 30px;
+    margin-right: 5px;
+    transition: transform 0.1s ease-in-out;
+}
+
+.rating-star-input:hover {
+    transform: scale(1.1);
+}

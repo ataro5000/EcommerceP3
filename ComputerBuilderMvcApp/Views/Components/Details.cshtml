@@ -1,5 +1,5 @@
 @model ComputerBuilderMvcApp.Models.Component
-<section class="single-item-view">
+<section class="details-item-view">
 
     @{
         ViewData["Title"] = Model?.Name ?? "Component Details";
@@ -7,37 +7,183 @@
 
     @if (Model != null)
     {
-        <h1 class="single-item-title">@Model.Name</h1>
+        <h1 class="details-item-title">@Model.Name</h1>
         <hr />
         
-        <div class="single-item-container">
-            <div class="single-item-image-container">
-                <img class="single-item-image" src="~/@Model.Image" alt="@Model.Name">
+        <div class="details-item-container">
+            <div class="details-item-image-container">
+                <img class="details-item-image" src="~/@Model.Image" alt="@Model.Name">
             </div>
-            <div class="single-item-details">
-                <div class="single-item-name">@Model.Name</div>
-                <div class="single-item-price">
+            <div class="details-item-details">
+                <div class="details-item-name">@Model.Name</div>
+                <div class="details-item-price">
                     Price: $@(Model.PriceCents / 100m)
                 </div>
-                <p class="single-item-spec">@Model.Spec</p>
+                <p class="details-item-spec">@Model.Spec</p>
+                 @* Add this section for star rating on details page *@
+                <div class="details-item-rating product-rating">
+                    @if (Model.ReviewCount > 0)
+                    {
+                        <img src="~/images/ratings/@Model.RatingImageName" alt="Rating @Model.AverageRating.ToString("0") out of 5" class="rating-image" />
+                        <span class="review-count ms-1">@(Model.AverageRating / 10m) from @Model.ReviewCount review@(Model.ReviewCount == 1 ? "" : "s")</span>
+                    }
+                    else
+                    {
+                        <img src="~/images/ratings/rating-0.png" alt="No reviews" class="rating-image" />
+                        <span class="no-reviews ms-1">No reviews yet.</span>
+                    }
+                </div>
             </div>  
-           <div class="single-item-actions">
+            <div class="added-to-cart">
+                <img src="~/images/icons/checkmark.png">
+                Added
+            </div>
+            <div class="product-actions single-item-actions"> 
                 <form asp-controller="Cart" asp-action="AddSingleComponentToCart" method="post">
                     <input type="hidden" name="componentId" value="@Model.Id" />
-                    <div class="input-group">
-                        <label class="input-group-text" for="quantity-@Model.Id">Quantity</label>
-                        <input type="number" name="quantity" id="quantity-@Model.Id" value="1" min="1" class="form-control" />
-                    </div>
-                    <button type="submit" class="single-item-add-to-cart-button">Add to Cart</button>
+                    <input type="hidden" name="quantity" value="1" />
+                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
                 </form>
-                <a asp-action="Index" asp-route-category="all" class="single-item-back-button">Back to Components</a>
+                <a asp-controller="Components" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </div>
+
+        <hr class="mt-4 mb-4"/>
+
+        @* Section to display existing reviews *@
+        <div class="component-reviews-section mt-4">
+            <h3>Customer Reviews (@Model.ReviewCount)</h3>
+            @if (Model.Reviews != null && Model.Reviews.Any())
+            {
+                @foreach (var review in Model.Reviews.OrderByDescending(r => r.ReviewDate))
+                {
+                    <div class="review-item card mb-3">
+                        <div class="card-body">
+                            <div class="review-rating product-rating mb-1">
+                                @{
+                                    // Ensure rating is a multiple of 5 for image name
+                                    int reviewRatingImageVal = (int)(Math.Round((double)review.Rating / 5.0) * 5);
+                                    reviewRatingImageVal = Math.Max(0, Math.Min(50, reviewRatingImageVal));
+                                    var reviewRatingImage = $"rating-{reviewRatingImageVal:D2}.png";
+                                }
+                                <img src="~/images/ratings/@reviewRatingImage" alt="Rated @review.Rating out of 5" class="rating-image-small" />
+                            </div>
+                            <p class="card-text review-comment">"@review.Comments"</p>
+                            <p class="card-subtitle text-muted review-author-date small">
+                                By <strong>@(string.IsNullOrEmpty(review.CustomerName) ? "Anonymous" : review.CustomerName)</strong>
+                                on @review.ReviewDate.ToString("MMMM dd, yyyy")
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No reviews yet for this component. Be the first to write one!</p>
+            }
+        </div>
+
+        <hr class="mt-4 mb-4"/>
+        
+        @* Section to add a new review *@
+        <div class="add-review-section mt-4 card">
+            <div class="card-header">
+                <h3>Leave a Review for @Model.Name</h3>
+            </div>
+            <div class="card-body">
+                @if (TempData["ReviewError"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @TempData["ReviewError"]
+                    </div>
+                }
+                <form asp-controller="Review" asp-action="AddComponentReview" method="post">
+                    @Html.AntiForgeryToken() 
+                    <input type="hidden" name="ItemId" value="@Model.Id" />
+                    
+                    <div>
+                        <label for="CustomerName" class="form-label">Your Name (Optional):</label>
+                        <input type="text" id="CustomerName" name="CustomerName" class="form-control" value="@TempData["SubmittedReviewData_CustomerName"]" />
+                    </div>
+                    
+                   <div>
+                        <label class="form-label">Your Rating:</label>
+                        <div id="starRatingContainer" class="star-rating-input-container">
+                            @for (int starValue = 1; starValue <= 5; starValue++)
+                            {
+                                <img src="~/images/ratings/rating-0.png"
+                                     class="rating-star-input"
+                                     data-value="@starValue" 
+                                     alt="Rate @starValue"
+                                     title="Rate @starValue star@(starValue > 1 ? "s" : "")" />
+                            }
+                        </div>
+                        <input type="hidden" id="Rating" name="Rating" value="@(TempData["SubmittedReviewData_Rating"] ?? "0")" required /> @* This value will be 0, 10, 20, 30, 40, or 50 *@
+                    </div>
+                    
+                    <div>
+                        <label for="Comments" class="form-label">Your Review:</label>
+                        <textarea id="Comments" name="Comments" class="form-control" rows="4" required>@TempData["SubmittedReviewData_Comments"]</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
             </div>
         </div>
     }
     else
     {
-        <h1 class="single-item-not-found-title">Component Not Found</h1>
-        <p class="single-item-not-found-message">The component you are looking for could not be found.</p>
-        <a asp-action="Index" class="btn btn-primary single-item-back-list-button">Back to Components List</a>
+        <p class="alert alert-warning">Component details not found.</p>
     }
 </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const starContainer = document.getElementById('starRatingContainer');
+            const ratingInput = document.getElementById('Rating'); // This input's value will be 0, 10, 20, 30, 40, or 50
+            const stars = Array.from(starContainer.getElementsByClassName('rating-star-input'));
+            const emptyStarSrc = '@Url.Content("~/images/ratings/rating-0star.png")';
+            const filledStarSrc = '@Url.Content("~/images/ratings/rating-1star.png")'; 
+
+            let initialSubmittedRating = parseInt(ratingInput.value);
+            // Sanitize initialSubmittedRating to be 0 or a multiple of 10 up to 50
+            if (isNaN(initialSubmittedRating) || initialSubmittedRating < 0 || initialSubmittedRating > 50 || initialSubmittedRating % 10 !== 0) {
+                initialSubmittedRating = 0;
+                ratingInput.value = "0"; // Correct the hidden input's value if it was invalid
+            }
+            // displayRating is the 0-5 star count for UI logic
+            let displayRating = initialSubmittedRating / 10;
+
+            function updateStarsDisplay(ratingToDisplay) { // ratingToDisplay is 0-5 (number of stars)
+                stars.forEach(star => {
+                    const starNumericValue = parseInt(star.dataset.value); // 1-5 (value of the star element)
+                    if (starNumericValue <= ratingToDisplay) {
+                        star.src = filledStarSrc;
+                    } else {
+                        star.src = emptyStarSrc;
+                    }
+                });
+            }
+
+            updateStarsDisplay(displayRating); // Set initial star display
+
+            starContainer.addEventListener('mouseover', function (e) {
+                if (e.target.classList.contains('rating-star-input')) {
+                    const hoverValue = parseInt(e.target.dataset.value); // 1-5
+                    updateStarsDisplay(hoverValue); 
+                }
+            });
+
+            starContainer.addEventListener('mouseout', function () {
+                // Revert to the currently selected displayRating
+                updateStarsDisplay(displayRating);
+            });
+
+            starContainer.addEventListener('click', function (e) {
+                if (e.target.classList.contains('rating-star-input')) {
+                    displayRating = parseInt(e.target.dataset.value); // Update displayRating (1-5 stars)
+                    ratingInput.value = displayRating * 10; // Set hidden input to 10-50 for submission
+                    updateStarsDisplay(displayRating); // Update visual stars
+                }
+            });
+        });
+    </script>

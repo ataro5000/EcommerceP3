@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
-using ComputerBuilderMvcApp.ViewModels; // If you have a specific ViewModel for the home page
+using ComputerBuilderMvcApp.ViewModels; 
 using Newtonsoft.Json;
 using System.Diagnostics;
 

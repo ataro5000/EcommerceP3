@@ -29,7 +29,7 @@
                             bool isSelected = !string.IsNullOrEmpty(currentSelectionId) && currentSelectionId == component.Id;
 
                             <option value="@component.Id" data-price="@((component.PriceCents / 100.0m).ToString("F2"))" selected="@isSelected">
-                                @component.Name (@((component.PriceCents / 100.0m).ToString("C")))
+                                @component.Name (@((component.PriceCents / 100.0m).ToString("C"))) 
                             </option>
                         }
                     </select>
