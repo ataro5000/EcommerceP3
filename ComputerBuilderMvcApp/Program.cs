@@ -2,8 +2,6 @@
 // It configures services, defines the HTTP request pipeline, and sets up routing.
 // It also includes a static helper class `SessionCart` for managing the shopping cart in the session.
 using System.Diagnostics;
-using ComputerBuilderMvcApp.Models; 
-using Newtonsoft.Json; 
 
 Debug.WriteLine(">>>> Program.cs execution started <<<<");
 
@@ -11,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 // Configure session services.
 builder.Services.AddDistributedMemoryCache(); 
@@ -21,8 +20,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Marks the session cookie as essential for GDPR compliance.
 });
 
-// Register the Cart service with a scoped lifetime, using SessionCart.GetCart to create/retrieve instances.
-builder.Services.AddScoped<Cart>(SessionCart.GetCart);
+builder.Services.AddScoped(SessionCart.GetCart);
 
 var app = builder.Build();
 
