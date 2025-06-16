@@ -1,0 +1,447 @@
+@{
+    ViewData["Title"] = "Documentation - Ecommerce P3";
+}
+<div class="body-doc">
+    <h1>Documentation for Ecommerce Part 3</h1>
+    <section class="documentation-section" id="description">
+        <h2 class="documentation-header">1. Description</h2>
+        <p class="doc-p">
+            <b>Computer Builder MVC Application</b> is a web-based online store developed using ASP.NET Core MVC (C#),
+            HTML, CSS, and JavaScript. The application is inspired by leading e-commerce platforms such as BestBuy.ca
+            and Amazon.ca, with a focus on usability, modularity, and a realistic shopping experience.
+        </p>
+        <p class="doc-p">
+            The application allows customers to browse a catalog of computers, review and customize their configurations
+            by selecting from a variety of components (including RAM, hard drive, CPU, display, OS, and soundcard), and
+            see real-time price updates as they make changes. The store features a welcoming homepage, active navigation
+            menus, a contact page, and a feedback form, all styled for a modern and responsive user experience.
+        </p>
+        <p class="doc-p">Key features include:</p>
+        <ul>
+            <li><b>Storefront Experience:</b> Includes a store name, logo, and intuitive navigation menus for seamless
+                browsing.</li>
+            <li><b>Product Catalog:</b> Displays a list of computers and at least five types of components, with product
+                information hardcoded for this stage.</li>
+            <li><b>Customization:</b> Customers can select a base computer and customize its configuration by choosing
+                compatible components from dropdown lists.</li>
+            <li><b>Dynamic Pricing:</b> The total price updates instantly within the page as customers change
+                components, providing immediate feedback.</li>
+            <li><b>Cart and Summary:</b> After customization, users can add their build to the cart and view a detailed
+                summary of their selections and pricing.</li>
+            <li><b>Session Tracking:</b> Customer selections and cart contents are tracked using cookies, with no
+                database required at this stage.</li>
+            <li><b>Active Navigation:</b> All menus, links, and buttons are fully functional, ensuring a realistic and
+                interactive store environment.</li>
+            <li><b>Additional Pages:</b> Includes a contact page and a feedback form for customer engagement.</li>
+        </ul>
+        <p class="doc-p">
+            The application is designed to closely mimic the look and feel of real online stores, providing a solid
+            foundation for further development and enhancements in future project phases.
+        </p>
+    </section>
+
+    <section class="documentation-section" id="Analysis-And-Design">
+        <h2 class="documentation-header">2. Analysis and Design</h2>
+
+        <h3 class="documentation-subheader">2.1 Research and Findings</h3>
+
+        <p class="doc-p">
+            The following analysis and design are based on a comparative study of leading e-commerce platforms
+            (BestBuy.ca,
+            Amazon.ca, Walmart.ca, MemoryExpress.com, etc.). This section documents the findings, translates them into
+            application
+            requirements, and presents the resulting design, including module responsibilities and a complete list of
+            required pages, some off which may or may not.
+        </p>
+        <p class="doc-p">
+            To inform the design of this application, I studied the user interfaces and features of leading online
+            stores such as
+            <a href="https://www.bestbuy.ca">BestBuy.ca</a>, <a href="https://www.amazon.ca">Amazon.ca</a>, <a
+                href="https://www.walmart.ca">Walmart.ca</a>, and <a
+                href="https://www.memoryexpress.com">MemoryExpress.com</a>.
+            Key observations include:
+        </p>
+        <ul>
+            <li><b>Persistent Top Navigation:</b> All sites use a top navigation menu with dropdown categories (e.g.,
+                computers, components) for easy access.</li>
+            <li><b>Product Listings:</b> Grid views with images, prices, and key specs (such as CPU and RAM) are
+                standard. Breadcrumb trails help users track their navigation path (e.g., Home &gt; Laptop &gt; Gaming
+                Laptop).</li>
+            <li><b>Step-by-Step Customization:</b> MemoryExpress offers step-by-step customization for prebuilt PCs,
+                showing a running total as components are selected. Compatibility checks are present but out of scope
+                for this assignment.</li>
+            <li><b>Comparison and Filtering:</b> Amazon provides comparison tables for similar items. All sites offer
+                filters (by price, specs, etc.) and dropdowns for component selection.</li>
+            <li><b>Wishlist/Cart Persistence:</b> Shopping carts and wishlists persist across sessions, typically using
+                cookies or local storage.</li>
+            <li><b>Customer Engagement:</b> Contact forms, feedback options, and help/support links are easily
+                accessible.</li>
+            <li><b>Responsiveness:</b> Layouts adapt to different screen sizes for mobile and desktop users.</li>
+        </ul>
+        <p class="doc-p">
+            These findings inspired the application's navigation, catalog presentation, and customization workflow.
+        </p>
+
+        <h3 class="documentation-subheader">2.2 Requirements Analysis</h3>
+        <p class="doc-p">
+            Based on research and assignment requirements, the application must:
+        </p>
+        <ul>
+            <li>Allow browsing of pre-configured computers, selection of a base model, and customization of components.
+            </li>
+            <li>Enable review and finalization of configurations, with a checkout process.</li>
+            <li>Use a hardcoded product catalog with at least 5 computers and 6 component types (RAM, HDD, CPU, GPU,
+                PSU, Motherboard, Cooling).</li>
+            <li>Display product details including id, image, price, name, and rating. Components have type, spec, and
+                price.</li>
+            <li>Support pre-configured builds and allow users to swap components as desired.</li>
+            <li>Include required pages: contacts, feedback, splash (home), checkout, and detailed listings for each
+                type.</li>
+            <li>Implement cart persistence using cookies or localStorage (no database at this stage).</li>
+            <li>All features should be accessible via active navigation links and buttons.</li>
+            <li>Many features are implemented with JavaScript for dynamic updates (e.g., price calculation), while C#
+                handles server-side logic.</li>
+            <li>Assume all components are compatible for simplicity.</li>
+        </ul>
+        <p class="doc-p">
+            The design also considers future extensibility, such as adding more component types or integrating a
+            database.
+        </p>
+
+        <h3 class="documentation-subheader">2.3 Application Design</h3>
+        <p class="doc-p">
+            The application uses the ASP.NET Core MVC pattern for clear separation of concerns. Key design decisions:
+        </p>
+        <ul>
+            <li><b>Component Modeling:</b> All components are represented by a single class with fields for type, spec,
+                and price. Inheritance was considered but simplified for rapid prototyping.</li>
+            <li><b>Data Storage:</b> Product and component data are hardcoded in C# or loaded from a single JSON file
+                for maintainability.</li>
+            <li><b>Pre-configured Builds:</b> Each computer has a list of standard components, which can be swapped by
+                the user. Types such as "PC" or "Laptop" are tracked via a type field.</li>
+            <li><b>Cart and State:</b> Cart items and selections are stored in cookies or localStorage, allowing users
+                to return and continue their build.</li>
+            <li><b>Page Structure:</b> The site includes a splash/home page, component list, component details, cart
+                (shown on the right side for ongoing price), checkout, order confirmation, contact, and feedback pages.
+            </li>
+        </ul>
+        <p class="doc-p">
+            <b>Sample Data Structure:</b>
+        <pre>
+public class Computer {
+  public int ID { get; set; }
+  public string Name { get; set; }
+  public decimal TotalPrice { get; set; }
+  public List&lt;Component&gt; StandardComponents { get; set; }
+}
+public class Component {
+  public string Type { get; set; }
+  public string Spec { get; set; }
+  public decimal Price { get; set; }
+}
+        </pre>
+        Data is initialized in-memory or loaded from JSON for rapid prototyping.
+        </p>
+
+        <h3 class="documentation-subheader">2.4 Interface Sketches and Page List</h3>
+        <ul>
+            <li><b>Home/Splash Page:</b> Store branding, welcome message, featured items.</li>
+            <li><b>Component List:</b> Grid/list of computers and components.</li>
+            <li><b>Component Details:</b> Detailed specs, customization options, dynamic price updates.</li>
+            <li><b>Cart:</b> Persistent cart summary (e.g., sidebar), showing selected items and running total.</li>
+            <li><b>Checkout:</b> Review and finalize configuration, proceed to order confirmation.</li>
+            <li><b>Order Confirmation:</b> Display order summary after checkout.</li>
+            <li><b>Contact Page:</b> Form for customer inquiries.</li>
+            <li><b>Feedback Page:</b> Form for user comments and suggestions.</li>
+            <li><b>About/Documentation Page:</b> Project documentation and user guide.</li>
+        </ul>
+        <img src="/images/documentation/chickenscratch.jpg" alt="handnotes2">
+
+        <img src="/images/documentation/chickenscratch.jpg" alt="handnotes2">
+        <p class="doc-p">
+            <b>Navigation Flow Example:</b><br />
+            Home → Component List → Component Details → Cart (sidebar) → Checkout → Order Confirmation<br />
+            All pages accessible via navigation menu; Contact and Feedback available from any page.
+        </p>
+    </section>
+
+    <section class="documentation-section" id="Implementation">
+        <h2 class="documentation-header">3. Implementation</h2>
+
+        <h3 class="documentation-subheader">3.1 Application Structure Overview</h3>
+        <ul>
+            <li><b>Entry Point & Configuration (<code>Program.cs</code>):</b> Sets up the web server, configures MVC,
+                session state, and static file serving. Registers services like the Cart and session management. The
+                HTTP request pipeline is defined here, including routing and middleware order.</li>
+            <li><b>Controllers (<code>Controllers/</code>):</b> Handle incoming web requests, interact with models and
+                services, and select views to render. Examples: <code>HomeController</code>,
+                <code>ComputersController</code>, <code>ComponentsController</code>, <code>CartController</code>.
+                Controllers fetch data from models or JSON files, inject services (like Cart), and return views with
+                data.
+            </li>
+            <li><b>Models (<code>Models/</code>):</b> Represent the application's data entities (e.g.,
+                <code>Computer</code>, <code>Component</code>, <code>Cart</code>, <code>CartItem</code>). Models
+                encapsulate business logic and structure for computers, components, and cart operations.
+            </li>
+            <li><b>ViewModels (<code>ViewModels/</code>):</b> Shape and combine data for specific views, often
+                aggregating multiple models. Used to pass tailored data from controllers to views (e.g.,
+                <code>ComputerViewModel</code>, <code>CustomizeComputerViewModel</code>).
+            </li>
+            <li><b>Views (<code>Views/</code>):</b> Razor <code>.cshtml</code> files define the HTML structure and
+                presentation. Organized by controller and action. Shared layout and error pages are in
+                <code>Views/Shared/</code>. Views use the <code>@@model</code> directive to receive data from
+                controllers.
+            </li>
+            <li><b>Data Storage (<code>Data/</code>):</b> JSON files (e.g., <code>computers.json</code>,
+                <code>components.json</code>) act as a simple database. Controllers read these files to load product and
+                component data.
+            </li>
+            <li><b>Static Assets (<code>wwwroot/</code>):</b> Contains <code>site.css</code>, <code>site.js</code>,
+                images, and any client-side libraries. These are referenced in views for styling and interactivity.</li>
+        </ul>
+
+        <h3 class="documentation-subheader">3.2 Key Features Implementation</h3>
+        <ul>
+            <li><b>Storefront and Navigation:</b> Uses a shared layout (<code>_Layout.cshtml</code>) for consistent
+                branding and navigation. Navigation links are implemented with Razor and HTML, ensuring all menus and
+                buttons are active and responsive.</li>
+            <li><b>Product Catalog:</b> Catalog data is hardcoded in C# model classes or loaded from JSON files. The
+                <code>CatalogController</code> retrieves and passes this data to views for display.
+            </li>
+            <li><b>Customization:</b> Users can select a base computer and customize its configuration by choosing from
+                dropdowns of compatible components. JavaScript updates the total price dynamically as selections change,
+                without page reloads.</li>
+            <li><b>Cart and Summary:</b> Customized builds are added to the cart, with selections stored in cookies or
+                session. The cart summary page displays all selected components and the total price.</li>
+            <li><b>Session Tracking:</b> Customer selections and cart contents are tracked using cookies or session
+                state. No database is used at this stage.</li>
+            <li><b>Contact and Feedback:</b> Dedicated pages with forms for customer inquiries and feedback, validated
+                both client-side and server-side.</li>
+            <li><b>Responsive Design:</b> CSS and layout techniques ensure usability on both desktop and mobile devices.
+            </li>
+        </ul>
+
+        <h3 class="documentation-subheader">3.3 File Structure & Responsibilities</h3>
+        <table class="doc-file-table">
+            <tr>
+                <th>File/Folder</th>
+                <th>Location</th>
+                <th>Responsibilities</th>
+            </tr>
+            <tr>
+                <td><code>Program.cs</code></td>
+                <td>ComputerBuilderMvcApp/</td>
+                <td>Configures services, middleware, and routing. Sets up MVC, session, and static file serving.</td>
+            </tr>
+            <tr>
+                <td><code>Controllers/</code></td>
+                <td>ComputerBuilderMvcApp/Controllers/</td>
+                <td>Handles HTTP requests, business logic, and data passing between models and views (e.g.,
+                    <code>HomeController</code>, <code>CatalogController</code>, <code>CartController</code>).
+                </td>
+            </tr>
+            <tr>
+                <td><code>Models/</code></td>
+                <td>ComputerBuilderMvcApp/Models/</td>
+                <td>Defines C# classes for computers, components, cart items, and business logic.</td>
+            </tr>
+            <tr>
+                <td><code>ViewModels/</code></td>
+                <td>ComputerBuilderMvcApp/ViewModels/</td>
+                <td>Shapes and aggregates data for specific views (e.g., <code>CustomizeComputerViewModel</code>).</td>
+            </tr>
+            <tr>
+                <td><code>Views/</code></td>
+                <td>ComputerBuilderMvcApp/Views/</td>
+                <td>Contains Razor views for each page (e.g., Home, Catalog, Product Details, Cart, Contact, Feedback,
+                    Documentation).</td>
+            </tr>
+            <tr>
+                <td><code>Views/Shared/_Layout.cshtml</code></td>
+                <td>ComputerBuilderMvcApp/Views/Shared/</td>
+                <td>Defines the common layout, navigation, and branding for all pages.</td>
+            </tr>
+            <tr>
+                <td><code>Data/</code></td>
+                <td>ComputerBuilderMvcApp/Data/</td>
+                <td>Holds JSON files for products and components, acting as a simple database.</td>
+            </tr>
+            <tr>
+                <td><code>wwwroot/css/site.css</code></td>
+                <td>ComputerBuilderMvcApp/wwwroot/css/</td>
+                <td>Custom CSS for responsive and modern styling.</td>
+            </tr>
+            <tr>
+                <td><code>wwwroot/js/site.js</code></td>
+                <td>ComputerBuilderMvcApp/wwwroot/js/</td>
+                <td>JavaScript for dynamic price updates and interactive UI elements.</td>
+            </tr>
+            <tr>
+                <td><code>appsettings.json</code></td>
+                <td>ComputerBuilderMvcApp/</td>
+                <td>Application configuration (not used for product data at this stage).</td>
+            </tr>
+        </table>
+
+        <h3 class="documentation-subheader">3.4 Notable Implementation Details</h3>
+        <ul>
+            <li><b>Dynamic Price Calculation:</b> JavaScript event listeners detect changes in component selections and
+                recalculate the total price in real time, updating the UI without a page reload.</li>
+            <li><b>Cookie/Session Management:</b> Cart and customization data are serialized as JSON and stored in
+                browser cookies or session. On each relevant page load, the application reads and deserializes this data
+                to restore the user's selections.</li>
+            <li><b>Form Validation:</b> Both client-side (JavaScript/HTML5) and server-side (C#) validation are used for
+                contact and feedback forms to ensure data integrity.</li>
+            <li><b>Separation of Concerns:</b> The MVC pattern is strictly followed, with controllers handling logic,
+                models representing data, and views managing presentation.</li>
+            <li><b>Extensibility:</b> The codebase is organized to allow easy addition of new products, components, or
+                features in future phases. Adding a new feature (like computer customization) involves updating the
+                controller, view model, view, and possibly the data files.</li>
+            <li><b>Debugging:</b> Use breakpoints in C# code, Console.WriteLine/logging for server-side tracing, and
+                browser developer tools for client-side debugging.</li>
+        </ul>
+    </section>
+
+    <section class="documentation-section" id="UserGuide">
+        <h2 class="documentation-header">4. User Guide</h2>
+
+        <h3 class="documentation-subheader">4.1 Getting Started</h3>
+        <ol>
+            <li>Open the Computer Builder web application in your browser (locally or on the server where it is
+                deployed).</li>
+            <li>Navigate to the homepage to view the store branding, welcome message, and navigation menu.</li>
+            <li>Use the navigation menu to browse the catalog of available computers and components.</li>
+            <li>Select a computer to view its details and begin customization.</li>
+            <li>Choose your preferred components (RAM, hard drive, CPU, etc.) from the dropdown
+                lists. The total price will update automatically as you make changes.</li>
+            <li>Once satisfied, click the "Add to Cart" button to save your customized build.</li>
+            <li>Go to the Cart page to review your selections and see a summary of your configuration and pricing.</li>
+            <li>Use the Contact or Feedback pages to reach out or provide comments if needed.</li>
+        </ol>
+
+        <h3 class="documentation-subheader">4.2 Features Overview</h3>
+        <ul>
+            <li><b>Storefront Navigation:</b> Access all main pages (Home, Catalog, Cart, Contact, Feedback,
+                Documentation) from the top navigation menu.</li>
+            <li><b>Product Catalog:</b> Browse a list of computers and components, each with detailed information and
+                pricing.</li>
+            <li><b>Customization:</b> Select and swap compatible components for each computer, with real-time price
+                updates.</li>
+            <li><b>Cart Summary:</b> View a detailed summary of your customized build and total price before checkout.
+            </li>
+            <li><b>Session Tracking:</b> Your selections and cart are saved using cookies, so you can return and
+                continue where you left off (unless cookies are cleared).</li>
+            <li><b>Contact & Feedback:</b> Submit questions or feedback through dedicated forms, with validation for
+                required fields.</li>
+            <li><b>Responsive Design:</b> The site is usable on both desktop and mobile devices.</li>
+        </ul>
+
+        <h3 class="documentation-subheader">4.3 Notes for Users</h3>
+        <ul>
+            <li>If you clear your browser cookies, your cart and selections will be reset.</li>
+            <li>All customization and cart data is stored locally in your browser; no personal data is sent to a server
+                or database at this stage.</li>
+            <li>All navigation links and buttons are active and functional.</li>
+            <li>For best experience, use a modern browser (Chrome, Edge, Firefox, Safari).</li>
+            <li>Contact and feedback forms require all fields to be filled out before submission.</li>
+        </ul>
+    </section>
+
+    <section class="documentation-section" id="Links">
+        <h2 class="documentation-header">5. Links</h2>
+        <p class="doc-p">5.1 <a
+                href="https://learn.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-8.0">ASP.NET Core MVC
+                Overview</a> – Official Microsoft documentation for ASP.NET Core MVC, covering controllers, views, and
+            models.</p>
+        <p class="doc-p">5.2 <a href="https://learn.microsoft.com/en-us/dotnet/csharp/">C# Documentation</a> –
+            Comprehensive guide to the C# language and .NET features.</p>
+        <p class="doc-p">5.3 <a
+                href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/cookies?view=aspnetcore-8.0">Working
+                with Cookies in ASP.NET Core</a> – How to use cookies for session and state management.</p>
+        <p class="doc-p">5.4 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide">MDN JavaScript
+                Guide</a> – In-depth JavaScript reference and tutorials for dynamic web features.</p>
+        <p class="doc-p">5.5 <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Bootstrap
+                Documentation</a> – For responsive and modern CSS layouts (if Bootstrap is used).</p>
+        <p class="doc-p">5.6 <a href="https://www.w3schools.com/html/">W3Schools HTML Reference</a> – Quick reference
+            for HTML elements and attributes.</p>
+        <p class="doc-p">5.7 <a href="https://validator.w3.org/">W3C HTML Validator</a> – Tool to validate HTML for
+            standards compliance.</p>
+        <p class="doc-p">5.8 <a href="https://www.bestbuy.ca/">BestBuy.ca</a> – Example of a real-world online
+            electronics store.</p>
+        <p class="doc-p">5.9 <a href="https://www.amazon.ca/">Amazon.ca</a> – Example of a large-scale e-commerce
+            platform.</p>
+        <p class="doc-p">5.10 <a
+                href="https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-8.0">Razor Pages
+                Documentation</a> – For understanding Razor syntax and page structure.</p>
+    </section>
+
+    <section class="documentation-section" id="Notes">
+        <h2 class="documentation-header">6. Notes</h2>
+
+        <h3 class="documentation-subheader">6.1 General Notes/Lessons Learned</h3>
+        <h4>6.1.1 Reflections from Design to Deployment</h4>
+        <ol>
+            <li><strong>Underestimating the Planning Phase</strong>
+                <ul>
+                    <li>At first, I jumped straight into coding without fully mapping out the site structure or user
+                        flow. This led to confusion later when I realized some required pages and navigation links were
+                        missing. I learned that spending more time on sketches and flowcharts up front saves a lot of
+                        rework time. I am not exagerating when I say that I was starting to dream in learn.microsoft.com 
+                        formating, this was a Bible for this assignment, questions answered.
+                        </li>
+                </ul>
+            </li>
+            <li><strong>Component Modeling Overcomplication</strong>
+                <ul>
+                    <li>I initially tried to use inheritance for every component type (RAM, CPU, etc.), but it made the
+                        codebase unnecessarily complex for this stage. After reviewing the assignment requirements, I
+                        simplified everything to a single Component class with a type field, which made customization
+                        and data loading much easier. I had a lot of iterations at the beginning as this part seemed a 
+                        bit of a step up from all other parts. 
+                        </li>
+                </ul>
+            </li>
+            <li><strong>Hardcoding vs. Data Files</strong>
+                <ul>
+                    <li>My first version had all product data hardcoded in C# classes. When I wanted to add more
+                        computers, it became tedious. Switching to JSON files for data storage made it much easier to
+                        update and test different configurations.</li>
+                </ul>
+            </li>
+            <li><strong>Session and Cookie Confusion</strong>
+                <ul>
+                    <li>I misunderstood how cookies and session state worked in ASP.NET Core(again). At first, cart data was
+                        lost between page reloads. After reading the docs and experimenting a bit, I learned to serialize cart
+                        data as JSON and store it in cookies, which fixed persistence issues. Sigh.</li>
+                </ul>
+            </li>
+
+            <li><strong>Testing on Different Browsers</strong>
+                <ul>
+                    <li>I only tested in Chrome(Brave) at first. When I tried Edge and Firefox, I noticed some layout and
+                        cookie persistence differences. It still throws me off guard when I see this.</li>
+                </ul>
+            </li>
+            <li><strong>Azure Deployment Surprises</strong>
+                <ul>
+                    <li>When I uploaded the project to Azure, I ran into issues with static file serving and session
+                        state not persisting. I realized I needed to double-check my <code>Program.cs</code>
+                        configuration and ensure <code>app.UseStaticFiles()</code> and <code>app.UseSession()</code>
+                        were in the correct order. Reading Azure deployment best practices helped resolve these issues.
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Documentation Value</strong>
+                <ul>
+                    <li>Writing this documentation forced me to clarify my own understanding and spot gaps in my
+                        implementation. I now appreciate how good documentation can save time for both myself and anyone
+                        else who works on the project in the future. I know I have probably used this every documentation file
+                        this assingment but it really highlights how much it helps fromm day to day. Considering I worked on this
+                        fulltime for weeks, either pulling my hair out or just shouting eureka, writing down what I did and what worked 
+                        really helped me step my game up. Git helped tremendously with this task as well and should honestly be in the course,
+                        as this is a fundamental part of development.</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+</div>

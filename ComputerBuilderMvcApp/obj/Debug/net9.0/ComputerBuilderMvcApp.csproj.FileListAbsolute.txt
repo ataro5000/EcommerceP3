@@ -35,3 +35,5 @@ C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\bin\Debug\net9.0\Data\
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\vwp9ygjd5i-0iwd5vzfnx.gz
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\s6yvi3shgk-9x5kglysqf.gz
 C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\i9v8bx85ou-mpiyj1qb71.gz
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\ComputerBuilderMvcApp.sourcelink.json
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Debug\net9.0\compressed\6r2pykvp8t-tx0t9ojsmg.gz
