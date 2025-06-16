@@ -65,4 +65,3 @@ jobs:
           app-name: 'TMA4'
           slot-name: 'Production'
           package: .
-          
