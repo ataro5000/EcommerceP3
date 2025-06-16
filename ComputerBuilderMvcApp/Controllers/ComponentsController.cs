@@ -13,13 +13,12 @@ namespace ComputerBuilderMvcApp.Controllers
         // It loads all components and their associated reviews.
         public IActionResult Index(List<string> categories)
         {
-            
+
             var allReviews = LoadAllReviews();
-             var components = LoadComponents(categories);
+            var components = LoadComponents(categories);
             foreach (var component in components)
             {
                 if (component.Id != null) component.Reviews = [.. allReviews.Where(r => r.ItemId == component.Id)];
-                
             }
 
             ViewData["SelectedCategories"] = categories ?? [];
@@ -32,20 +31,20 @@ namespace ComputerBuilderMvcApp.Controllers
         public IActionResult Details(List<string> categories, string id)
         {
             if (string.IsNullOrEmpty(id)) return BadRequest("Component ID cannot be null or empty.");
-            
-            var allReviews = LoadAllReviews(); 
-            var allLoadedComponents = LoadComponents(categories); 
+
+            var allReviews = LoadAllReviews();
+            var allLoadedComponents = LoadComponents(categories);
             var component = allLoadedComponents.FirstOrDefault(c => c.Id == id);
 
             if (component == null) return NotFound($"Component with ID '{id}' not found.");
-            
-           
+
+
             if (component.Id != null) component.Reviews = [.. allReviews.Where(r => r.ItemId == component.Id)];
-            
+
             return View(component);
         }
 
-     
+
         // Loads components from the component.json data file.
         // It can filter components based on a list of categories.
         // Returns a list of Component objects.
@@ -89,10 +88,10 @@ namespace ComputerBuilderMvcApp.Controllers
             string reviewsFilePath = Path.Combine(dataDirPath, "reviews.json");
 
             if (!System.IO.File.Exists(reviewsFilePath)) return [];
-            
+
             var json = System.IO.File.ReadAllText(reviewsFilePath);
             if (string.IsNullOrWhiteSpace(json)) return [];
-            
+
             return System.Text.Json.JsonSerializer.Deserialize<List<Review>>(json) ?? [];
         }
     }

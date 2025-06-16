@@ -17,10 +17,8 @@ namespace ComputerBuilderMvcApp.Models
         public string? Spec { get; set; }
         // Gets or sets the image URL or path for the component.
         public string? Image { get; set; }
-
         // Gets or sets the list of reviews associated with this component.
         public List<Review> Reviews { get; set; } = [];
-
         // Calculates the average rating for the component based on its reviews.
         // Returns 0 if there are no reviews.
         public decimal AverageRating
@@ -32,7 +30,6 @@ namespace ComputerBuilderMvcApp.Models
                 return Reviews.Average(r => r.Rating);
             }
         }
-
         // Determines the filename of the rating image based on the average rating.
         // Ratings are rounded to the nearest 5-point increment (0-50).
         // Returns "rating-0.png" if there are no reviews.
@@ -50,7 +47,6 @@ namespace ComputerBuilderMvcApp.Models
                 return $"rating-{roundedRating:D2}.png"; 
             }
         }
-
         // Gets the total number of reviews for the component.
         public int ReviewCount
         {

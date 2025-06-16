@@ -2,15 +2,13 @@
 // It handles adding, removing, and viewing items in the cart, as well as processing orders and displaying order confirmations.
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
-using Newtonsoft.Json; 
-
+using Newtonsoft.Json;
 
 namespace ComputerBuilderMvcApp.Controllers
 {
     public class CartController(Cart cart) : Controller
     {
         private readonly Cart _cart = cart;
-
         // Displays the shopping cart page.
         public IActionResult Index()
         {
@@ -136,7 +134,5 @@ namespace ComputerBuilderMvcApp.Controllers
             }
             return null;
         }
-
-
     }
 }

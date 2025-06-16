@@ -1,0 +1,250 @@
+[
+  {
+    "type": "Case",
+    "id": "0d7f9afa-2efe-4fd9-b0fd-ba5663e0a524",
+    "name": "Regular Joe",
+    "priceCents": 499,
+    "spec": "Who needs cable management?",
+    "image": "images/products/case1.jpg"
+  },
+  {
+    "type": "Case",
+    "id": "d37a651a-d501-483b-aae6-a9659b0757a0",
+    "name": "Office Workstation",
+    "priceCents": 4999,
+    "spec": "Room to play with and make everything look nice!",
+    "image": "images/products/case2.jpg"
+  },
+  {
+    "type": "Storage",
+    "id": "d37a651a-e601-483b-aae6-a9659b0757a0",
+    "name": "1TB SSD",
+    "priceCents": 4999,
+    "spec": "Read: 6000MB/s; Write:4000MB/s M.2",
+    "image": "images/products/SSD.jpg"
+  },
+  {
+    "type": "Storage",
+    "id": "d37a651a-x001-483b-aae6-a9659b0757a0",
+    "name": "2TB SSD",
+    "priceCents": 5999,
+    "spec": "Read: 6000MB/s; Write:4000MB/s M.2",
+    "image": "images/products/SSD.jpg"
+  },
+  {
+    "type": "Case",
+    "id": "d339adf3-e004-4c20-a120-40e8874c66cb",
+    "name": "Gaming Beast",
+    "priceCents": 49999,
+    "spec": "The monster truck of Cases, More RGB than Vegas!",
+    "image": "images/products/case3.jpg"
+  },
+  {
+    "type": "CPU",
+    "id": "a45cfa0a-66d6-4dc7-9475-e2b01595f7d7",
+    "name": "Intel Core i7-12700KF",
+    "priceCents": 49999,
+    "spec": "Upto 5 GHz 12 Cores",
+    "image": "images/products/CPU1.jpg"
+  },
+  {
+    "type": "CPU",
+    "id": "a434b69f-1bc1-482d-9ce7-cd7f4a66ce8d",
+    "name": "AMD Ryzen 9 9600X",
+    "priceCents": 54999,
+    "spec": "3.9 GHz 6 Cores",
+    "image": "images/products/CPU2.jpg"
+  },
+  {
+    "type": "CPU",
+    "id": "4e37dd03-3b23-4bc6-9ff8-44e112a92c64",
+    "name": "Intel Core i7-11700K",
+    "priceCents": 39999,
+    "spec": "3.6 GHz 8 Cores",
+    "image": "images/products/CPU1.jpg"
+  },
+  {
+    "type": "CPU",
+    "id": "4df68c27-fd59-4a6a-bbd1-e754ddb6d53c",
+    "name": "AMD Ryzen 7 5800X",
+    "priceCents": 44999,
+    "spec": "3.8 GHz 8 Cores",
+    "image": "images/products/CPU2.jpg"
+  },
+  {
+    "type": "CPU",
+    "id": "1c079479-8586-494f-ab53-219325432536",
+    "name": "Intel Core i5-11600K",
+    "priceCents": 26299,
+    "spec": "3.9 GHz 6 Cores",
+    "image": "images/products/CPU1.jpg"
+  },
+  {
+    "type": "GPU",
+    "id": "ee1f7c56-f977-40a4-9642-12ba5072e2b0",
+    "name": "NVIDIA GeForce RTX 3080",
+    "priceCents": 69999,
+    "spec": "10GB",
+    "image": "images/products/NVGPU.jpg"
+  },
+  {
+    "type": "GPU",
+    "id": "d2785924-743d-49b3-8f03-ec258e640503",
+    "name": "AMD Radeon RX 6800 XT",
+    "priceCents": 64999,
+    "spec": "16GB",
+    "image": "images/products/AMDGPU.jpg"
+  },
+  {
+    "type": "GPU",
+    "id": "19c6a64a-5463-4d45-9af8-e41140a4100c",
+    "name": "NVIDIA GeForce RTX 3070",
+    "priceCents": 49999,
+    "spec": "8GB",
+    "image": "images/products/NVGPU.jpg"
+  },
+  {
+    "type": "GPU",
+    "id": "b86ddc8b-3501-4b17-9889-a3bad6fb585f",
+    "name": "AMD Radeon RX 6700 XT",
+    "priceCents": 47999,
+    "spec": "12GB",
+    "image": "images/products/AMDGPU.jpg"
+  },
+  {
+    "type": "GPU",
+    "id": "8b5a2ee1-6055-422a-a666-b34ba28b76d4",
+    "name": "NVIDIA GeForce GTX 1660 Super",
+    "priceCents": 24999,
+    "sepc": "6GB",
+    "image": "images/products/NVGPU.jpg"
+  },
+  {
+    "type": "MotherBoard",
+    "id": "4f4fbcc2-4e72-45cc-935c-9e13d79cc57f",
+    "name": "ASUS ROG Strix B550-F Gaming",
+    "priceCents": 19999,
+    "spec": "AM5 ATX",
+    "image": "images/products/MB.jpg"
+  },
+  {
+    "type": "MotherBoard",
+    "id": "a93a101d-79ef-4cf3-a6cf-6dbe532a1b4a",
+    "name": "MSI MPG B550 Gaming Plus",
+    "priceCents": 14999,
+    "spec": " AM4 ATX",
+    "image": "images/products/MB.jpg"
+  },
+  {
+    "type": "MotherBoard",
+    "id": "e4f64a65-1377-42bc-89a5-e572d19252e2",
+    "name": "Gigabyte B450 AORUS Elite",
+    "priceCents": 7999,
+    "spec": " AM4 ATX",
+    "image": "images/products/MB.jpg"
+  },
+  {
+    "type": "MotherBoard",
+    "id": "b0f17cc5-8b40-4ca5-9142-b61fe3d98c85",
+    "name": "ASRock B450M Pro4",
+    "priceCents": 7999,
+    "spec": "AM4",
+    "image": "images/products/MB.jpg"
+  },
+  {
+    "type": "MotherBoard",
+    "id": "a82c6bac-3067-4e68-a5ba-d827ac0be010",
+    "name": "ASUS TUF Gaming X570-Plus",
+    "priceCents": 18999,
+    "spec": "AM6",
+    "image": "images/products/MB.jpg"
+  },
+  {
+    "type": "RAM",
+    "id": "aad29d11-ea98-41ee-9285-b916638cac4a",
+    "name": "8GB DDR4",
+    "priceCents": 5999,
+    "spec": "3200MHz",
+    "image": "images/products/RAM.jpg"
+  },
+  {
+    "type": "RAM",
+    "id": "5968897c-4d27-4872-89f6-5bcb052746d7",
+    "name": "16GB DDR4",
+    "priceCents": 8999,
+    "spec": "3600MHz",
+    "image":"images/products/RAM.jpg"
+  },
+  {
+    "type": "RAM",
+    "id": "3fdfe8d6-9a15-4979-b459-585b0d0545b9",
+    "name": "32GB DDR4",
+    "priceCents": 15999,
+    "spec": "3600MHz",
+    "image": "images/products/RAM.jpg"
+  },
+  {
+    "type": "RAM",
+    "id": "58b4fc92-e98c-42aa-8c55-b6b79996769a",
+    "name": "64GB DDR4",
+    "priceCents": 29999,
+    "spec": "3600MHz",
+    "image": "images/products/RAM.jpg"
+  },
+  {
+    "type": "RAM",
+    "id": "77919bbe-0e56-475b-adde-4f24dfed3a04",
+    "name": "16GB DDR5",
+    "priceCents": 11999,
+    "spec": "6000MHz",
+    "image": "images/products/RAM.jpg"
+  },
+  {
+    "type": "RAM",
+    "id": "dd82ca78-a18b-4e2a-9250-31e67412f98d",
+    "name": "32GB DDR5",
+    "priceCents": 23999,
+    "spec": "6000MHz",
+    "image": "images/products/RAM.jpg"
+  },
+  {
+    "type": "PSU",
+    "id": "6b07d4e7-f540-454e-8a1e-363f25dbae7d",
+    "name": "Corsair RM750x",
+    "priceCents": 12999,
+    "spec": "750 Watts",
+    "image": "images/products/PSU.jpg"
+  },
+  {
+    "type": "PSU",
+    "id": "c2a82c5e-aff4-435f-9975-517cfaba2ece",
+    "name": "EVGA 600 W1",
+    "priceCents": 4999,
+    "spec": "600 Watts",
+    "image": "images/products/PSU.jpg"
+  },
+  {
+    "type": "PSU",
+    "id": "82bb68d7-ebc9-476a-989c-c78a40ee5cd9",
+    "name": "Seasonic Focus GX-850",
+    "priceCents": 13999,
+    "spec": "850 Watts",
+    "image": "images/products/PSU.jpg"
+  },
+  {
+    "type": "PSU",
+    "id": "901eb2ca-386d-432e-82f0-6fb1ee7bf969",
+    "name": "Thermaltake Toughpower GF1 750W",
+    "priceCents": 10999,
+    "spec": "750 Watts",
+    "image": "images/products/PSU.jpg"
+  },
+  {
+    "type": "PSU",
+    "id": "04701903-bc79-49c6-bc11-1af7e3651358",
+    "name": "Cooler Master MWE Gold 650W",
+    "priceCents": 8999,
+    "spec": "650 Watts",
+    "image": "images/products/PSU.jpg"
+  }
+]

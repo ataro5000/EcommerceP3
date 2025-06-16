@@ -7,11 +7,8 @@ using Newtonsoft.Json;
 public static class SessionCart
 {
     private const string CartSessionKey = "Cart"; // Key used to store the cart in the session.
-
-
     /// Retrieves the current user's cart from the session.
     /// If no cart exists in the session, a new cart is created, saved to the session, and returned.
-
     /// <param name="services">The service provider to access session services.</param>
     /// <returns>The user's shopping cart.</returns>
     public static Cart GetCart(IServiceProvider services)
@@ -31,7 +28,6 @@ public static class SessionCart
             try
             {
                 cart = JsonConvert.DeserializeObject<Cart>(cartJson);
-
             }
             catch (JsonException ex)
             {
@@ -61,7 +57,6 @@ public static class SessionCart
         return cart;
     }
 
-
     /// Saves the provided cart object to the HTTP session.
     /// The HTTP session to save the cart to.
     /// The cart object to save.
@@ -71,12 +66,10 @@ public static class SessionCart
         {
             return;
         }
-
         if (cart == null)
         {
             return;
         }
-
         try
         {
             string cartJsonToSave = JsonConvert.SerializeObject(cart);

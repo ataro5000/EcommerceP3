@@ -1,0 +1,9 @@
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\ComputerBuilderMvcApp.exe
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\appsettings.json
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\Data\component.json
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\Data\reviews.json
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\ComputerBuilderMvcApp.dll
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\ComputerBuilderMvcApp.deps.json
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\ComputerBuilderMvcApp.runtimeconfig.json
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\ComputerBuilderMvcApp.pdb
+C:\School\COMP466\TMA3A\EcommerceP3\ComputerBuilderMvcApp\obj\Release\net9.0\PubTmp\Out\Newtonsoft.Json.dll

@@ -8,15 +8,12 @@ namespace ComputerBuilderMvcApp.Models
         // Gets or sets a dictionary where keys are component types (e.g., "CPU", "GPU")
         // and values are lists of available components of that type.
         public Dictionary<string, List<Component>> AvailableComponentsByType { get; set; } = [];
-
         // Gets or sets a dictionary where keys are component types (e.g., "CPU", "GPU")
         // and values are the IDs of the components selected by the user for that type.
         // The value can be null if no component is selected for a category.
         public Dictionary<string, string?> SelectedComponentIds { get; set; } = [];
-
         // Gets or sets the total price of the currently configured computer build.
         public decimal TotalPrice { get; set; }
-
         // Gets or sets the list of component categories to be displayed in the builder (e.g., "CPU", "Motherboard").
         public List<string> ComponentCategories { get; set; } = [];
     }

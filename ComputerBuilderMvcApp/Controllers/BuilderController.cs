@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ComputerBuilderMvcApp.Models;
 
-
 namespace ComputerBuilderMvcApp.Controllers
 {
 
@@ -33,12 +32,12 @@ namespace ComputerBuilderMvcApp.Controllers
                 {
                     viewModel.AvailableComponentsByType[category] = [];
                 }
+
                 if (allComponents != null)
                 {
                     viewModel.AvailableComponentsByType[category] = [.. allComponents.Where(c => c.Type != null && c.Type.Equals(category, StringComparison.OrdinalIgnoreCase))];
                 }
               
-
                 if (!viewModel.SelectedComponentIds.ContainsKey(category))
                 {
                     viewModel.SelectedComponentIds[category] = null;
@@ -50,12 +49,9 @@ namespace ComputerBuilderMvcApp.Controllers
             return View(viewModel);
         }
 
-
         /// Handles the submission of a computer build.
         /// It validates the submitted build, adds the selected components to the cart, and redirects the user.
-
         /// The ComputerBuilder model containing the user's selected components.
-
         /// Redirects to the cart index page if the build is successfully added.
         /// Redirects back to the builder index page with an error message if no components are selected or if no valid components are found.
 
@@ -69,14 +65,12 @@ namespace ComputerBuilderMvcApp.Controllers
             }
 
             submittedBuild.AvailableComponentsByType ??= [];
-
             if (submittedBuild.SelectedComponentIds == null || !submittedBuild.SelectedComponentIds.Values.Any(id => !string.IsNullOrEmpty(id)))
             {
                 TempData["ErrorMessage"] = "Please select at least one component for your build.";
             }
 
             var allSystemComponents = ComponentsController.LoadComponents(submittedBuild.ComponentCategories);
-
             foreach (var selection in submittedBuild.SelectedComponentIds ?? [])
             {
                 if (!string.IsNullOrEmpty(selection.Value))
@@ -93,6 +87,7 @@ namespace ComputerBuilderMvcApp.Controllers
                     }
                 }
             }
+
             if (_cart.Items.Count == 0)
             {
                 TempData["ErrorMessage"] = "No valid components were selected or found for your build.";
@@ -101,9 +96,7 @@ namespace ComputerBuilderMvcApp.Controllers
             return RedirectToAction("Index", "Cart", new { message = "Build added to cart successfully!" });
         }
 
-
         /// Calculates the total price of the selected components in a build.
-
         /// A dictionary mapping component categories to the IDs of selected components.
         /// A list of all available components.
         /// The total price of the selected components in currency (e.g., dollars).
@@ -127,6 +120,5 @@ namespace ComputerBuilderMvcApp.Controllers
             }
             return totalPriceInCurrency;
         }
-      
     }
 }

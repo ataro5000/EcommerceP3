@@ -17,6 +17,5 @@ namespace ComputerBuilderMvcApp.Models
         public string? CustomerName { get; set; } 
         // Gets or sets the date and time when the review was submitted. Defaults to the current UTC time.
         public DateTime ReviewDate { get; set; } = DateTime.UtcNow;
-
     }
 }
